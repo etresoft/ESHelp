@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>L’usage</title>
+  <meta name="description" content="Comment utiliser myapp"/>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="usage"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <content>
+    <p>Voici des suggestions importantes pour trouver les meilleurs résultats de myapp.</p>
+    <ul>
+      <li>
+        <a name="runmyapp"/>
+        <strong>Démarrez myapp</strong><br/>
+        <p>Cette ligne est pour chercher le mot demarrer.</p>
+      </li>
+      <li>
+        <a name="usemyapp"/>
+        <strong>Utilisez myapp</strong><br/>
+        <p>Cette ligne est pour chercher le mot utiliser.</p>
+      </li>
+    </ul>
+  </content>
+</page>
+

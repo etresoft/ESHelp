@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Usage</title>
+  <meta name="description" content="How to use myapp"/>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="usage"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <content>
+    <p>Here are some important tips for getting the best results from myapp.</p>
+    <ul>
+      <li>
+        <a name="runmyapp"/>
+        <strong>Run myapp</strong><br/>
+        <p>This is to get the word run into the index.</p>
+      </li>
+      <li>
+        <a name="usemyapp"/>
+        <strong>Use myapp</strong><br/>
+        <p>This is to get the word use into the index.</p>
+      </li>
+    </ul>
+  </content>
+</page>
+

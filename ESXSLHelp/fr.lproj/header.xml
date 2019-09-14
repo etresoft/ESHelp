@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<header>
+  <a href="https://www.mycompany.com">
+    <img src="../../shrd/mycompany.png" alt="mycompany" class="companylogo"/>
+  </a>
+  <img src="../../shrd/myapp.png" alt="Icon" class="applogo"/>
+</header>
+

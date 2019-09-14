@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<menu>
+  <main>Main Menu</main>
+  <item id="about">
+    <name>About myapp</name>
+  </item>
+  <item id="releasenotes">
+    <name>Release Notes</name>
+  </item>
+  <item id="usage">
+    <name>Basic Usage</name>
+  </item>
+  <item id="features">
+    <name>Things to Know</name>
+  </item>
+  <item id="support">
+    <name>Support</name>
+  </item>
+</menu>
+ 

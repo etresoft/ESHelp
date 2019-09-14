@@ -1,0 +1,102 @@
+# The following environment variables should be passed in from the parent:
+# BUNDLE The help book bundle
+# LANGUAGE The language
+# HELP_PROJECT_DIR The directory for the help project
+# XSLT_PARAMS Any extra XSL parameters
+# HTML HTML targets
+
+IMAGES = $(addprefix images/,$(notdir $(wildcard $(LOCALIZATION)/images/*.png)))
+XSL = $(wildcard $(HELP_PROJECT_DIR)/*.xsl)
+CSS = $(addprefix sty/,$(notdir $(wildcard $(HELP_PROJECT_DIR)/*.css)))
+SCRIPT = $(addprefix scrpt/,$(notdir $(wildcard $(HELP_PROJECT_DIR)/scripts/*.js)))
+
+LOCALIZATION = $(LANGUAGE).lproj
+LOCALIZED_SOURCE = $(LOCALIZATION)
+LOCALIZED_DESTINATION = $(BUNDLE)/Contents/Resources/$(LOCALIZATION)
+
+# Get all XML source files
+xml = $(wildcard *.xml)
+
+# Construct HTML targets.
+html = $(addsuffix .html,$(HTML) $(MORE_HTML))
+index = index.html
+
+# Create a help index file.
+helpindex = search.helpindex
+
+# Create a list of targets that need to be copied.
+copytargets = $(addprefix $(LOCALIZED_DESTINATION)/,$(IMAGES) $(CSS) $(SCRIPT) ExactMatch.plist)
+
+# Target files will live in the target directory.
+vpath index.html $(LOCALIZED_DESTINATION)
+vpath %.html $(LOCALIZED_DESTINATION)/pgs
+vpath %.helpindex $(LOCALIZED_DESTINATION)
+vpath %.xsl $(HELP_PROJECT_DIR)
+vpath %.xml $(LOCALIZED_SOURCE)
+vpath %.jpg $(LOCALIZED_SOURCE)/images
+vpath %.gif $(LOCALIZED_SOURCE)/images
+vpath %.png $(LOCALIZED_SOURCE)/images
+vpath %.css $(HELP_PROJECT_DIR)
+vpath %.js $(HELP_PROJECT_DIR)/scripts
+vpath ExactMatch.% $(LOCALIZED_SOURCE)
+
+.PHONY: build clean
+
+# By default build all HTML files, images, and CSS files.
+build: $(index) $(html) $(helpindex) $(copytargets)
+install: build
+
+# Remove files.
+clean:
+	-for i in $(index) $(html) $(IMAGES) $(ICONS) $(CSS) $(SCRIPT) ExactMatch.plist $(helpindex); do \
+    /bin/rm -f $(LOCALIZED_DESTINATION)/$$i; \
+  done
+	-/bin/rm -df $(LOCALIZED_DESTINATION)/pgs;
+	-/bin/rm -df $(LOCALIZED_DESTINATION)/gfx;
+	-/bin/rm -df $(LOCALIZED_DESTINATION)/sty;
+	-/bin/rm -df $(LOCALIZED_DESTINATION)/scrpt;
+	-/bin/rm -df $(LOCALIZED_DESTINATION);
+
+# Non-specific copy rule.
+$(LOCALIZED_DESTINATION)/% : %
+	/bin/mkdir -p $(dir $@)
+	/bin/cp $< $@
+
+$(LOCALIZED_DESTINATION)/gfx/% : %
+	/bin/mkdir -p $(dir $@)
+	/bin/cp $< $@
+
+$(LOCALIZED_DESTINATION)/scrpt/% : %
+	/bin/mkdir -p $(dir $@)
+	/bin/cp $< $@
+
+$(LOCALIZED_DESTINATION)/sty/% : %
+	/bin/mkdir -p $(dir $@)
+	/bin/cp $< $@
+
+$(LOCALIZED_DESTINATION)/ExactMatch.% : %
+	/bin/cp $< $@
+
+# XSLT configuration.
+XSLT = /usr/bin/xsltproc 
+XSLT_FLAGS = --novalid --nonet
+
+# Build the index HTML file.
+index.html : index.xml index.xsl eshelp.xsl header.xml footer.xml menu.xml
+	/bin/mkdir -p $(LOCALIZED_DESTINATION)
+	$(XSLT) $(XSLT_FLAGS) $(XSLT_PARAMS) $(HELP_PROJECT_DIR)/index.xsl $< \
+    > $(LOCALIZED_DESTINATION)/$@
+
+# Generate HTML files.
+%.html : %.xml eshelp.xsl header.xml footer.xml menu.xml
+	/bin/mkdir -p $(LOCALIZED_DESTINATION)/pgs
+	$(XSLT) $(XSLT_FLAGS) $(XSLT_PARAMS) $(HELP_PROJECT_DIR)/pages.xsl $< \
+    > $(LOCALIZED_DESTINATION)/pgs/$@
+
+# Build Help index files. Note the use of the pwd variable.
+%.helpindex : $(html)
+	/bin/mkdir -p $(LOCALIZED_DESTINATION)
+	cp $(LOCALIZED_SOURCE)/InfoPlist.strings $(LOCALIZED_DESTINATION)
+	/usr/bin/hiutil -v -v -a -C --stopwords=$(LANGUAGE) -l $(LANGUAGE) --anchors \
+    -f $(LOCALIZED_DESTINATION)/$@ $(LOCALIZED_DESTINATION)
+	

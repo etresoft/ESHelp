@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>myapp Credits</title>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <p>Special thanks to all our friends!</p>
+    <hr/>
+    <p>Apple, Finder, FireWire, Handoff, AirDrop, iMac, iMac Pro, Mac, MacBook, MacBook Air, MacBook Pro, Mac Mini, macOS, OS X, Retina, Safari, Time Machine are trademarks of Apple Inc.  Apple Store, iCloud are service marks of Apple Inc.</p>
+  </content>
+</page>

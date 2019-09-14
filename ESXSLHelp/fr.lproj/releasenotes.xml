@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Historique</title>
+  <meta name="description" content="Quoi de nouveau dans cette version de myapp"/>
+  <css>
+    <import>etrecheck.css</import>
+  </css>
+  <menu src="menu.xml" menuid="releasenotes"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <h3>Historique</h3>
+    <ul>
+      <li>
+        <strong>Version 2.0</strong>
+        <ul class="bulletlist">
+          <li>Plus des fonctionnalités !</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Version 1.0</strong>
+        <ul class="bulletlist">
+          <li>Première version !</li>
+        </ul>
+      </li>
+    </ul>
+  </content>
+</page>

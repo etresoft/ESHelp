@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>À savoir</title>
+  <meta name="description" content="Les fonctionnalités"/>
+  <css>
+    <import>etrecheck.css</import>
+  </css>
+  <menu src="menu.xml" menuid="features"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <content>
+    <p>Une liste des fonctionnalités.</p>
+    <ul>
+      <li>
+        <a name="feature1"/>
+        <strong>Fonctionnalité 1</strong><br/>
+        <p>Cette ligne est pour chercher le mot fonctionnalite1.</p>
+      </li>
+      <li>
+        <a name="feature2"/>
+        <strong>Fonctionnalité 2</strong><br/>
+        <p>Cette ligne est pour chercher le mot fonctionnalite3.</p>
+      </li>
+      <li>
+        <a name="feature3"/>
+        <strong>Fonctionnalité 3</strong><br/>
+        <p>Cette ligne est pour chercher le mot fonctionnalite3.</p>
+      </li>
+    </ul>
+  </content>
+</page>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>L’aide myapp</title>
+  <meta name="AppleTitle" content="L’aide myapp"/>
+  <meta name="AppleIcon" content="images/myapp.png"/>
+  <css>
+    <import>eshelp</import>
+  </css>
+  <menu src="menu.xml" menuid="index"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+</page>

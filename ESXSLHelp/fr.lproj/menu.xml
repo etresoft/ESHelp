@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<menu>
+  <main>Menu</main>
+  <item id="about">
+    <name>À propos de mycompany</name>
+  </item>
+  <item id="releasenotes">
+    <name>Historique</name>
+  </item>
+  <item id="usage">
+    <name>L’usage essentielle</name>
+  </item>
+  <item id="features">
+    <name>À savoir</name>
+  </item>
+  <item id="support">
+    <name>L’assistance</name>
+  </item>
+</menu>
+ 

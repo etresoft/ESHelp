@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Support</title>
+  <meta name="description" content="How to get help with myapp"/>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="support"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <p>Is myapp not working properly?</p>
+    <p>Would you like to see a new feature?</p>
+    <p>Send us an <a href="mailto:support@etresoft.com">e-mail</a> and let us know what we can do to make myapp better.</p>
+    <p>E-mail support is available in English and French only.</p>
+  </content>
+</page>

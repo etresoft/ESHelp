@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>L’aide</title>
+  <meta name="description" content="Comment trouver l’assistance avec myapp"/>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="support"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <p>Est-ce myapp ne fonctionne pas correctement ?</p>
+    <p>Voulez-vous voir des nouvelles fonctionnalités ?</p>
+    <p>Envoyez-nous un <a href="mailto:support@etresoft.com">courriel</a> pour nous dire ce que nous faisons pour améliorer myapp.</p>
+    <p>L’assistance par courriel est disponible seulement en anglais et français.</p>
+  </content>
+</page>

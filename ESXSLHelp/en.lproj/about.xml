@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>About myapp</title>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="about"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <p>ESHelpDemo is a demo app for the ESHelp project.</p>
+    <p>You might need this information:</p>
+    <p>Apple, Finder, FireWire, Handoff, AirDrop, iMac, iMac Pro, Mac, MacBook, MacBook Air, MacBook Pro, Mac Mini, macOS, OS X, Retina, Safari, Time Machine are trademarks of Apple Inc.</p>
+    <p>Apple Store, iCloud are service marks of Apple Inc.</p>
+  </content>
+</page>

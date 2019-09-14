@@ -1,0 +1,210 @@
+/* Set baseline background color, minimum size, and spacing. */
+html
+  {
+  height: 100%;
+  }
+
+body
+  {
+  background: rgb(242, 242, 242);
+  min-width: 300px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+  }
+
+/* At least this fixed the horizontal bounce. */
+div.scrollfix
+  {
+  overflow-y: scroll;
+  }
+
+/* Use the same basic font for all items. */
+h1,
+h2,
+h3,
+p,
+th,
+td,
+li,
+legend
+  {
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: rgb(10, 50, 10);
+  }
+
+h1
+  {
+  z-index: 1000;
+  }
+
+/* Line up header controls. */
+div.section > button
+  {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2000;
+  }
+
+/* Use a consistent style for all tables. */
+table
+  {
+  border-spacing: 10px 0px;
+  }
+
+/* Make sure these match description lists. */
+th,
+td
+  {
+  font-size: 14px;
+  line-height: 18px;
+  margin: 0;
+  text-align: left;
+  }
+
+th
+  {
+  font-weight: bold;
+  }
+
+table.menu
+  {
+  margin-right: auto;
+  margin-left: auto;
+  height: 100%;
+  }
+
+table.menu td
+  {
+  text-align: center;
+  font-weight: bold;
+  }
+
+/* Use a consistent style for all headings. */
+h1
+  {
+  margin-top: 0;
+  font-size: 18px;
+  text-align: center;
+  }
+
+h2
+  {
+  font-size: 14px;
+  text-align: left;
+  }
+
+h3
+  {
+  font-size: 14px;
+  font-style: italic;
+  text-align: left;
+  }
+
+/* Use a consistent style for all paragraphs. */
+p
+  {
+  margin-top: .5em;
+  margin-bottom: .5em;
+  }
+
+/* Use relative positions so I can use absolute internally. */
+ul,
+li
+  {
+  position: relative;
+  }
+
+h1
+  {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  }
+
+.header
+  {
+  display: block;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0;
+  margin-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  text-align: center;
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: rgb(10, 50, 10);
+  background: rgba(242, 242, 242, .6);
+  }
+
+.applogo
+  {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  }
+
+.companylogo
+  {
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  width: 32px;
+  height: 32px;
+  }
+
+.copyright
+  {
+  display: block;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0;
+  height: 15px;
+  padding: 5px;
+  margin-right: 10px;
+  text-align: center;
+  font-family: -apple-system, Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: rgb(10, 50, 10);
+  background: rgba(242, 242, 242, .6);
+  }
+
+.content
+  {
+  position: fixed;
+  top: 45px;
+  bottom: 20px;
+  left: 0px;
+  right: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: rgb(242, 242, 242);
+  }
+
+.content li
+  {
+  list-style-type: none;
+  }
+
+.content li
+  {
+  margin-bottom: 10px;
+  }
+
+.bulletlist li
+  {
+  list-style-type: disc;
+  }
+
+.numberedlist li
+  {
+  list-style-type: decimal;
+  }
+

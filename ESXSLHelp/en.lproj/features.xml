@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Things to Know</title>
+  <meta name="description" content="Important features"/>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <menu src="menu.xml" menuid="features"/>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <content>
+    <p>A list of features.</p>
+    <ul>
+      <li>
+        <a name="feature1"/>
+        <strong>Feature 1</strong><br/>
+        <p>This is to get the word feature1 into the index</p>
+      </li>
+      <li>
+        <a name="feature2"/>
+        <strong>Feature 2</strong><br/>
+        <p>This is to get the word feature2 into the index</p>
+      </li>
+      <li>
+        <a name="feature3"/>
+        <strong>Feature 3</strong><br/>
+        <p>This is to get the word feature3 into the index</p>
+      </li>
+    </ul>
+  </content>
+</page>

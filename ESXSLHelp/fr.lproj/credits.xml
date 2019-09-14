@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Le générique de myapp</title>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <header src="header.xml"/>
+  <footer src="footer.xml"/>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <p>Grand merci a tous nos amis !</p>
+    <hr/>
+    <p>Apple, Finder, FireWire, Handoff, AirDrop, iMac, iMac Pro, Mac, MacBook, MacBook Air, MacBook Pro, Mac Mini, macOS, OS X, Retina, Safari, et Time Machine sont des marques de commerce d’Apple Inc. Apple Store et iCloud sont des marques de service d’Apple Inc.</p>
+  </content>
+</page>
