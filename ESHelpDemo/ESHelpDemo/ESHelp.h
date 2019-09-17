@@ -1,0 +1,65 @@
+/***********************************************************************
+ ** Etresoft, Inc.
+ ** Copyright (c) 2019. All rights reserved.
+ **********************************************************************/
+
+#import <Cocoa/Cocoa.h>
+
+@class ESHelpWebView;
+
+@interface ESHelp : NSObject
+  <NSToolbarDelegate,
+  NSSharingServiceDelegate,
+  NSSharingServicePickerDelegate,
+  NSSharingServicePickerTouchBarItemDelegate>
+
+@property (strong) IBOutlet NSPanel * window;
+
+// The toolbar.
+@property (strong) IBOutlet NSToolbar * toolbar;
+
+// The navigation toolbar item view.
+@property (strong) IBOutlet NSView * navigationToolbarItemView;
+
+// The go back button.
+@property (strong) IBOutlet NSButton * goBackButton;
+
+// The go forward button.
+@property (strong) IBOutlet NSButton * goForwardButton;
+
+// The Share toolbar item view.
+@property (strong) IBOutlet NSView * shareToolbarItemView;
+
+// The share button.
+@property (strong) IBOutlet NSButton * shareButton;
+
+// The search toolbar item view.
+@property (strong) IBOutlet NSView * searchToolbarItemView;
+
+// The search control.
+@property (strong) IBOutlet NSSearchField * searchField;
+
+// Can I go back?
+@property (assign) BOOL canGoBack;
+
+// Can I go forward?
+@property (assign) BOOL canGoForward;
+
+// Can I share?
+@property (readonly) BOOL canShare;
+
+@property (strong) IBOutlet ESHelpWebView * webview;
+
+@property (strong) NSString * basePath;
+
+@property (strong) NSDictionary * helpIndex;
+
++ (ESHelp *) shared;
+
+- (void) showHelp;
+
+- (void) showHelpAnchor: (NSString *) anchor;
+
+- (IBAction) showHelp: (id) sender;
+
+@end

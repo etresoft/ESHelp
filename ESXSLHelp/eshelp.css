@@ -35,18 +35,12 @@ legend
   color: rgb(10, 50, 10);
   }
 
-h1
-  {
-  z-index: 1000;
-  }
-
 /* Line up header controls. */
 div.section > button
   {
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 2000;
   }
 
 /* Use a consistent style for all tables. */
@@ -208,3 +202,43 @@ h1
   list-style-type: decimal;
   }
 
+body.DarkAqua
+  {
+  background: rgb(43, 43, 43);
+  }
+
+.DarkAqua h1,
+.DarkAqua h2,
+.DarkAqua h3,
+.DarkAqua p,
+.DarkAqua th,
+.DarkAqua td,
+.DarkAqua li,
+.DarkAqua legend
+  {
+  color: rgb(210, 240, 210);
+  }
+
+.DarkAqua .header
+  {
+  color: rgb(210, 240, 210);
+  background: rgba(43, 43, 43, .6);
+  }
+
+.DarkAqua .copyright
+  {
+  color: rgb(210, 240, 210);
+  background: rgba(43, 43, 43, .6);
+  }
+
+.DarkAqua .content
+  {
+  background: rgb(43, 43, 43);
+  }
+
+.DarkAqua a,
+.DarkAqua a:hover,
+.DarkAqua a:visited
+  {
+  color: rgb(66, 156, 255);
+  }

@@ -41,7 +41,7 @@
       
       <!-- Copy the page title. -->
       <h1><xsl:value-of select="../title"/></h1>
-    
+
     </div>
 
   </xsl:template>

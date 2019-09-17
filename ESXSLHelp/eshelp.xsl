@@ -21,6 +21,19 @@
   
         <!-- Add CSS styles and imports. -->
         <xsl:apply-templates select="css"/>
+
+        <script>
+          function setAppearance(appearanceName)
+            {
+            var body =
+              document.body || document.getElementsByTagName('body')[0];
+
+            body.setAttribute('class', appearanceName);
+
+            return appearanceName;
+            }
+        </script>
+
       </head>
   
       <body>
