@@ -75,6 +75,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A5D9755E23293D1800098AE9 /* Build configuration list for PBXNativeTarget "AppleHelpDemo" */;
 			buildPhases = (
+				A5D653082331A01A009A891E /* Build help bundle */,
 				A5D9754923293D1600098AE9 /* Sources */,
 				A5D9754A23293D1600098AE9 /* Frameworks */,
 				A5D9754B23293D1600098AE9 /* Resources */,
@@ -132,6 +133,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A5D653082331A01A009A891E /* Build help bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build help bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd $SRCROOT/../ESXSLHelp\nmake\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A5D9754923293D1600098AE9 /* Sources */ = {

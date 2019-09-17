@@ -3,10 +3,16 @@
  ** Copyright (c) 2019. All rights reserved.
  **********************************************************************/
 
-#import <Cocoa/Cocoa.h>
+#import "ESHelpDemoApplication.h"
+#import "AppDelegate.h"
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
+@implementation ESHelpDemoApplication
 
-- (IBAction) showHelp: (id) sender;
+- (IBAction) showHelp: (id) sender
+  {
+  AppDelegate * delegate = self.delegate;
+  
+  [delegate showHelp: sender];
+  }
 
 @end

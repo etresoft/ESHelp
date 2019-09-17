@@ -64,6 +64,9 @@ ESHelp * ourHelp = nil;
 
 + (ESHelp *) shared
   {
+  if(ourHelp == nil)
+    ourHelp = [ESHelp new];
+    
   return ourHelp;
   }
 
@@ -95,8 +98,7 @@ ESHelp * ourHelp = nil;
     self.basePath = localizedHelpBasePath;
     
     NSString * helpIndexPath =
-      [[NSBundle mainBundle]
-        pathForResource: @"helpindex" ofType: @"plist"];
+      [self.basePath stringByAppendingPathComponent: @"helpindex.plist"];
       
     NSData * data = [NSData dataWithContentsOfFile: helpIndexPath];
   
@@ -178,6 +180,9 @@ ESHelp * ourHelp = nil;
 
 - (void) createHelpWindow
   {
+  if(self.window != nil)
+    return;
+    
   NSScreen * screen = [NSScreen mainScreen];
   NSRect visibleFrame = screen.visibleFrame;
   NSSize size = NSMakeSize(780/2, 1140/2);
@@ -246,13 +251,15 @@ ESHelp * ourHelp = nil;
 
   if(anchor.length > 0)
     {
-    NSString * filePath = [self.helpIndex objectForKey: anchor];
+    NSArray * filePaths = [self.helpIndex objectForKey: anchor];
+    
+    NSString * filePath = filePaths.firstObject;
     
     if(filePath.length > 0)
       {
       __weak ESHelp * weakSelf = self;
       
-      /* self.webview.readyHandler =
+      self.webview.readyHandler =
         ^{
           weakSelf.canGoBack = weakSelf.webview.canGoBack;
           weakSelf.canGoForward = weakSelf.webview.canGoForward;
@@ -272,7 +279,7 @@ ESHelp * ourHelp = nil;
 #if !__has_feature(objc_arc)
           [js release];
 #endif
-        }; */
+        };
 
       [self showHelpFile: filePath];
       
@@ -288,7 +295,6 @@ ESHelp * ourHelp = nil;
   NSString * filePath =
     [self.basePath stringByAppendingPathComponent: fileName];
   
-  //[self.window disableScreenUpdatesUntilFlush];
   [self.window makeKeyAndOrderFront: self];
 
   [self.webview loadURL: [NSURL fileURLWithPath: filePath]];

@@ -26,36 +26,30 @@
 
 - (IBAction) helpFeature1: (id) sender
   {
-  ESHelp * help = [ESHelp new];
+  ESHelp * help = [ESHelp shared];
   
-  [help showHelp];
-  
-  /* NSString * locBookName =
-    [[NSBundle mainBundle]
-      objectForInfoDictionaryKey: @"CFBundleHelpBookName"];
-
-  [[NSHelpManager sharedHelpManager]
-    openHelpAnchor: @"feature1" inBook: locBookName]; */
+  [help showHelpAnchor: @"feature1"];
   }
 
 - (IBAction) helpUse: (id) sender
   {
-  NSString * locBookName =
-    [[NSBundle mainBundle]
-      objectForInfoDictionaryKey: @"CFBundleHelpBookName"];
-
-  [[NSHelpManager sharedHelpManager]
-    openHelpAnchor: @"usemyapp" inBook: locBookName];
+  ESHelp * help = [ESHelp shared];
+  
+  [help showHelpAnchor: @"usemyapp"];
   }
 
 - (IBAction) helpFeature3: (id) sender
   {
-  NSString * locBookName =
-    [[NSBundle mainBundle]
-      objectForInfoDictionaryKey: @"CFBundleHelpBookName"];
+  ESHelp * help = [ESHelp shared];
+  
+  [help showHelpAnchor: @"feature3"];
+  }
 
-  [[NSHelpManager sharedHelpManager]
-    openHelpAnchor: @"feature3" inBook: locBookName];
+- (IBAction) showHelp: (id) sender
+  {
+  ESHelp * help = [ESHelp shared];
+  
+  [help showHelp];
   }
 
 @end

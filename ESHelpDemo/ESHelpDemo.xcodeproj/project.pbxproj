@@ -11,6 +11,7 @@
 		A502D84A232EC7D4000398CC /* ESHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D849232EC7D4000398CC /* ESHelp.m */; };
 		A502D84D232ECC36000398CC /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D84C232ECC36000398CC /* ESHelpWebView.m */; };
 		A52F387023297CF60078F30D /* com.mycompany.myapp.help in Resources */ = {isa = PBXBuildFile; fileRef = A52F386F23297CF60078F30D /* com.mycompany.myapp.help */; };
+		A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */; };
 		A5D9755223293D1600098AE9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D9755123293D1600098AE9 /* AppDelegate.m */; };
 		A5D9755423293D1800098AE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5D9755323293D1800098AE9 /* Assets.xcassets */; };
 		A5D9755723293D1800098AE9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A5D9755523293D1800098AE9 /* MainMenu.xib */; };
@@ -25,6 +26,8 @@
 		A502D84B232ECC36000398CC /* ESHelpWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
 		A502D84C232ECC36000398CC /* ESHelpWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A52F386F23297CF60078F30D /* com.mycompany.myapp.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.mycompany.myapp.help; path = ../com.mycompany.myapp.help; sourceTree = "<group>"; };
+		A5D6530B2331A62B009A891E /* ESHelpDemoApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDemoApplication.h; sourceTree = "<group>"; };
+		A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelpDemoApplication.m; sourceTree = "<group>"; };
 		A5D9754D23293D1600098AE9 /* ESHelpDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESHelpDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D9755023293D1600098AE9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A5D9755123293D1600098AE9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -74,6 +77,8 @@
 				A502D849232EC7D4000398CC /* ESHelp.m */,
 				A5D9755023293D1600098AE9 /* AppDelegate.h */,
 				A5D9755123293D1600098AE9 /* AppDelegate.m */,
+				A5D6530B2331A62B009A891E /* ESHelpDemoApplication.h */,
+				A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */,
 				A5D9755323293D1800098AE9 /* Assets.xcassets */,
 				A5D9755523293D1800098AE9 /* MainMenu.xib */,
 				A5D9755823293D1800098AE9 /* Info.plist */,
@@ -90,6 +95,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A5D9755E23293D1800098AE9 /* Build configuration list for PBXNativeTarget "ESHelpDemo" */;
 			buildPhases = (
+				A5D653092331A0EA009A891E /* Build help bundle */,
 				A5D9754923293D1600098AE9 /* Sources */,
 				A5D9754A23293D1600098AE9 /* Frameworks */,
 				A5D9754B23293D1600098AE9 /* Resources */,
@@ -153,11 +159,33 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		A5D653092331A0EA009A891E /* Build help bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build help bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncd $SRCROOT/../ESXSLHelp\nmake\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		A5D9754923293D1600098AE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */,
 				A502D84A232EC7D4000398CC /* ESHelp.m in Sources */,
 				A5D9755A23293D1800098AE9 /* main.m in Sources */,
 				A502D84D232ECC36000398CC /* ESHelpWebView.m in Sources */,

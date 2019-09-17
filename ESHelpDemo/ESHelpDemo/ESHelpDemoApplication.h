@@ -5,8 +5,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-
-- (IBAction) showHelp: (id) sender;
+@interface ESHelpDemoApplication : NSApplication
 
 @end
