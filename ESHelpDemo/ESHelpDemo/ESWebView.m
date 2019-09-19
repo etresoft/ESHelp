@@ -121,6 +121,13 @@
 #endif
   }
 
+// Load raw HTML with base path.
+- (void) loadHTML: (NSString *) html baseURL: (NSURL *) url
+  {
+  [self.wkWebView loadHTMLString: html baseURL: url];
+  [self.webView.mainFrame loadHTMLString: html baseURL: url];
+  }
+
 // Load a URL (for compatibility testing).
 - (void) loadURL: (NSURL *) url
   {

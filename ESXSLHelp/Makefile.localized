@@ -26,6 +26,9 @@ helpindex = search.helpindex
 
 # Extract help index data.
 helpindexplist = helpindex.plist
+helpfilestxt = helpfiles.txt
+
+helpindexfiles = $(helpindex) $(helpindexplist) $(helpfilestxt)
 
 # Create a list of targets that need to be copied.
 copytargets = $(addprefix $(LOCALIZED_DESTINATION)/,$(IMAGES) $(CSS) $(SCRIPT) ExactMatch.plist)
@@ -46,12 +49,12 @@ vpath ExactMatch.% $(LOCALIZED_SOURCE)
 .PHONY: build clean
 
 # By default build all HTML files, images, and CSS files.
-build: $(index) $(html) $(helpindex) $(helpindexplist) $(copytargets)
+build: $(index) $(html) $(helpindexfiles) $(copytargets)
 install: build
 
 # Remove files.
 clean:
-	-for i in $(index) $(html) $(IMAGES) $(ICONS) $(CSS) $(SCRIPT) ExactMatch.plist $(helpindex) $(helpindexplist); do \
+	-for i in $(index) $(html) $(IMAGES) $(ICONS) $(CSS) $(SCRIPT) ExactMatch.plist $(helpindexfiles); do \
     /bin/rm -f $(LOCALIZED_DESTINATION)/$$i; \
   done
 	-/bin/rm -df $(LOCALIZED_DESTINATION)/pgs;
@@ -107,3 +110,7 @@ index.html : index.xml index.xsl eshelp.xsl header.xml footer.xml menu.xml
 helpindex.plist : $(helpindex)
 	/bin/mkdir -p $(LOCALIZED_DESTINATION)
 	~/bin/myhiutil -D -f $(LOCALIZED_DESTINATION)/$(helpindex) > $(LOCALIZED_DESTINATION)/$@
+
+helpfiles.txt : $(helpindex)
+	/bin/mkdir -p $(LOCALIZED_DESTINATION)
+	~/bin/myhiutil -v -v -F -f $(LOCALIZED_DESTINATION)/$(helpindex) > $(LOCALIZED_DESTINATION)/$@

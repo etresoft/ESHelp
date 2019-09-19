@@ -6,7 +6,7 @@ BUNDLE_ID = com.mycompany.myapp.help
 APP_NAME = myapp
 
 # Default output files
-HTML = about features releasenotes usage support credits
+HTML = about features releasenotes usage support credits searchresults
 
 # The following environment variables may be defined:
 # IMAGES Images to copy

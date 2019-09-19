@@ -56,7 +56,10 @@ typedef void (^CompletionHandler)(id result);
 // Is a forwards navigation allowed?
 @property (readonly) BOOL canGoForward;
 
-// Load a file URL with base path.
+// Load raw HTML with base path.
+- (void) loadHTML: (NSString *) html baseURL: (NSURL *) url;
+
+// Load a file URL.
 - (void) loadURL: (NSURL *) url;
 
 // Execute Javascript.

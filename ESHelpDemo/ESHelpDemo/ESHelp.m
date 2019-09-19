@@ -42,6 +42,9 @@ ESHelp * ourHelp = nil;
 // The search control.
 @synthesize searchField = mySearchField;
 
+// Search results template.
+@synthesize searchResultsTemplate = mySearchResultsTemplate;
+
 // Can I go back?
 @synthesize canGoBack = myCanGoBack;
 
@@ -56,6 +59,7 @@ ESHelp * ourHelp = nil;
 @synthesize basePath = myBasePath;
 
 @synthesize helpIndex = myHelpIndex;
+@synthesize helpFiles = myHelpFiles;
 
 - (BOOL) canShare
   {
@@ -97,27 +101,8 @@ ESHelp * ourHelp = nil;
       
     self.basePath = localizedHelpBasePath;
     
-    NSString * helpIndexPath =
-      [self.basePath stringByAppendingPathComponent: @"helpindex.plist"];
-      
-    NSData * data = [NSData dataWithContentsOfFile: helpIndexPath];
-  
-    NSDictionary * helpIndex = nil;
-    
-    if(data.length > 0)
-      {
-      NSError * error;
-      NSPropertyListFormat format;
-      
-      helpIndex =
-        [NSPropertyListSerialization
-          propertyListWithData: data
-          options: NSPropertyListImmutable
-          format: & format
-          error: & error];
-      }
-    
-    self.helpIndex = helpIndex;
+    [self readAnchorIndex];
+    [self readFileIndex];
     
     [[NSApplication sharedApplication]
       addObserver: self
@@ -127,6 +112,164 @@ ESHelp * ourHelp = nil;
     }
     
   return self;
+  }
+
+- (void) readAnchorIndex
+  {
+  NSString * anchorIndexKey =
+    [self helpBundleDictionaryValue: @"ESHelpHelpIndex"];
+  
+  NSString * helpIndexPath =
+    [self.basePath stringByAppendingPathComponent: anchorIndexKey];
+    
+  NSData * data = [[NSData alloc] initWithContentsOfFile: helpIndexPath];
+
+  NSDictionary * helpIndex = nil;
+  
+  if(data.length > 0)
+    {
+    NSError * error;
+    NSPropertyListFormat format;
+    
+    helpIndex =
+      [NSPropertyListSerialization
+        propertyListWithData: data
+        options: NSPropertyListImmutable
+        format: & format
+        error: & error];
+    }
+  
+  self.helpIndex = helpIndex;
+
+#if !__has_feature(objc_arc)
+  [data release];
+#endif
+  }
+
+- (id) helpBundleDictionaryValue: (NSString *) key
+  {
+  NSString * helpPath =
+    [[NSBundle mainBundle]
+      objectForInfoDictionaryKey: @"CFBundleHelpBookFolder"];
+  
+  NSString * helpBundlePath =
+    [[NSBundle mainBundle] pathForResource: helpPath ofType: nil];
+
+  NSBundle * helpBundle = [NSBundle bundleWithPath: helpBundlePath];
+  
+  return [helpBundle objectForInfoDictionaryKey: key];
+  }
+
+- (void) readFileIndex
+  {
+  NSString * fileIndexKey =
+    [self helpBundleDictionaryValue: @"ESHelpHelpFiles"];
+  
+  NSString * helpFilesPath =
+    [self.basePath stringByAppendingPathComponent: fileIndexKey];
+
+  NSString * text =
+    [[NSString alloc]
+      initWithContentsOfFile: helpFilesPath
+      encoding: NSUTF8StringEncoding
+      error: NULL];
+
+  NSArray * lines = [text componentsSeparatedByString: @"\n"];
+  
+  NSMutableDictionary * helpFiles = [NSMutableDictionary new];
+  
+  NSString * foundPath = nil;
+  NSString * title = nil;
+  NSString * description = nil;
+  
+  for(NSString * line in lines)
+    // Process what we have so far.
+    if((line.length == 0) && (foundPath != nil))
+      {
+      NSString * searchText = [self readSearchText: foundPath];
+      
+      if((searchText != nil) && (title != nil) && (description != nil))
+        {
+        NSDictionary * dict =
+          [[NSDictionary alloc]
+            initWithObjectsAndKeys:
+              foundPath, @"path",
+              title, @"title",
+              description, @"description",
+              searchText, @"text",
+              nil];
+          
+        [helpFiles setObject: dict forKey: foundPath];
+
+#if !__has_feature(objc_arc)
+        [data release];
+#endif
+        }
+        
+      foundPath = nil;
+      title = nil;
+      description = nil;
+      }
+    else
+      {
+      NSString * trimmedLine =
+        [line
+          stringByTrimmingCharactersInSet:
+            [NSCharacterSet whitespaceCharacterSet]];
+      
+      if([trimmedLine hasPrefix: @"Title: "])
+        title = [trimmedLine substringFromIndex: 7];
+      else if([trimmedLine hasPrefix: @"Descr: "])
+        description = [trimmedLine substringFromIndex: 7];
+      else
+        {
+        NSArray * parts = [line componentsSeparatedByString: @"#"];
+        
+        NSString * path = parts.firstObject;
+        
+        NSString * filePath =
+          [self.basePath stringByAppendingPathComponent: path];
+          
+        BOOL exists = NO;
+        BOOL isDirectory = NO;
+        
+        exists =
+          [[NSFileManager defaultManager]
+            fileExistsAtPath: filePath isDirectory: & isDirectory];
+          
+        if(exists && !isDirectory)
+          foundPath = filePath;
+        }
+      }
+  
+  self.helpFiles = helpFiles;
+
+#if !__has_feature(objc_arc)
+  [lines release];
+#endif
+  }
+
+- (NSString *) readSearchText: (NSString *) path
+  {
+  NSData * data = [[NSData alloc] initWithContentsOfFile: path];
+
+  NSURL * baseURL =
+    [NSURL fileURLWithPath: [path stringByDeletingLastPathComponent]];
+  
+  NSAttributedString * attributedString =
+    [[NSAttributedString alloc]
+      initWithHTML: data baseURL: baseURL documentAttributes: NULL];
+
+  if(attributedString == nil)
+    return nil;
+    
+  NSString * text = attributedString.string;
+  
+#if !__has_feature(objc_arc)
+  [attributedString release];
+#endif
+
+  return text;
   }
 
 // Destructor.
@@ -144,9 +287,11 @@ ESHelp * ourHelp = nil;
   self.shareButton = nil;
   self.searchToolbarItemView = nil;
   self.searchField = nil;
+  self.searchResultsTemplate = nil;
   self.webview = nil;
   self.basePath = nil;
   self.helpIndex = nil;
+  self.helpFiles = nil;
   
 #if !__has_feature(objc_arc)
   [super dealloc];
@@ -173,9 +318,6 @@ ESHelp * ourHelp = nil;
       
       [weakSelf setAppearance: [weakSelf appearanceName]];
     };
-
-  //if(self.basePath == nil)
-  //  [self.window setFrameAutosaveName: @"EtreCheck Help Window"];
   }
 
 - (void) createHelpWindow
@@ -243,6 +385,19 @@ ESHelp * ourHelp = nil;
   self.webview.translatesAutoresizingMaskIntoConstraints = NO;
   
   [self.window setContentView: self.webview];
+  
+  NSString * helpName =
+    [[NSBundle mainBundle]
+      objectForInfoDictionaryKey: @"CFBundleHelpBookName"];
+
+  NSString * autosaveName =
+    [[NSString alloc] initWithFormat: @"%@ Help Window", helpName];
+  
+  [self.window setFrameAutosaveName: autosaveName];
+
+#if !__has_feature(objc_arc)
+  [autosaveName release];
+#endif
   }
 
 - (void) showHelpAnchor: (NSString *) anchor
@@ -406,6 +561,14 @@ ESHelp * ourHelp = nil;
 - (NSToolbarItem *) createSearchToolbar: (NSToolbar *) toolbar
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
+  mySearchToolbarItemView =
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 236, 25)];
+
+  mySearchField =
+    [[NSSearchField alloc] initWithFrame: NSMakeRect(1, 2, 235, 22)];
+  
+  [self.searchToolbarItemView addSubview: self.searchField];
+  
   // Create the NSToolbarItem and setup its attributes.
   NSToolbarItem * item =
     [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
@@ -424,6 +587,9 @@ ESHelp * ourHelp = nil;
   [item setTarget: self];
   [item setAction: nil];
   
+  self.searchField.target = self;
+  self.searchField.action = @selector(performSearch:);
+  
 #if !__has_feature(objc_arc)
   [item autorelease];
 #endif
@@ -438,7 +604,7 @@ ESHelp * ourHelp = nil;
   [items addObject: kNavigationToolbarItemID];
   //[items addObject: kShareToolbarItemID];
   [items addObject: NSToolbarFlexibleSpaceItemIdentifier];
-  //[items addObject: kSearchToolbarItemID];
+  [items addObject: kSearchToolbarItemID];
   
   return items;
   }
@@ -450,7 +616,7 @@ ESHelp * ourHelp = nil;
       kNavigationToolbarItemID,
       //kShareToolbarItemID,
       NSToolbarFlexibleSpaceItemIdentifier,
-      //kSearchToolbarItemID,
+      kSearchToolbarItemID,
     ];
 
   // Since the toolbar is defined from Interface Builder, an additional
@@ -472,7 +638,7 @@ ESHelp * ourHelp = nil;
   [self.webview goForward: sender];
   }
 
-// Share the EtreCheck help.
+// Share help.
 - (IBAction) shareHelp: (id) sender
   {
   /* NSURL * url = self.webview.url;
@@ -497,9 +663,170 @@ ESHelp * ourHelp = nil;
 - (IBAction) performSearch: (id) sender
   {
   NSSearchField * searchField = sender;
+
+  NSArray * matches = [self search: searchField.stringValue];
   
-  if(searchField.stringValue.length > 0)
-    NSLog(@"perform search for: %@", searchField.stringValue);
+  if(matches.count > 0)
+    [self showMatches: matches];
+  }
+  
+- (NSArray *) search: (NSString *) search
+  {
+  NSMutableArray * results = [NSMutableArray array];
+  
+  if(search.length > 0)
+    {
+    for(NSString * path in self.helpFiles)
+      {
+      NSDictionary * dict = self.helpFiles[path];
+      
+      NSString * text = dict[@"text"];
+      
+      NSRange range = [text rangeOfString: search];
+      
+      if(range.location != NSNotFound)
+        [results addObject: dict];
+      }
+    }
+    
+  return results;
+  }
+
+- (void) showMatches: (NSArray *) results
+  {
+  if(self.searchResultsTemplate == nil)
+    [self loadSearchResultsTemplate];
+    
+  NSString * iconPath = [self loadSearchResultsIconPath];
+  
+  NSMutableString * ul = [NSMutableString new];
+  
+  [ul appendString: @"<ul class=\"searchresults\">\n"];
+  
+  int index = 0;
+  
+  for(NSDictionary * result in results)
+    {
+    [ul appendString: @"<li>\n"];
+    [ul appendFormat: @"<a onclick=\"showresult(%d)\">", index];
+    
+    [ul
+      appendFormat:
+        @"<img src=\"%@\" alt=\"Icon\" class=\"applogo\">", iconPath];
+      
+    [ul appendString: @"<div><p>"];
+    [ul appendFormat: @"<strong>%@</strong>", result[@"title"]];
+    [ul appendString: @"</p><p>"];
+    [ul appendFormat: @"%@", result[@"description"]];
+    [ul appendString: @"</p></div>"];
+
+    [ul appendString: @"</a>"];
+    [ul appendString: @"</li>"];
+    
+    ++index;
+    }
+    
+  [ul appendString: @"</ul>"];
+  
+  NSString * helpBookTitle =
+    [self helpBundleDictionaryValue: @"HPDBookTitle"];
+    
+  NSString * resultsUnits = NSLocalizedString(@"results", NULL);
+  
+  if(results.count == 1)
+    resultsUnits = NSLocalizedString(@"result", NULL);
+    
+  NSString * resultsCountString =
+    [NSString stringWithFormat: @"%lu", (unsigned long)results.count];
+  
+  if(results.count == 0)
+    resultsCountString = NSLocalizedString(@"no", NULL);
+    
+  NSString * resultsCount =
+    [[NSString alloc]
+      initWithFormat: @"%@ %@", resultsCountString, resultsUnits];
+    
+  NSString * header =
+    [[NSString alloc]
+      initWithFormat:
+        @"<h2>%@<span class=\"resultcount\">(%@)</span></h2>",
+        helpBookTitle,
+        resultsCount];
+    
+  NSString * searchResultHeader =
+    [[NSString alloc]
+      initWithFormat:
+        @"<div class=\"searchresultsheader\">%@</div>", header];
+    
+  NSMutableString * searchResults =
+    [self.searchResultsTemplate mutableCopy];
+  
+  [searchResults
+    replaceOccurrencesOfString:
+      @"<searchresultsheader></searchresultsheader>"
+    withString: searchResultHeader
+    options: 0
+    range: NSMakeRange(0, searchResults.length)];
+
+  [searchResults
+    replaceOccurrencesOfString: @"<searchresults></searchresults>"
+    withString: ul
+    options: 0
+    range: NSMakeRange(0, searchResults.length)];
+  
+  NSLog(@"Results: %@", searchResults);
+  
+  NSString * searchResultsKey =
+    [self helpBundleDictionaryValue: @"ESHelpSearchResults"];
+  
+  NSString * searchResultsPath =
+    [self.basePath stringByAppendingPathComponent: searchResultsKey];
+
+  NSURL * baseURL =
+    [NSURL
+      fileURLWithPath:
+        [searchResultsPath stringByDeletingLastPathComponent]];
+  
+  [self.webview loadHTML: searchResults baseURL: baseURL];
+  
+#if !__has_feature(objc_arc)
+  [ul release];
+  [header release];
+  [searchResultsHeader release];
+  [resultsCount release];
+#endif
+  }
+
+- (void) loadSearchResultsTemplate
+  {
+  NSString * searchResultsKey =
+    [self helpBundleDictionaryValue: @"ESHelpSearchResults"];
+  
+  NSString * searchResultsPath =
+    [self.basePath stringByAppendingPathComponent: searchResultsKey];
+
+  mySearchResultsTemplate =
+    [[NSString alloc]
+      initWithContentsOfFile: searchResultsPath
+      encoding: NSUTF8StringEncoding
+      error: NULL];
+  }
+
+- (NSString *) loadSearchResultsIconPath
+  {
+  NSString * helpPath =
+    [[NSBundle mainBundle]
+      objectForInfoDictionaryKey: @"CFBundleHelpBookFolder"];
+  
+  NSString * helpBundlePath =
+    [[NSBundle mainBundle] pathForResource: helpPath ofType: nil];
+
+  NSBundle * helpBundle = [NSBundle bundleWithPath: helpBundlePath];
+  
+  NSString * appIconPath =
+    [helpBundle objectForInfoDictionaryKey: @"HPDBookIconPath"];
+    
+  return [@"../.." stringByAppendingPathComponent: appIconPath];
   }
 
 #pragma mark - NSSharingServicePickerDelegate conformance

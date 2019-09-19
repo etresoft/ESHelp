@@ -28,5 +28,11 @@
 	<string>myapp Help</string>
 	<key>HPDBookType</key>
 	<string>3</string>
+	<key>ESHelpHelpIndex</key>
+	<string>helpindex.plist</string>
+	<key>ESHelpHelpFiles</key>
+	<string>helpfiles.txt</string>
+	<key>ESHelpSearchResults</key>
+	<string>pgs/searchresults.html</string>
 </dict>
 </plist>

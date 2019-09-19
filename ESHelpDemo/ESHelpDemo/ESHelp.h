@@ -39,6 +39,9 @@
 // The search control.
 @property (strong) IBOutlet NSSearchField * searchField;
 
+// Search results template.
+@property (strong) NSString * searchResultsTemplate;
+
 // Can I go back?
 @property (assign) BOOL canGoBack;
 
@@ -53,6 +56,7 @@
 @property (strong) NSString * basePath;
 
 @property (strong) NSDictionary * helpIndex;
+@property (strong) NSDictionary * helpFiles;
 
 + (ESHelp *) shared;
 

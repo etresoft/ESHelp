@@ -6,6 +6,10 @@
   <css>
     <import>eshelp.css</import>
   </css>
+  <js>
+    <script>jquery.js</script>
+    <script>eshelp.js</script>
+  </js>
   <menu src="menu.xml" menuid="usage"/>
   <header src="header.xml"/>
   <footer src="footer.xml"/>

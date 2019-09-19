@@ -22,17 +22,8 @@
         <!-- Add CSS styles and imports. -->
         <xsl:apply-templates select="css"/>
 
-        <script>
-          function setAppearance(appearanceName)
-            {
-            var body =
-              document.body || document.getElementsByTagName('body')[0];
-
-            body.setAttribute('class', appearanceName);
-
-            return appearanceName;
-            }
-        </script>
+        <!-- Javascript for appearance and searching. -->
+        <xsl:apply-templates select="js"/>
 
       </head>
   
@@ -76,13 +67,29 @@
 
   </xsl:template>
 
+  <!-- Emit Javascript. -->
+  <xsl:template match="js">
+
+    <script type="text/javascript" src="../scrpt/eshelp.js"></script>
+    <xsl:for-each select="script">
+      <script type="text/javascript">
+        <xsl:attribute name="src">
+          <xsl:value-of select="concat('../scrpt/',.)"/>
+        </xsl:attribute>
+      </script>
+    </xsl:for-each>
+
+  </xsl:template>
+
   <!-- Include a header into the output. -->
   <xsl:template match="header">
 
     <div class="header">
 
       <!-- Copy an external source. -->
-      <xsl:copy-of select="document(@src)/header/*"/>
+      <xsl:if test="@src">
+        <xsl:copy-of select="document(@src)/header/*"/>
+      </xsl:if>
 
       <!-- Copy inline HTML. -->
       <xsl:copy-of select="./*"/>

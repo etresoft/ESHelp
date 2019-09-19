@@ -112,12 +112,6 @@ li
   position: relative;
   }
 
-h1
-  {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  }
-
 .header
   {
   display: block;
@@ -200,6 +194,65 @@ h1
 .numberedlist li
   {
   list-style-type: decimal;
+  }
+
+.searchresultsheader
+  {
+  text-align: left;
+  }
+
+.searchresultsheader h2
+  {
+  font-size: 21px;
+  font-weight: 600;
+  margin-left: 24px;
+  display: inline-block;
+  text-align: left;
+  }
+
+span.resultcount
+  {
+  font-size: 11px;
+  font-style: normal;
+  font-weight: normal;
+  color: rgb(150, 150, 150);
+  margin-left: 10px;
+  display: inline-block;
+  }
+
+ul.searchresults
+  {
+  padding-left: 0px;
+  margin-left: -8px;
+  margin-right: -8px;
+  }
+
+.searchresults li
+  {
+  margin-bottom: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  }
+
+.searchresults li:hover
+  {
+  background-color: rgb(232, 232, 232);
+  }
+
+.searchresults img
+  {
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 18px;
+  height: 22px;
+  width: 22px;
+  }
+
+.searchresults div
+  {
+  margin-left: 50px;
+  display: inline-block;
+  cursor: default;
   }
 
 body.DarkAqua

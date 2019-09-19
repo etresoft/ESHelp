@@ -59,6 +59,20 @@
 
   </xsl:template>
 
+  <!-- Emit Javascript. -->
+  <xsl:template match="js">
+
+    <script type="text/javascript" src="../scrpt/eshelp.js"></script>
+    <xsl:for-each select="script">
+      <script type="text/javascript">
+        <xsl:attribute name="src">
+          <xsl:value-of select="concat('scrpt/',.)"/>
+        </xsl:attribute>
+      </script>
+    </xsl:for-each>
+
+  </xsl:template>
+
   <!-- Copy the contents of a content node directly into the output. -->
   <xsl:template match="menu">
 

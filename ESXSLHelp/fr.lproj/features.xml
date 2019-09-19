@@ -4,8 +4,12 @@
   <title>À savoir</title>
   <meta name="description" content="Les fonctionnalités"/>
   <css>
-    <import>etrecheck.css</import>
+    <import>eshelp.css</import>
   </css>
+  <js>
+    <script>jquery.js</script>
+    <script>eshelp.js</script>
+  </js>
   <menu src="menu.xml" menuid="features"/>
   <header src="header.xml"/>
   <footer src="footer.xml"/>
