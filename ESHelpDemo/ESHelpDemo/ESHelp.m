@@ -190,10 +190,13 @@ ESHelp * ourHelp = nil;
       
       if((searchText != nil) && (title != nil) && (description != nil))
         {
+        NSURL * url = [NSURL fileURLWithPath: foundPath];
+        
         NSDictionary * dict =
           [[NSDictionary alloc]
             initWithObjectsAndKeys:
               foundPath, @"path",
+              url, @"url",
               title, @"title",
               description, @"description",
               searchText, @"text",
@@ -421,7 +424,7 @@ ESHelp * ourHelp = nil;
           
           NSString * js =
             [[NSString alloc]
-              initWithFormat: @"window.location.href = '#%@';", anchor];
+              initWithFormat: @"window.location.replace('#%@');", anchor];
           
           [weakSelf.webview
             executeJavaScript: js
@@ -708,7 +711,7 @@ ESHelp * ourHelp = nil;
   for(NSDictionary * result in results)
     {
     [ul appendString: @"<li>\n"];
-    [ul appendFormat: @"<a onclick=\"showresult(%d)\">", index];
+    [ul appendFormat: @"<a href=\"%@\">", result[@"url"]];
     
     [ul
       appendFormat:
@@ -787,6 +790,16 @@ ESHelp * ourHelp = nil;
       fileURLWithPath:
         [searchResultsPath stringByDeletingLastPathComponent]];
   
+  __weak ESHelp * weakSelf = self;
+  
+  self.webview.readyHandler =
+    ^{
+      weakSelf.canGoBack = weakSelf.webview.canGoBack;
+      weakSelf.canGoForward = weakSelf.webview.canGoForward;
+      
+      [weakSelf setAppearance: [weakSelf appearanceName]];
+    };
+
   [self.webview loadHTML: searchResults baseURL: baseURL];
   
 #if !__has_feature(objc_arc)

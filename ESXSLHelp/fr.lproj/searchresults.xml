@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<page>
+  <title>Les résultats de la recherche</title>
+  <css>
+    <import>eshelp.css</import>
+  </css>
+  <js>
+    <script>jquery.js</script>
+    <script>eshelp.js</script>
+  </js>
+  <header>
+    <searchresultsheader/>
+  </header>
+  <meta name="ROBOTS" content="NOINDEX"/>
+  <content>
+    <searchresults/>
+  </content>
+</page>
