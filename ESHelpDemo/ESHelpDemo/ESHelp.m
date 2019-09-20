@@ -633,12 +633,18 @@ ESHelp * ourHelp = nil;
 - (IBAction) goBack: (id) sender
   {
   [self.webview goBack: sender];
+
+  self.canGoBack = self.webview.canGoBack;
+  self.canGoForward = self.webview.canGoForward;
   }
 
 // Go forward.
 - (IBAction) goForward: (id) sender
   {
   [self.webview goForward: sender];
+
+  self.canGoBack = self.webview.canGoBack;
+  self.canGoForward = self.webview.canGoForward;
   }
 
 // Share help.
