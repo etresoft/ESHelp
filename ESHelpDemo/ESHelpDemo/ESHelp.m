@@ -387,6 +387,8 @@ ESHelp * ourHelp = nil;
     
   self.webview.translatesAutoresizingMaskIntoConstraints = NO;
   
+  self.webview.delegate = self;
+  
   [self.window setContentView: self.webview];
   
   NSString * helpName =
@@ -673,15 +675,18 @@ ESHelp * ourHelp = nil;
   {
   NSSearchField * searchField = sender;
 
-  NSArray * matches = [self search: searchField.stringValue];
+  NSString * searchString = [NSString stringWithFormat: @"search-%@", searchField.stringValue];
   
-  if(matches.count > 0)
-    [self showMatches: matches];
+  NSString * filePath =
+    [self.basePath stringByAppendingPathComponent: searchString];
+  
+  [self.webview loadURL: [NSURL fileURLWithPath: filePath]];
+  //[self search: searchField.stringValue];
   }
-  
-- (NSArray *) search: (NSString *) search
+
+- (void) search: (NSString *) search
   {
-  NSMutableArray * results = [NSMutableArray array];
+  NSMutableArray * matches = [NSMutableArray array];
   
   if(search.length > 0)
     {
@@ -694,11 +699,15 @@ ESHelp * ourHelp = nil;
       NSRange range = [text rangeOfString: search];
       
       if(range.location != NSNotFound)
-        [results addObject: dict];
+        [matches addObject: dict];
       }
     }
     
-  return results;
+  [self showMatches: matches];
+  
+#if !__has_feature(objc_arc)
+  [matches autorelease];
+#endif
   }
 
 - (void) showMatches: (NSArray *) results
@@ -782,8 +791,6 @@ ESHelp * ourHelp = nil;
     withString: ul
     options: 0
     range: NSMakeRange(0, searchResults.length)];
-  
-  NSLog(@"Results: %@", searchResults);
   
   NSString * searchResultsKey =
     [self helpBundleDictionaryValue: @"ESHelpSearchResults"];

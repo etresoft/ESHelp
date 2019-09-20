@@ -111,12 +111,12 @@
     [[NSApplication sharedApplication]
       removeObserver: self forKeyPath: @"effectiveAppearance"];
 
+  self.readyHandler = nil;
+  
 #if !__has_feature(objc_arc)
   [myWkWebView release];
   [myWebView release];
 
-  self.readyHandler = nil;
-  
   [super dealloc];
 #endif
   }
@@ -199,7 +199,7 @@
 
 - (void) createWebView
   {
-  self.api = kWebKit;
+  //self.api = kWebKit;
   
   if(self.api == kWKWebKit)
     if([WKWebView class] != nil)

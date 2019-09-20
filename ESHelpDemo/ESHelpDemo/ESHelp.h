@@ -66,4 +66,6 @@
 
 - (IBAction) showHelp: (id) sender;
 
+- (void) search: (NSString *) search;
+
 @end
