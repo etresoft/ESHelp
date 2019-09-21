@@ -31,13 +31,6 @@
   {
   NSURL * url = navigationAction.request.URL;
   
-  if([self isSearchURL: url])
-    {
-    decisionHandler(WKNavigationActionPolicyCancel);
-
-    return;
-    }
-
   if(![url isFileURL])
     {
     [[NSWorkspace sharedWorkspace] openURL: url];
@@ -47,6 +40,15 @@
     return;
     }
     
+  [self.delegate addURLToHistory: url];
+    
+  if([self.delegate isSearchURL: url])
+    {
+    decisionHandler(WKNavigationActionPolicyCancel);
+
+    return;
+    }
+
   decisionHandler(WKNavigationActionPolicyAllow);
   }
 
@@ -60,13 +62,6 @@
   {
   NSURL * url = [actionInformation objectForKey: WebActionOriginalURLKey];
   
-  if([self isSearchURL: url])
-    {
-    [listener ignore];
-
-    return;
-    }
-
   if(![url isFileURL])
     {
     [[NSWorkspace sharedWorkspace] openURL: url];
@@ -76,6 +71,15 @@
     return;
     }
     
+  [self.delegate addURLToHistory: url];
+    
+  if([self.delegate isSearchURL: url])
+    {
+    [listener ignore];
+
+    return;
+    }
+
   [listener use];
   }
 
@@ -89,13 +93,6 @@
   {
   NSURL * url = [actionInformation objectForKey: WebActionOriginalURLKey];
   
-  if([self isSearchURL: url])
-    {
-    [listener ignore];
-
-    return;
-    }
-
   if(![url isFileURL])
     {
     [[NSWorkspace sharedWorkspace] openURL: url];
@@ -105,27 +102,16 @@
     return;
     }
     
-  [listener use];
-  }
-
-- (BOOL) isSearchURL: (NSURL *) url
-  {
-  if(self.delegate.basePath != nil)
-    if([url.path hasPrefix: self.delegate.basePath])
-      {
-      NSString * file = [url.path lastPathComponent];
-      
-      if([file hasPrefix: @"search-"])
-        {
-        NSString * search = [file substringFromIndex: 7];
-        
-        [self.delegate search: search];
-
-        return YES;
-        }
-      }
+  [self.delegate addURLToHistory: url];
     
-  return NO;
+  if([self.delegate isSearchURL: url])
+    {
+    [listener ignore];
+
+    return;
+    }
+
+  [listener use];
   }
 
 @end

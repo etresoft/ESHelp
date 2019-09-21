@@ -48,6 +48,12 @@
 // Can I go forward?
 @property (assign) BOOL canGoForward;
 
+// The navigation history.
+@property (strong) NSMutableArray * history;
+
+// The navigation index in the history.
+@property (assign) NSUInteger historyIndex;
+
 // Can I share?
 @property (readonly) BOOL canShare;
 
@@ -67,5 +73,8 @@
 - (IBAction) showHelp: (id) sender;
 
 - (void) search: (NSString *) search;
+
+- (void) addURLToHistory: (NSURL *) url;
+- (BOOL) isSearchURL: (NSURL *) url;
 
 @end

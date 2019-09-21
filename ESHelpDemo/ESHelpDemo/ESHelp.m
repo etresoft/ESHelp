@@ -51,6 +51,12 @@ ESHelp * ourHelp = nil;
 // Can I go forward?
 @synthesize canGoForward = myCanGoForward;
 
+// The navigation history.
+@synthesize history = myHistory;
+
+// The navigation index in the history.
+@synthesize historyIndex = myHistoryIndex;
+
 // Can I share?
 @dynamic canShare;
 
@@ -100,6 +106,9 @@ ESHelp * ourHelp = nil;
           NSLocalizedString(@"en.lproj", NULL)];
       
     self.basePath = localizedHelpBasePath;
+    
+    myHistory = [NSMutableArray new];
+    myHistoryIndex = 0;
     
     [self readAnchorIndex];
     [self readFileIndex];
@@ -286,6 +295,7 @@ ESHelp * ourHelp = nil;
   self.navigationToolbarItemView = nil;
   self.goBackButton = nil;
   self.goForwardButton = nil;
+  self.history = nil;
   self.shareToolbarItemView = nil;
   self.shareButton = nil;
   self.searchToolbarItemView = nil;
@@ -411,37 +421,30 @@ ESHelp * ourHelp = nil;
 
   if(anchor.length > 0)
     {
-    NSArray * filePaths = [self.helpIndex objectForKey: anchor];
+    NSArray * paths = [self.helpIndex objectForKey: anchor];
     
-    NSString * filePath = filePaths.firstObject;
+    NSString * path = paths.firstObject;
     
-    if(filePath.length > 0)
+    if(path.length > 0)
       {
-      __weak ESHelp * weakSelf = self;
+      NSString * filePath =
+        [self.basePath stringByAppendingPathComponent: path];
+     
+      NSURL * url = [[NSURL alloc] initFileURLWithPath: filePath];
       
-      self.webview.readyHandler =
-        ^{
-          weakSelf.canGoBack = weakSelf.webview.canGoBack;
-          weakSelf.canGoForward = weakSelf.webview.canGoForward;
-          
-          NSString * js =
-            [[NSString alloc]
-              initWithFormat: @"window.location.replace('#%@');", anchor];
-          
-          [weakSelf.webview
-            executeJavaScript: js
-            completion:
-              ^(id result)
-                {
-                  [weakSelf setAppearance: [weakSelf appearanceName]];
-                }];
-          
-#if !__has_feature(objc_arc)
-          [js release];
-#endif
-        };
+      NSURL * anchorURL =
+        [[NSURL alloc]
+          initWithString:
+            [url.absoluteString stringByAppendingFormat: @"#%@", anchor]];
 
-      [self showHelpFile: filePath];
+      [self.window makeKeyAndOrderFront: self];
+
+      [self showHelpURL: anchorURL];
+
+#if !__has_feature(objc_arc)
+      [url release];
+      [anchorURL release];
+#endif
       
       return;
       }
@@ -454,10 +457,33 @@ ESHelp * ourHelp = nil;
   {
   NSString * filePath =
     [self.basePath stringByAppendingPathComponent: fileName];
+
+  NSURL * url = [[NSURL alloc] initFileURLWithPath: filePath];
   
   [self.window makeKeyAndOrderFront: self];
 
-  [self.webview loadURL: [NSURL fileURLWithPath: filePath]];
+  [self showHelpURL: url];
+
+#if !__has_feature(objc_arc)
+  [url release];
+#endif
+  }
+
+- (void) showHelpURL: (NSURL *) url
+  {
+  __weak ESHelp * weakSelf = self;
+  
+  self.webview.readyHandler =
+    ^{
+      weakSelf.canGoBack = (weakSelf.historyIndex > 1);
+      
+      weakSelf.canGoForward =
+        (weakSelf.historyIndex < weakSelf.history.count);
+  
+      [weakSelf setAppearance: [weakSelf appearanceName]];
+    };
+
+  [self.webview loadURL: url];
   }
 
 #pragma mark - NSToolbarDelegate conformance
@@ -629,24 +655,22 @@ ESHelp * ourHelp = nil;
   // the "allowed" list of items.
   }
 
-#pragma mark - Sharing
+#pragma mark - Navigation
 
 // Go back.
 - (IBAction) goBack: (id) sender
   {
-  [self.webview goBack: sender];
-
-  self.canGoBack = self.webview.canGoBack;
-  self.canGoForward = self.webview.canGoForward;
+  NSURL * url = [self.history objectAtIndex: self.historyIndex - 2];
+    
+  [self showHelpURL: url];
   }
 
 // Go forward.
 - (IBAction) goForward: (id) sender
   {
-  [self.webview goForward: sender];
-
-  self.canGoBack = self.webview.canGoBack;
-  self.canGoForward = self.webview.canGoForward;
+  NSURL * url = [self.history objectAtIndex: self.historyIndex];
+    
+  [self showHelpURL: url];
   }
 
 // Share help.
@@ -675,13 +699,19 @@ ESHelp * ourHelp = nil;
   {
   NSSearchField * searchField = sender;
 
-  NSString * searchString = [NSString stringWithFormat: @"search-%@", searchField.stringValue];
+  NSString * searchString =
+    [NSString stringWithFormat: @"search-%@", searchField.stringValue];
   
   NSString * filePath =
     [self.basePath stringByAppendingPathComponent: searchString];
   
-  [self.webview loadURL: [NSURL fileURLWithPath: filePath]];
-  //[self search: searchField.stringValue];
+  NSURL * url = [[NSURL alloc] initFileURLWithPath: filePath];
+  
+  [self showHelpURL: url];
+
+#if !__has_feature(objc_arc)
+  [url release];
+#endif
   }
 
 - (void) search: (NSString *) search
@@ -708,6 +738,65 @@ ESHelp * ourHelp = nil;
 #if !__has_feature(objc_arc)
   [matches autorelease];
 #endif
+  }
+
+- (void) addURLToHistory: (NSURL *) url
+  {
+  BOOL isDirectory = NO;
+  
+  BOOL exists =
+    [[NSFileManager defaultManager]
+      fileExistsAtPath: url.path isDirectory: & isDirectory];
+  
+  if(exists && isDirectory)
+    return;
+    
+  NSURL * previousURL = nil;
+  NSURL * nextURL = nil;
+
+  if(self.historyIndex > 1)
+    previousURL = [self.history objectAtIndex: self.historyIndex - 2];
+    
+  if(self.historyIndex < self.history.count)
+    nextURL = [self.history objectAtIndex: self.historyIndex];
+
+  if([previousURL isEqualTo: url])
+    self.historyIndex = self.historyIndex - 1;
+  else if([nextURL isEqualTo: url])
+    self.historyIndex = self.historyIndex + 1;
+  else
+    {
+    [self.history
+      removeObjectsInRange:
+        NSMakeRange(
+          self.historyIndex, self.history.count - self.historyIndex)];
+      
+    [self.history addObject: url];
+    self.historyIndex = self.historyIndex + 1;
+    }
+
+  self.canGoBack = (self.historyIndex > 1);
+  self.canGoForward = (self.historyIndex < self.history.count);
+  }
+
+- (BOOL) isSearchURL: (NSURL *) url
+  {
+  if(self.basePath != nil)
+    if([url.path hasPrefix: self.basePath])
+      {
+      NSString * file = [url.path lastPathComponent];
+      
+      if([file hasPrefix: @"search-"])
+        {
+        NSString * search = [file substringFromIndex: 7];
+        
+        [self search: search];
+
+        return YES;
+        }
+      }
+    
+  return NO;
   }
 
 - (void) showMatches: (NSArray *) results
@@ -803,16 +892,6 @@ ESHelp * ourHelp = nil;
       fileURLWithPath:
         [searchResultsPath stringByDeletingLastPathComponent]];
   
-  __weak ESHelp * weakSelf = self;
-  
-  self.webview.readyHandler =
-    ^{
-      weakSelf.canGoBack = weakSelf.webview.canGoBack;
-      weakSelf.canGoForward = weakSelf.webview.canGoForward;
-      
-      [weakSelf setAppearance: [weakSelf appearanceName]];
-    };
-
   [self.webview loadHTML: searchResults baseURL: baseURL];
   
 #if !__has_feature(objc_arc)
