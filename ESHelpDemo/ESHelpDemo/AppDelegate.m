@@ -4,7 +4,7 @@
  **********************************************************************/
 
 #import "AppDelegate.h"
-#import "ESHelp.h"
+#import <ESHelpKit/ESHelpKit.h>
 
 @interface AppDelegate ()
 
