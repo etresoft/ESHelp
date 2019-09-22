@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A502D847232C7B12000398CC /* ESWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D846232C7B12000398CC /* ESWebView.m */; };
+		A502D847232C7B12000398CC /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D846232C7B12000398CC /* ESHelpWebView.m */; };
 		A502D84A232EC7D4000398CC /* ESHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D849232EC7D4000398CC /* ESHelp.m */; };
-		A502D84D232ECC36000398CC /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A502D84C232ECC36000398CC /* ESHelpWebView.m */; };
 		A52F387023297CF60078F30D /* com.mycompany.myapp.help in Resources */ = {isa = PBXBuildFile; fileRef = A52F386F23297CF60078F30D /* com.mycompany.myapp.help */; };
 		A56D08F02337E6F400C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D08F22337E6F400C04CCD /* Localizable.strings */; };
 		A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */; };
@@ -20,12 +19,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A502D845232C7B12000398CC /* ESWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESWebView.h; sourceTree = "<group>"; };
-		A502D846232C7B12000398CC /* ESWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESWebView.m; sourceTree = "<group>"; };
+		A502D845232C7B12000398CC /* ESHelpWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
+		A502D846232C7B12000398CC /* ESHelpWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A502D848232EC7D4000398CC /* ESHelp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelp.h; sourceTree = "<group>"; };
 		A502D849232EC7D4000398CC /* ESHelp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelp.m; sourceTree = "<group>"; };
-		A502D84B232ECC36000398CC /* ESHelpWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
-		A502D84C232ECC36000398CC /* ESHelpWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A52F386F23297CF60078F30D /* com.mycompany.myapp.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.mycompany.myapp.help; path = ../com.mycompany.myapp.help; sourceTree = "<group>"; };
 		A56D08F12337E6F400C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D08F32337E73900C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
@@ -73,10 +70,8 @@
 		A5D9754F23293D1600098AE9 /* ESHelpDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A502D845232C7B12000398CC /* ESWebView.h */,
-				A502D846232C7B12000398CC /* ESWebView.m */,
-				A502D84B232ECC36000398CC /* ESHelpWebView.h */,
-				A502D84C232ECC36000398CC /* ESHelpWebView.m */,
+				A502D845232C7B12000398CC /* ESHelpWebView.h */,
+				A502D846232C7B12000398CC /* ESHelpWebView.m */,
 				A502D848232EC7D4000398CC /* ESHelp.h */,
 				A502D849232EC7D4000398CC /* ESHelp.m */,
 				A5D9755023293D1600098AE9 /* AppDelegate.h */,
@@ -195,9 +190,8 @@
 				A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */,
 				A502D84A232EC7D4000398CC /* ESHelp.m in Sources */,
 				A5D9755A23293D1800098AE9 /* main.m in Sources */,
-				A502D84D232ECC36000398CC /* ESHelpWebView.m in Sources */,
 				A5D9755223293D1600098AE9 /* AppDelegate.m in Sources */,
-				A502D847232C7B12000398CC /* ESWebView.m in Sources */,
+				A502D847232C7B12000398CC /* ESHelpWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
