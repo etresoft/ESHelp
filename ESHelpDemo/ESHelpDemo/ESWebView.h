@@ -30,9 +30,22 @@ typedef void (^ReadyHandler)(void);
 // A completion handler for results from Javascript.
 typedef void (^CompletionHandler)(id result);
 
+// A script handler for DOM events.
+typedef NSString * (^ScriptHandler)(NSObject * object);
+
+// Shim to get ScriptHandler working with legacy webview.
+@interface ScriptRunner : NSObject
+
+@property (strong) ScriptHandler handler;
+
+- (NSString *) postMessage: (NSObject *) object;
+
+@end
+
 // A IB-friendly webview.
 @interface ESWebView : NSView
   <WKNavigationDelegate,
+  WKScriptMessageHandler,
   WebUIDelegate,
   WebFrameLoadDelegate,
   WebPolicyDelegate,
@@ -71,6 +84,12 @@ typedef void (^CompletionHandler)(id result);
 
 // Navigate forwards.
 - (IBAction) goForward: (id) sender;
+
+// Add a script handler for DOM events.
+- (void) addScriptHandler: (ScriptHandler) handler forKey: (NSString *) key;
+
+// Remove a script handler.
+- (void) removeScriptHandlerForKey: (NSString *) key;
 
 @end
 

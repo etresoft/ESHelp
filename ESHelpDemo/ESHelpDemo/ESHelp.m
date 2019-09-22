@@ -45,6 +45,9 @@ ESHelp * ourHelp = nil;
 // Search results template.
 @synthesize searchResultsTemplate = mySearchResultsTemplate;
 
+// The current search.
+@synthesize currentSearch = myCurrentSearch;
+
 // Can I go back?
 @synthesize canGoBack = myCanGoBack;
 
@@ -331,6 +334,16 @@ ESHelp * ourHelp = nil;
       
       [weakSelf setAppearance: [weakSelf appearanceName]];
     };
+
+  [self.webview
+    addScriptHandler:
+      ^NSString * (NSObject * object)
+        {
+        [weakSelf performWebSearch];
+          
+        return @"OK";
+        }
+    forKey: @"help"];
   }
 
 - (void) createHelpWindow
@@ -515,12 +528,12 @@ ESHelp * ourHelp = nil;
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
   myNavigationToolbarItemView =
-    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 51, 25)];
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 54, 25)];
   
   myGoBackButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(-1, -2, 28, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 27, 27)];
   
-  self.goBackButton.bezelStyle = NSTexturedSquareBezelStyle;
+  self.goBackButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.goBackButton.image = [NSImage imageNamed: NSImageNameGoLeftTemplate];
   self.goBackButton.target = self;
   self.goBackButton.action = @selector(goBack:);
@@ -528,9 +541,9 @@ ESHelp * ourHelp = nil;
     bind: @"enabled" toObject: self withKeyPath: @"canGoBack" options: nil];
   
   myGoForwardButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(24, -2, 28, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(26, -2, 27, 27)];
 
-  self.goForwardButton.bezelStyle = NSTexturedSquareBezelStyle;
+  self.goForwardButton.bezelStyle = NSBezelStyleTexturedRounded;
 
   self.goForwardButton.image =
     [NSImage imageNamed: NSImageNameGoRightTemplate];
@@ -614,7 +627,16 @@ ESHelp * ourHelp = nil;
   frame.size.height = 25;
   self.searchField.frame = frame;
   self.searchField.font = [NSFont systemFontOfSize: 13.0];
-    
+  
+  SEL setSendsWholeSearchString = @selector(setSendsWholeSearchString:);
+  
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+  if([self.searchField respondsToSelector: setSendsWholeSearchString])
+    [self.searchField
+      performSelector: setSendsWholeSearchString withObject: @YES];
+#pragma clang diagnostic pop
+
   [item setTarget: self];
   [item setAction: nil];
   
@@ -699,8 +721,10 @@ ESHelp * ourHelp = nil;
   {
   NSSearchField * searchField = sender;
 
+  self.currentSearch = searchField.stringValue;
+  
   NSString * searchString =
-    [NSString stringWithFormat: @"search-%@", searchField.stringValue];
+    [NSString stringWithFormat: @"search-%@", self.currentSearch];
   
   NSString * filePath =
     [self.basePath stringByAppendingPathComponent: searchString];
@@ -788,9 +812,11 @@ ESHelp * ourHelp = nil;
       
       if([file hasPrefix: @"search-"])
         {
-        NSString * search = [file substringFromIndex: 7];
+        self.currentSearch = [file substringFromIndex: 7];
         
-        [self search: search];
+        self.searchField.stringValue = self.currentSearch;
+        
+        [self search: self.currentSearch];
 
         return YES;
         }
@@ -811,10 +837,17 @@ ESHelp * ourHelp = nil;
   [ul appendString: @"<ul class=\"searchresults\">\n"];
   
   int index = 0;
+  int maxSearchResults = 6;
   
   for(NSDictionary * result in results)
     {
-    [ul appendString: @"<li>\n"];
+    [ul
+      appendFormat:
+        @"<li%@>\n",
+        index >= maxSearchResults
+          ? @" class=\"more\""
+          : @""];
+      
     [ul appendFormat: @"<a href=\"%@\">", result[@"url"]];
     
     [ul
@@ -865,6 +898,32 @@ ESHelp * ourHelp = nil;
       initWithFormat:
         @"<div class=\"searchresultsheader\">%@</div>", header];
     
+  NSString * linkTemplate =
+    @"<p id=\"%@\" onclick=\"%@\">%@<span>%@</span></p>%@";
+
+  NSString * showAll = @"";
+  
+  if(results.count > maxSearchResults)
+    showAll =
+      [[NSString alloc]
+        initWithFormat:
+          linkTemplate,
+          @"showalllink",
+          @"showall()",
+          NSLocalizedString(@"Show all", NULL),
+          NSLocalizedString(@"showallicon", NULL),
+          @"<hr class=\"searchresults\">"];
+
+  NSString * searchWeb =
+    [[NSString alloc]
+      initWithFormat:
+        linkTemplate,
+        @"searchweblink",
+        @"searchweb()",
+        NSLocalizedString(@"Search the web for more results", NULL),
+        NSLocalizedString(@"searchwebicon", NULL),
+        @""];
+
   NSMutableString * searchResults =
     [self.searchResultsTemplate mutableCopy];
   
@@ -881,6 +940,18 @@ ESHelp * ourHelp = nil;
     options: 0
     range: NSMakeRange(0, searchResults.length)];
   
+  [searchResults
+    replaceOccurrencesOfString: @"<showall></showall>"
+    withString: showAll
+    options: 0
+    range: NSMakeRange(0, searchResults.length)];
+
+  [searchResults
+    replaceOccurrencesOfString: @"<searchweb></searchweb>"
+    withString: searchWeb
+    options: 0
+    range: NSMakeRange(0, searchResults.length)];
+
   NSString * searchResultsKey =
     [self helpBundleDictionaryValue: @"ESHelpSearchResults"];
   
@@ -899,6 +970,8 @@ ESHelp * ourHelp = nil;
   [header release];
   [searchResultsHeader release];
   [resultsCount release];
+  [showAll release];
+  [searchWeb release];
 #endif
   }
 
@@ -932,6 +1005,72 @@ ESHelp * ourHelp = nil;
     [helpBundle objectForInfoDictionaryKey: @"HPDBookIconPath"];
     
   return [@"../.." stringByAppendingPathComponent: appIconPath];
+  }
+
+- (void) performWebSearch
+  {
+  NSLog(@"performWebSearch: %@", self.currentSearch);
+
+  NSString * appName =
+    [[NSBundle mainBundle]
+      objectForInfoDictionaryKey: @"CFBundleName"];
+
+  NSPasteboard * pboard = [NSPasteboard pasteboardWithUniqueName];
+
+  NSString * restrictedQuery =
+    [[NSString alloc]
+      initWithFormat: @"\"%@\" %@ mac", self.currentSearch, appName];
+
+  [pboard
+    declareTypes: [NSArray arrayWithObject: NSPasteboardTypeString]
+    owner: nil];
+
+  [pboard setString: restrictedQuery forType: NSPasteboardTypeString];
+
+#if !__has_feature(objc_arc)
+  [restrictedQuery release];
+#endif
+
+  if([self performSearch: @"Google" pasteboard: pboard])
+    return;
+
+  if([self performSearch: @"DuckDuckGo" pasteboard: pboard])
+    return;
+
+  if([self performSearch: @"Bing" pasteboard: pboard])
+    return;
+
+  if([self performSearch: @"Yahoo" pasteboard: pboard])
+    return;
+  }
+  
+- (BOOL) performSearch: (NSString *) engine
+  pasteboard: (NSPasteboard *) pboard
+  {
+  NSString * serviceName =
+    [[NSString alloc]
+      initWithFormat:
+        @"%@ %@", NSLocalizedString(@"Search With", NULL), engine];
+    
+  BOOL result = NSPerformService(serviceName, pboard);
+  
+#if !__has_feature(objc_arc)
+  [serviceName release];
+#endif
+
+  if(!result)
+    {
+    serviceName =
+      [[NSString alloc] initWithFormat: @"%@ %@", @"Search With", engine];
+      
+    result = NSPerformService(serviceName, pboard);
+  
+#if !__has_feature(objc_arc)
+    [serviceName release];
+#endif
+    }
+    
+  return result;
   }
 
 #pragma mark - NSSharingServicePickerDelegate conformance

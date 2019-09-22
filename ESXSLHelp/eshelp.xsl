@@ -122,6 +122,8 @@
 
   </xsl:template>
 
+  <!-- The mode attribute is useful to have two different apps share the
+       same help text. -->
   <xsl:template match="@*[@mode] | node()[@mode]">
     <xsl:if test="@mode = $mode">
       <xsl:copy>

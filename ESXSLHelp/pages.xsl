@@ -15,4 +15,6 @@
 
   <xsl:include href="eshelp.xsl"/>
 
+  <!-- This is the default (non-index) page. -->
+  
 </xsl:stylesheet>

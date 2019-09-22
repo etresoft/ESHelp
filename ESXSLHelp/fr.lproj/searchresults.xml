@@ -6,14 +6,16 @@
     <import>eshelp.css</import>
   </css>
   <js>
-    <script>jquery.js</script>
     <script>eshelp.js</script>
   </js>
   <header>
     <searchresultsheader/>
   </header>
   <meta name="ROBOTS" content="NOINDEX"/>
+  <!-- This is a template that will be replaced at runtime. -->
   <content>
     <searchresults/>
+    <showall/>
+    <searchweb/>
   </content>
 </page>

@@ -36,7 +36,6 @@
 		A5B36FA30BF2A9CF00D372D4 /* index.xsl */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = index.xsl; sourceTree = "<group>"; };
 		A5B36FA40BF2A9CF00D372D4 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		A5D5F7CE233278F600A3DF1B /* eshelp.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = eshelp.js; path = scripts/eshelp.js; sourceTree = "<group>"; };
-		A5D5F7CF23327BE400A3DF1B /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = jquery.js; path = scripts/jquery.js; sourceTree = "<group>"; };
 		A5D97561232940CB00098AE9 /* eshelp.xsl */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = eshelp.xsl; sourceTree = "<group>"; };
 		A5D97562232940E500098AE9 /* eshelp.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = eshelp.css; sourceTree = "<group>"; };
 		A5EA0D8E2333DBBF00F52D01 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = fr; path = fr.lproj/searchresults.xml; sourceTree = "<group>"; };
@@ -65,7 +64,6 @@
 				A56F8E61202BF8ED00394F77 /* pages.xsl */,
 				A5D97562232940E500098AE9 /* eshelp.css */,
 				A5D5F7CE233278F600A3DF1B /* eshelp.js */,
-				A5D5F7CF23327BE400A3DF1B /* jquery.js */,
 				A5B36FA40BF2A9CF00D372D4 /* Makefile */,
 				A55B6E1811289AD800DE8990 /* Makefile.localized */,
 				A53AAE31201FAAD700769E2C /* Info.plist */,

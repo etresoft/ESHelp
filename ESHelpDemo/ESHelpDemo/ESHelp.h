@@ -42,6 +42,9 @@
 // Search results template.
 @property (strong) NSString * searchResultsTemplate;
 
+// Current search text.
+@property (strong) NSString * currentSearch;
+
 // Can I go back?
 @property (assign) BOOL canGoBack;
 

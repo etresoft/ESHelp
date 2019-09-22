@@ -8,7 +8,6 @@
     <import>eshelp</import>
   </css>
   <js>
-    <script>jquery.js</script>
     <script>eshelp.js</script>
   </js>
   <menu src="menu.xml" menuid="index"/>

@@ -10,6 +10,45 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 
+@implementation ScriptRunner
+
+@synthesize handler = myHandler;
+
++ (NSString *) webScriptNameForSelector: (SEL) sel
+  {
+  if(sel == @selector(postMessage:))
+    return @"postMessage";
+ 
+  return NSStringFromSelector(sel);
+  }
+
++ (BOOL) isSelectorExcludedFromWebScript: (SEL) sel
+  {
+  if(sel == @selector(postMessage:))
+    return NO;
+    
+  return YES;
+  }
+
+- (void) dealloc
+  {
+  self.handler = nil;
+  
+#if !__has_feature(objc_arc)
+  [super dealloc];
+#endif
+  }
+
+- (NSString *) postMessage: (NSObject *) object
+  {
+  if(self.handler != nil)
+    return self.handler(object);
+    
+  return nil;
+  }
+
+@end
+
 @implementation NSView (ESKit)
 
 // Expand this view to fit its superview.
@@ -63,6 +102,14 @@
 
 @end
 
+@interface ESWebView ()
+
+// Script handlers can't be installed until after loading.
+@property (readonly) NSMutableDictionary * scriptHandlers;
+@property (readonly) NSMutableDictionary * installedScriptHandlers;
+
+@end
+
 @implementation ESWebView
 
 // The desired web view API.
@@ -83,6 +130,10 @@
 // Is a forwards navigation allowed?
 @dynamic canGoForward;
 
+// Script handlers can't be installed until after loading.
+@synthesize scriptHandlers = myScriptHandlers;
+@synthesize installedScriptHandlers = myInstalledScriptHandlers;
+
 - (BOOL) canGoBack
   {
   if(self.wkWebView != nil)
@@ -97,6 +148,24 @@
     return self.wkWebView.canGoForward;
     
   return self.webView.canGoForward;
+  }
+
+// Script handlers.
+- (NSMutableDictionary *) scriptHandlers
+  {
+  if(myScriptHandlers == nil)
+    myScriptHandlers = [NSMutableDictionary new];
+    
+  return myScriptHandlers;
+  }
+
+// Installed script handlers.
+- (NSMutableDictionary *) installedScriptHandlers
+  {
+  if(myInstalledScriptHandlers == nil)
+    myInstalledScriptHandlers = [NSMutableDictionary new];
+    
+  return myInstalledScriptHandlers;
   }
 
 // Destructor.
@@ -114,6 +183,9 @@
   self.readyHandler = nil;
   
 #if !__has_feature(objc_arc)
+  [myScriptHandlers release];
+  [myInstalledScriptHandlers release];
+
   [myWkWebView release];
   [myWebView release];
 
@@ -199,7 +271,7 @@
 
 - (void) createWebView
   {
-  //self.api = kWebKit;
+  self.api = kWebKit;
   
   if(self.api == kWKWebKit)
     if([WKWebView class] != nil)
@@ -284,6 +356,22 @@
 #pragma mark - WKNavigationDelegate conformance
 
 - (void) webView: (WKWebView *) webView
+  didCommitNavigation: (WKNavigation *) navigation
+  {
+  for(NSString * key in self.scriptHandlers)
+    {
+    ScriptHandler handler = [self.scriptHandlers objectForKey: key];
+    
+    [webView.configuration.userContentController
+      addScriptMessageHandler: self name: key];
+    
+    [self.installedScriptHandlers setObject: handler forKey: key];
+    }
+
+  [self.scriptHandlers removeAllObjects];
+  }
+
+- (void) webView: (WKWebView *) webView
   didFinishNavigation: (WKNavigation *) navigation
   {
   if(self.readyHandler != nil)
@@ -295,6 +383,23 @@
 - (void) webView: (WebView *) sender
   didFinishLoadForFrame: (WebFrame *) frame
   {
+  for(NSString * key in self.scriptHandlers)
+    {
+    ScriptHandler handler = [self.scriptHandlers objectForKey: key];
+    
+    ScriptRunner * scriptRunner = [ScriptRunner new];
+    
+    scriptRunner.handler = handler;
+    
+    id win = [self.webView windowScriptObject];
+    
+    [win setValue: scriptRunner forKey: key];
+    
+#if !__has_feature(objc_arc)
+    [scriptRunner release];
+#endif
+    }
+
   if(self.readyHandler != nil)
     self.readyHandler();
   }
@@ -325,6 +430,45 @@
   if([keyPath isEqualToString: @"effectiveAppearance"])
     {
     }
+  }
+
+#pragma mark - WKScriptMessageHandler
+
+- (void)
+  userContentController: (WKUserContentController *) userContentController
+  didReceiveScriptMessage: (WKScriptMessage *) message
+  {
+  //NSLog(@"receipted scripthandler for %@", message.name);
+  ScriptHandler handler =
+    [self.installedScriptHandlers objectForKey: message.name];
+  
+  if(handler != nil)
+    handler(message.body);
+  }
+
+#pragma mark - Script handling
+
+// Add a script handler.
+- (void) addScriptHandler: (ScriptHandler) handler forKey: (NSString *) key
+  {
+  ScriptHandler handlerCopy = [handler copy];
+  
+  [self.scriptHandlers setObject: handlerCopy forKey: key];
+  
+#if !__has_feature(objc_arc)
+  [handlerCopy release];
+#endif
+  }
+
+// Remove a script handler.
+- (void) removeScriptHandlerForKey: (NSString *) key
+  {
+  if([self.installedScriptHandlers objectForKey: key] != nil)
+    [self.wkWebView.configuration.userContentController
+      removeScriptMessageHandlerForName: key];
+    
+  [self.scriptHandlers removeObjectForKey: key];
+  [self.installedScriptHandlers removeObjectForKey: key];
   }
 
 @end

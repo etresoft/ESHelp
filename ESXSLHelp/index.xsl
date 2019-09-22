@@ -15,6 +15,8 @@
 
   <xsl:include href="eshelp.xsl"/>
 
+  <!-- In Apple's help example, the index file is one level higher than
+       other pages. -->
   <!-- Convert css nodes into css import rules. -->
   <xsl:template match="css">
   

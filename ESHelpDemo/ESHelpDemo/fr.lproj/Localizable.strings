@@ -1,0 +1,10 @@
+/* 
+  LocalizableStrings.strings
+  ESHelpDemo
+
+  Created by John Daniel on 2019-09-22.
+  Copyright © 2019 Etresoft, Inc. All rights reserved.
+*/
+
+"showallicon" = "⌃";
+"searchwebicon" = "↗︎";
