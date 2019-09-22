@@ -5,6 +5,9 @@
   <item id="about">
     <name>About myapp</name>
   </item>
+  <item id="credits">
+    <name>Credits</name>
+  </item>
   <item id="releasenotes">
     <name>Release Notes</name>
   </item>

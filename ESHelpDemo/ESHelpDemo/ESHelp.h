@@ -78,6 +78,8 @@
 - (void) search: (NSString *) search;
 
 - (void) addURLToHistory: (NSURL *) url;
+
+- (void) openExternalURL: (NSURL *) url;
 - (BOOL) isSearchURL: (NSURL *) url;
 
 @end

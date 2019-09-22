@@ -5,6 +5,9 @@
   <item id="about">
     <name>À propos de mycompany</name>
   </item>
+  <item id="credits">
+    <name>Remerciements</name>
+  </item>
   <item id="releasenotes">
     <name>Historique</name>
   </item>

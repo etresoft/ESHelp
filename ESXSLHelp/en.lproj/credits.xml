@@ -13,6 +13,7 @@
   <meta name="ROBOTS" content="NOINDEX"/>
   <content>
     <p>Special thanks to all our friends!</p>
+    <p>Test an external URL: <a href="https://github.com">https://github.com</a></p>
     <hr/>
     <p>Apple, Finder, FireWire, Handoff, AirDrop, iMac, iMac Pro, Mac, MacBook, MacBook Air, MacBook Pro, Mac Mini, macOS, OS X, Retina, Safari, Time Machine are trademarks of Apple Inc.  Apple Store, iCloud are service marks of Apple Inc.</p>
   </content>

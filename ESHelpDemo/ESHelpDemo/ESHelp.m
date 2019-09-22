@@ -803,6 +803,11 @@ ESHelp * ourHelp = nil;
   self.canGoForward = (self.historyIndex < self.history.count);
   }
 
+- (void) openExternalURL: (NSURL *) url;
+  {
+  [[NSWorkspace sharedWorkspace] openURL: url];
+  }
+  
 - (BOOL) isSearchURL: (NSURL *) url
   {
   if(self.basePath != nil)

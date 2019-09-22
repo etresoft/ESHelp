@@ -368,7 +368,7 @@
   
   if(![url isFileURL])
     {
-    [[NSWorkspace sharedWorkspace] openURL: url];
+    [self.delegate openExternalURL: url];
 
     decisionHandler(WKNavigationActionPolicyCancel);
 
@@ -422,7 +422,7 @@
   
   if(![url isFileURL])
     {
-    [[NSWorkspace sharedWorkspace] openURL: url];
+    [self.delegate openExternalURL: url];
 
     [listener ignore];
 
@@ -453,7 +453,7 @@
   
   if(![url isFileURL])
     {
-    [[NSWorkspace sharedWorkspace] openURL: url];
+    [self.delegate openExternalURL: url];
 
     [listener ignore];
 
