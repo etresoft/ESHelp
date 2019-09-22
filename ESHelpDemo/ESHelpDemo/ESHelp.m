@@ -879,12 +879,12 @@ ESHelp * ourHelp = nil;
   NSString * resultsCountString =
     [NSString stringWithFormat: @"%lu", (unsigned long)results.count];
   
-  if(results.count == 0)
-    resultsCountString = NSLocalizedString(@"no", NULL);
-    
   NSString * resultsCount =
     [[NSString alloc]
       initWithFormat: @"%@ %@", resultsCountString, resultsUnits];
+    
+  if(results.count == 0)
+    resultsCount = NSLocalizedString(@"no results", NULL);
     
   NSString * header =
     [[NSString alloc]
@@ -1009,8 +1009,6 @@ ESHelp * ourHelp = nil;
 
 - (void) performWebSearch
   {
-  NSLog(@"performWebSearch: %@", self.currentSearch);
-
   NSString * appName =
     [[NSBundle mainBundle]
       objectForInfoDictionaryKey: @"CFBundleName"];
