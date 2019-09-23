@@ -256,7 +256,8 @@
 
 - (void) createWebView
   {
-  self.api = kWebKit;
+  // For testing legacy webkit.
+  //self.api = kWebKit;
   
   if(self.api == kWKWebKit)
     if([WKWebView class] != nil)
