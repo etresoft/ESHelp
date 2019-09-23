@@ -4,7 +4,7 @@
  **********************************************************************/
 
 #import "AppDelegate.h"
-#import <ESHelpKit/ESHelpKit.h>
+#import <ESHelp/ESHelp.h>
 
 @interface AppDelegate ()
 
@@ -26,28 +26,28 @@
 
 - (IBAction) helpFeature1: (id) sender
   {
-  ESHelp * help = [ESHelp shared];
+  ESHelpManager * help = [ESHelpManager shared];
   
   [help showHelpAnchor: @"feature1"];
   }
 
 - (IBAction) helpUse: (id) sender
   {
-  ESHelp * help = [ESHelp shared];
+  ESHelpManager * help = [ESHelpManager shared];
   
   [help showHelpAnchor: @"usemyapp"];
   }
 
 - (IBAction) helpFeature3: (id) sender
   {
-  ESHelp * help = [ESHelp shared];
+  ESHelpManager * help = [ESHelpManager shared];
   
   [help showHelpAnchor: @"feature3"];
   }
 
 - (IBAction) showHelp: (id) sender
   {
-  ESHelp * help = [ESHelp shared];
+  ESHelpManager * help = [ESHelpManager shared];
   
   [help showHelp];
   }

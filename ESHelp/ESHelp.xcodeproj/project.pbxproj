@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A56D090423382D2B00C04CCD /* ESHelpKit.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D090223382D2B00C04CCD /* ESHelpKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A56D090423382D2B00C04CCD /* ESHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D090223382D2B00C04CCD /* ESHelp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A56D091523382DD800C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D091223382DD800C04CCD /* Localizable.strings */; };
-		A56D091E23382FA100C04CCD /* ESHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091A23382FA100C04CCD /* ESHelp.m */; };
-		A56D091F23382FA100C04CCD /* ESHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091B23382FA100C04CCD /* ESHelp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A56D091E23382FA100C04CCD /* ESHelpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091A23382FA100C04CCD /* ESHelpManager.m */; };
+		A56D091F23382FA100C04CCD /* ESHelpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091B23382FA100C04CCD /* ESHelpManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A56D092023382FA100C04CCD /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091C23382FA100C04CCD /* ESHelpWebView.m */; };
 		A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091D23382FA100C04CCD /* ESHelpWebView.h */; };
 		A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D0925233861B900C04CCD /* ESHelpDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A56D08FF23382D2B00C04CCD /* ESHelpKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ESHelpKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A56D090223382D2B00C04CCD /* ESHelpKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpKit.h; sourceTree = "<group>"; };
+		A56D08FF23382D2B00C04CCD /* ESHelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ESHelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A56D090223382D2B00C04CCD /* ESHelp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelp.h; sourceTree = "<group>"; };
 		A56D090323382D2B00C04CCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A56D091323382DD800C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../../ESHelpDemo/ESHelpDemo/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D091423382DD800C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = ../../ESHelpDemo/ESHelpDemo/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A56D091A23382FA100C04CCD /* ESHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelp.m; sourceTree = "<group>"; };
-		A56D091B23382FA100C04CCD /* ESHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelp.h; sourceTree = "<group>"; };
+		A56D091A23382FA100C04CCD /* ESHelpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpManager.m; sourceTree = "<group>"; };
+		A56D091B23382FA100C04CCD /* ESHelpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpManager.h; sourceTree = "<group>"; };
 		A56D091C23382FA100C04CCD /* ESHelpWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A56D091D23382FA100C04CCD /* ESHelpWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
 		A56D0925233861B900C04CCD /* ESHelpDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDelegate.h; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		A56D08F523382D2B00C04CCD = {
 			isa = PBXGroup;
 			children = (
-				A56D090123382D2B00C04CCD /* ESHelpKit */,
+				A56D090123382D2B00C04CCD /* ESHelp */,
 				A56D090023382D2B00C04CCD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -51,24 +51,24 @@
 		A56D090023382D2B00C04CCD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A56D08FF23382D2B00C04CCD /* ESHelpKit.framework */,
+				A56D08FF23382D2B00C04CCD /* ESHelp.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A56D090123382D2B00C04CCD /* ESHelpKit */ = {
+		A56D090123382D2B00C04CCD /* ESHelp */ = {
 			isa = PBXGroup;
 			children = (
-				A56D090223382D2B00C04CCD /* ESHelpKit.h */,
+				A56D090223382D2B00C04CCD /* ESHelp.h */,
 				A56D0925233861B900C04CCD /* ESHelpDelegate.h */,
-				A56D091B23382FA100C04CCD /* ESHelp.h */,
-				A56D091A23382FA100C04CCD /* ESHelp.m */,
+				A56D091B23382FA100C04CCD /* ESHelpManager.h */,
+				A56D091A23382FA100C04CCD /* ESHelpManager.m */,
 				A56D091D23382FA100C04CCD /* ESHelpWebView.h */,
 				A56D091C23382FA100C04CCD /* ESHelpWebView.m */,
 				A56D091223382DD800C04CCD /* Localizable.strings */,
 				A56D090323382D2B00C04CCD /* Info.plist */,
 			);
-			path = ESHelpKit;
+			path = ESHelp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -78,8 +78,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A56D091F23382FA100C04CCD /* ESHelp.h in Headers */,
-				A56D090423382D2B00C04CCD /* ESHelpKit.h in Headers */,
+				A56D091F23382FA100C04CCD /* ESHelpManager.h in Headers */,
+				A56D090423382D2B00C04CCD /* ESHelp.h in Headers */,
 				A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */,
 				A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */,
 			);
@@ -88,9 +88,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		A56D08FE23382D2B00C04CCD /* ESHelpKit */ = {
+		A56D08FE23382D2B00C04CCD /* ESHelp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A56D090723382D2B00C04CCD /* Build configuration list for PBXNativeTarget "ESHelpKit" */;
+			buildConfigurationList = A56D090723382D2B00C04CCD /* Build configuration list for PBXNativeTarget "ESHelp" */;
 			buildPhases = (
 				A56D08FA23382D2B00C04CCD /* Headers */,
 				A56D08FB23382D2B00C04CCD /* Sources */,
@@ -101,9 +101,9 @@
 			);
 			dependencies = (
 			);
-			name = ESHelpKit;
+			name = ESHelp;
 			productName = ESHelp;
-			productReference = A56D08FF23382D2B00C04CCD /* ESHelpKit.framework */;
+			productReference = A56D08FF23382D2B00C04CCD /* ESHelp.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -120,7 +120,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A56D08F923382D2B00C04CCD /* Build configuration list for PBXProject "ESHelpKit" */;
+			buildConfigurationList = A56D08F923382D2B00C04CCD /* Build configuration list for PBXProject "ESHelp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -133,7 +133,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A56D08FE23382D2B00C04CCD /* ESHelpKit */,
+				A56D08FE23382D2B00C04CCD /* ESHelp */,
 			);
 		};
 /* End PBXProject section */
@@ -155,7 +155,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A56D092023382FA100C04CCD /* ESHelpWebView.m in Sources */,
-				A56D091E23382FA100C04CCD /* ESHelp.m in Sources */,
+				A56D091E23382FA100C04CCD /* ESHelpManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,14 +303,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ESHelpKit/Info.plist;
+				INFOPLIST_FILE = ESHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.etresoft.ESHelpKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.etresoft.ESHelp;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 			};
@@ -328,14 +328,14 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = ESHelpKit/Info.plist;
+				INFOPLIST_FILE = ESHelp/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.etresoft.ESHelpKit;
+				PRODUCT_BUNDLE_IDENTIFIER = com.etresoft.ESHelp;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 			};
@@ -344,7 +344,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A56D08F923382D2B00C04CCD /* Build configuration list for PBXProject "ESHelpKit" */ = {
+		A56D08F923382D2B00C04CCD /* Build configuration list for PBXProject "ESHelp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A56D090523382D2B00C04CCD /* Debug */,
@@ -353,7 +353,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A56D090723382D2B00C04CCD /* Build configuration list for PBXNativeTarget "ESHelpKit" */ = {
+		A56D090723382D2B00C04CCD /* Build configuration list for PBXNativeTarget "ESHelp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A56D090823382D2B00C04CCD /* Debug */,

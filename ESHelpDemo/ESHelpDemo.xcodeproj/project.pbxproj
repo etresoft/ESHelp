@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		A52F387023297CF60078F30D /* com.mycompany.myapp.help in Resources */ = {isa = PBXBuildFile; fileRef = A52F386F23297CF60078F30D /* com.mycompany.myapp.help */; };
 		A56D08F02337E6F400C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D08F22337E6F400C04CCD /* Localizable.strings */; };
-		A56D092323382FD600C04CCD /* ESHelpKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D092223382FD600C04CCD /* ESHelpKit.framework */; };
-		A56D092423382FD600C04CCD /* ESHelpKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A56D092223382FD600C04CCD /* ESHelpKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A56D09282339325500C04CCD /* ESHelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D09272339325500C04CCD /* ESHelp.framework */; };
+		A56D09292339325500C04CCD /* ESHelp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A56D09272339325500C04CCD /* ESHelp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */; };
 		A5D9755223293D1600098AE9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D9755123293D1600098AE9 /* AppDelegate.m */; };
 		A5D9755423293D1800098AE9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5D9755323293D1800098AE9 /* Assets.xcassets */; };
@@ -25,7 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A56D092423382FD600C04CCD /* ESHelpKit.framework in Embed Frameworks */,
+				A56D09292339325500C04CCD /* ESHelp.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,7 +37,7 @@
 		A56D08F12337E6F400C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D08F32337E73900C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
 		A56D08F42337E73900C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A56D092223382FD600C04CCD /* ESHelpKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ESHelpKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A56D09272339325500C04CCD /* ESHelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ESHelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D6530B2331A62B009A891E /* ESHelpDemoApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDemoApplication.h; sourceTree = "<group>"; };
 		A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelpDemoApplication.m; sourceTree = "<group>"; };
 		A5D9754D23293D1600098AE9 /* ESHelpDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ESHelpDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A56D092323382FD600C04CCD /* ESHelpKit.framework in Frameworks */,
+				A56D09282339325500C04CCD /* ESHelp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +65,7 @@
 		A5D9754423293D1600098AE9 = {
 			isa = PBXGroup;
 			children = (
-				A56D092223382FD600C04CCD /* ESHelpKit.framework */,
+				A56D09272339325500C04CCD /* ESHelp.framework */,
 				A52F386F23297CF60078F30D /* com.mycompany.myapp.help */,
 				A5D9754F23293D1600098AE9 /* ESHelpDemo */,
 				A5D9754E23293D1600098AE9 /* Products */,
