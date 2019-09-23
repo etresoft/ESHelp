@@ -198,6 +198,10 @@ ESHelpManager * ourHelp = nil;
 
   NSArray * lines = [text componentsSeparatedByString: @"\n"];
   
+#if !__has_feature(objc_arc)
+  [text release];
+#endif
+
   NSMutableDictionary * helpFiles = [NSMutableDictionary new];
   
   NSString * foundPath = nil;
@@ -227,7 +231,7 @@ ESHelpManager * ourHelp = nil;
         [helpFiles setObject: dict forKey: foundPath];
 
 #if !__has_feature(objc_arc)
-        [data release];
+        [dict release];
 #endif
         }
         
@@ -270,7 +274,7 @@ ESHelpManager * ourHelp = nil;
   self.helpFiles = helpFiles;
 
 #if !__has_feature(objc_arc)
-  [lines release];
+  [helpFiles release];
 #endif
   }
 
@@ -285,13 +289,12 @@ ESHelpManager * ourHelp = nil;
     [[NSAttributedString alloc]
       initWithHTML: data baseURL: baseURL documentAttributes: NULL];
 
-  if(attributedString == nil)
-    return nil;
-    
-  NSString * text = attributedString.string;
+  NSString * text = [attributedString.string copy];
   
 #if !__has_feature(objc_arc)
+  [text autorelease];
   [attributedString release];
+  [data release];
 #endif
 
   return text;
@@ -314,6 +317,7 @@ ESHelpManager * ourHelp = nil;
   self.searchToolbarItemView = nil;
   self.searchField = nil;
   self.searchResultsTemplate = nil;
+  self.currentSearch = nil;
   self.webview = nil;
   self.basePath = nil;
   self.helpIndex = nil;
@@ -906,8 +910,7 @@ ESHelpManager * ourHelp = nil;
     [NSString stringWithFormat: @"%lu", (unsigned long)results.count];
   
   NSString * resultsCount =
-    [[NSString alloc]
-      initWithFormat: @"%@ %@", resultsCountString, resultsUnits];
+    [NSString stringWithFormat: @"%@ %@", resultsCountString, resultsUnits];
     
   if(results.count == 0)
     resultsCount = NSLocalizedString(@"no results", NULL);
@@ -992,10 +995,10 @@ ESHelpManager * ourHelp = nil;
   [self.webview loadHTML: searchResults baseURL: baseURL];
   
 #if !__has_feature(objc_arc)
+  [searchResults release];
   [ul release];
   [header release];
-  [searchResultsHeader release];
-  [resultsCount release];
+  [searchResultHeader release];
   [showAll release];
   [searchWeb release];
 #endif
