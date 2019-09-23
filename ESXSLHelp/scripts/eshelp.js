@@ -33,16 +33,6 @@ function showall()
     hr[i].style.display = 'none';
   }
 
-function message(text)
-  {
-  var ul = document.querySelectorAll("ul.searchresults");
-
-  var li = document.createElement("LI");                 // Create a <li> node
-  var textnode = document.createTextNode(text);         // Create a text node
-  li.appendChild(textnode);                              // Append the text to
-  ul[0].appendChild(li);
-  }
-
 // Search the web for help.
 function searchweb()
   {
