@@ -33,10 +33,10 @@
 
     <div class="header">
 
-      <a href="https://www.mycompany.com">
-        <img src="../shrd/mycompany.png" alt="mycompany" class="companylogo"/>
-      </a>
-      <img src="../shrd/myapp.png" alt="Icon" class="applogo"/>
+      <!-- Copy an external source. -->
+      <xsl:if test="@src">
+        <xsl:copy-of select="document(@src)/header/*[@mode = 'index']"/>
+      </xsl:if>
 
       <!-- Copy inline HTML. -->
       <xsl:copy-of select="./*"/>

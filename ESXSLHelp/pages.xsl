@@ -17,4 +17,24 @@
 
   <!-- This is the default (non-index) page. -->
   
+  <!-- Include a header into the output. -->
+  <xsl:template match="header">
+
+    <div class="header">
+
+      <!-- Copy an external source. -->
+      <xsl:if test="@src">
+        <xsl:copy-of select="document(@src)/header/*[@mode='pages']"/>
+      </xsl:if>
+
+      <!-- Copy inline HTML. -->
+      <xsl:copy-of select="./*"/>
+
+      <!-- Copy the page title. -->
+      <h1><xsl:value-of select="../title"/></h1>
+
+    </div>
+
+  </xsl:template>
+
 </xsl:stylesheet>

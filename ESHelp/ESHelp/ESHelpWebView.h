@@ -34,7 +34,7 @@ typedef void (^CompletionHandler)(id result);
 typedef NSString * (^ScriptHandler)(NSObject * object);
 
 // Shim to get ScriptHandler working with legacy webview.
-@interface ScriptRunner : NSObject
+@interface ESHelpScriptRunner : NSObject
 
 @property (strong) ScriptHandler handler;
 

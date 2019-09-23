@@ -77,17 +77,6 @@ ESHelpManager * ourHelp = nil;
   return YES;
   }
 
-+ (void) load
-  {
-  if(ourHelp == nil)
-    {
-    ourHelp = [ESHelpManager new];
-    
-    [[NSApplication sharedApplication]
-      registerUserInterfaceItemSearchHandler: ourHelp];
-    }
-  }
-
 + (ESHelpManager *) sharedHelpManager
   {
   return ourHelp;
@@ -102,6 +91,9 @@ ESHelpManager * ourHelp = nil;
     {
     ourHelp = self;
     
+    [[NSApplication sharedApplication]
+      registerUserInterfaceItemSearchHandler: ourHelp];
+      
     NSString * helpPath =
       [[NSBundle mainBundle]
         objectForInfoDictionaryKey: @"CFBundleHelpBookFolder"];

@@ -11,7 +11,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 
-@implementation ScriptRunner
+@implementation ESHelpScriptRunner
 
 @synthesize handler = myHandler;
 
@@ -256,7 +256,7 @@
 
 - (void) createWebView
   {
-  //self.api = kWebKit;
+  self.api = kWebKit;
   
   if(self.api == kWKWebKit)
     if([WKWebView class] != nil)
@@ -461,7 +461,7 @@
     {
     ScriptHandler handler = [self.scriptHandlers objectForKey: key];
     
-    ScriptRunner * scriptRunner = [ScriptRunner new];
+    ESHelpScriptRunner * scriptRunner = [ESHelpScriptRunner new];
     
     scriptRunner.handler = handler;
     
