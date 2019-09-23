@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <header>
-  <a href="https://www.mycompany.com">
+  <a mode="pages" href="https://www.mycompany.com">
     <img src="../../shrd/mycompany.png" alt="mycompany" class="companylogo"/>
   </a>
-  <img src="../../shrd/myapp.png" alt="Icon" class="applogo"/>
+  <img mode="pages" src="../../shrd/myapp.png" alt="Icon" class="applogo"/>
+  <a mode="index" href="https://www.mycompany.com">
+    <img src="../shrd/mycompany.png" alt="mycompany" class="companylogo"/>
+  </a>
+  <img mode="index" src="../shrd/myapp.png" alt="Icon" class="applogo"/>
 </header>
 
