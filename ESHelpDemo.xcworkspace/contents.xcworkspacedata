@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:ESXSLHelp/ESXSLHelp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/jdaniel/Desktop/ESHelp/ESHelp/ESHelp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "container:ESHelpDemo/ESHelpDemo.xcodeproj">
+   </FileRef>
+</Workspace>
