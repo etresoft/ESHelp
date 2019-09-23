@@ -4,6 +4,7 @@
  **********************************************************************/
 
 #import <Cocoa/Cocoa.h>
+#import "ESHelpDelegate.h"
 
 @class ESHelpWebView;
 
@@ -11,7 +12,8 @@
   <NSToolbarDelegate,
   NSSharingServiceDelegate,
   NSSharingServicePickerDelegate,
-  NSSharingServicePickerTouchBarItemDelegate>
+  NSSharingServicePickerTouchBarItemDelegate,
+  NSUserInterfaceItemSearching>
 
 @property (strong) IBOutlet NSPanel * window;
 
@@ -67,6 +69,8 @@
 @property (strong) NSDictionary * helpIndex;
 @property (strong) NSDictionary * helpFiles;
 
+@property (strong) id<ESHelpDelegate> delegate;
+
 + (ESHelp *) shared;
 
 - (void) showHelp;
@@ -77,8 +81,8 @@
 
 - (void) search: (NSString *) search;
 
+// For ESHelpWebView.
 - (void) addURLToHistory: (NSURL *) url;
-
 - (void) openExternalURL: (NSURL *) url;
 - (BOOL) isSearchURL: (NSURL *) url;
 

@@ -12,3 +12,4 @@ FOUNDATION_EXPORT double ESHelpVersionNumber;
 FOUNDATION_EXPORT const unsigned char ESHelpVersionString[];
 
 #import <ESHelpKit/ESHelp.h>
+#import <ESHelpKit/ESHelpDelegate.h>

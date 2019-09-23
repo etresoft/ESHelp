@@ -13,6 +13,7 @@
 		A56D091F23382FA100C04CCD /* ESHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091B23382FA100C04CCD /* ESHelp.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A56D092023382FA100C04CCD /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091C23382FA100C04CCD /* ESHelpWebView.m */; };
 		A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091D23382FA100C04CCD /* ESHelpWebView.h */; };
+		A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D0925233861B900C04CCD /* ESHelpDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		A56D091B23382FA100C04CCD /* ESHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelp.h; sourceTree = "<group>"; };
 		A56D091C23382FA100C04CCD /* ESHelpWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A56D091D23382FA100C04CCD /* ESHelpWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
+		A56D0925233861B900C04CCD /* ESHelpDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				A56D090223382D2B00C04CCD /* ESHelpKit.h */,
+				A56D0925233861B900C04CCD /* ESHelpDelegate.h */,
 				A56D091B23382FA100C04CCD /* ESHelp.h */,
 				A56D091A23382FA100C04CCD /* ESHelp.m */,
 				A56D091D23382FA100C04CCD /* ESHelpWebView.h */,
@@ -77,6 +80,7 @@
 			files = (
 				A56D091F23382FA100C04CCD /* ESHelp.h in Headers */,
 				A56D090423382D2B00C04CCD /* ESHelpKit.h in Headers */,
+				A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */,
 				A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

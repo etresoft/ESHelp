@@ -70,16 +70,26 @@ ESHelp * ourHelp = nil;
 @synthesize helpIndex = myHelpIndex;
 @synthesize helpFiles = myHelpFiles;
 
+@synthesize delegate = myDelegate;
+
 - (BOOL) canShare
   {
   return YES;
   }
 
-+ (ESHelp *) shared
++ (void) load
   {
   if(ourHelp == nil)
+    {
     ourHelp = [ESHelp new];
     
+    [[NSApplication sharedApplication]
+      registerUserInterfaceItemSearchHandler: ourHelp];
+    }
+  }
+
++ (ESHelp *) shared
+  {
   return ourHelp;
   }
 
@@ -308,6 +318,7 @@ ESHelp * ourHelp = nil;
   self.basePath = nil;
   self.helpIndex = nil;
   self.helpFiles = nil;
+  self.delegate = nil;
   
 #if !__has_feature(objc_arc)
   [super dealloc];
@@ -334,16 +345,6 @@ ESHelp * ourHelp = nil;
       
       [weakSelf setAppearance: [weakSelf appearanceName]];
     };
-
-  [self.webview
-    addScriptHandler:
-      ^NSString * (NSObject * object)
-        {
-        [weakSelf performWebSearch];
-          
-        return @"OK";
-        }
-    forKey: @"help"];
   }
 
 - (void) createHelpWindow
@@ -412,6 +413,18 @@ ESHelp * ourHelp = nil;
   
   self.webview.delegate = self;
   
+  __weak ESHelp * weakSelf = self;
+
+  [self.webview
+    addScriptHandler:
+      ^NSString * (NSObject * object)
+        {
+        [weakSelf performWebSearch];
+          
+        return @"OK";
+        }
+    forKey: @"help"];
+
   [self.window setContentView: self.webview];
   
   NSString * helpName =
@@ -717,6 +730,8 @@ ESHelp * ourHelp = nil;
     } */
   }
 
+#pragma mark - Searching
+
 - (IBAction) performSearch: (id) sender
   {
   NSSearchField * searchField = sender;
@@ -738,30 +753,33 @@ ESHelp * ourHelp = nil;
 #endif
   }
 
-- (void) search: (NSString *) search
+- (void) search: (NSString *) searchString
+  {
+  NSArray * matches = [self findMatches: searchString];
+    
+  [self showMatches: matches];
+  }
+
+- (NSArray *) findMatches: (NSString *) searchString
   {
   NSMutableArray * matches = [NSMutableArray array];
   
-  if(search.length > 0)
+  if(searchString.length > 0)
     {
     for(NSString * path in self.helpFiles)
       {
-      NSDictionary * dict = self.helpFiles[path];
+      NSDictionary * match = self.helpFiles[path];
       
-      NSString * text = dict[@"text"];
+      NSString * text = match[@"text"];
       
-      NSRange range = [text rangeOfString: search];
+      NSRange range = [text rangeOfString: searchString];
       
       if(range.location != NSNotFound)
-        [matches addObject: dict];
+        [matches addObject: match];
       }
     }
     
-  [self showMatches: matches];
-  
-#if !__has_feature(objc_arc)
-  [matches autorelease];
-#endif
+  return matches;
   }
 
 - (void) addURLToHistory: (NSURL *) url
@@ -805,7 +823,10 @@ ESHelp * ourHelp = nil;
 
 - (void) openExternalURL: (NSURL *) url;
   {
-  [[NSWorkspace sharedWorkspace] openURL: url];
+  if([self.delegate respondsToSelector: @selector(openExternalURL:)])
+    [self.delegate openExternalURL: url];
+  else
+    [[NSWorkspace sharedWorkspace] openURL: url];
   }
   
 - (BOOL) isSearchURL: (NSURL *) url
@@ -1074,6 +1095,32 @@ ESHelp * ourHelp = nil;
     }
     
   return result;
+  }
+
+#pragma mark - NSUserInterfaceItemSearching
+
+- (NSArray<NSString *> *) localizedTitlesForItem: (id) item
+  {
+  return @[item[@"title"]];
+  }
+
+- (void) searchForItemsWithSearchString: (NSString *) searchString
+  resultLimit: (NSInteger) resultLimit
+  matchedItemHandler: (void (^)(NSArray * items)) handleMatchedItems
+  {
+  NSArray * matches = [self findMatches: searchString];
+  
+  if(handleMatchedItems != nil)
+    handleMatchedItems(matches);
+  }
+
+- (void) performActionForItem: (id) item
+  {
+  [self setup];
+
+  [self.window makeKeyAndOrderFront: self];
+
+  [self showHelpURL: item[@"url"]];
   }
 
 #pragma mark - NSSharingServicePickerDelegate conformance
