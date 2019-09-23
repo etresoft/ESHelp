@@ -88,7 +88,7 @@ ESHelpManager * ourHelp = nil;
     }
   }
 
-+ (ESHelpManager *) shared
++ (ESHelpManager *) sharedHelpManager
   {
   return ourHelp;
   }

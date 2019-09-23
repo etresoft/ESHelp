@@ -71,7 +71,7 @@
 
 @property (strong) id<ESHelpDelegate> delegate;
 
-+ (ESHelpManager *) shared;
++ (ESHelpManager *) sharedHelpManager;
 
 - (void) showHelp;
 

@@ -175,15 +175,6 @@
 // Destructor.
 - (void) dealloc
   {
-  BOOL removeObserver = (self.wkWebView != nil);
-
-  if(!removeObserver)
-    removeObserver = (self.webView != nil);
-    
-  if(removeObserver)
-    [[NSApplication sharedApplication]
-      removeObserver: self forKeyPath: @"effectiveAppearance"];
-
   self.delegate = nil;
   self.readyHandler = nil;
   
@@ -261,17 +252,6 @@
     return;
     
   [self createWebView];
-  
-  BOOL addObserver = (self.wkWebView == nil);
-    
-  if(!addObserver)
-    addObserver = (self.webView != nil);
-    
-  [[NSApplication sharedApplication]
-    addObserver: self
-    forKeyPath: @"effectiveAppearance"
-    options: 0
-    context: NULL];
   }
 
 - (void) createWebView
@@ -512,18 +492,6 @@
   {
   [self.wkWebView goForward: sender];
   [self.webView goForward: sender];
-  }
-
-#pragma mark - Appearance changes
-
-- (void) observeValueForKeyPath: (NSString *) keyPath
-  ofObject: (id) object
-  change: (NSDictionary *) change
-  context: (void *) context
-  {
-  if([keyPath isEqualToString: @"effectiveAppearance"])
-    {
-    }
   }
 
 #pragma mark - WKScriptMessageHandler

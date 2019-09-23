@@ -26,28 +26,28 @@
 
 - (IBAction) helpFeature1: (id) sender
   {
-  ESHelpManager * help = [ESHelpManager shared];
+  ESHelpManager * help = [ESHelpManager sharedHelpManager];
   
   [help showHelpAnchor: @"feature1"];
   }
 
 - (IBAction) helpUse: (id) sender
   {
-  ESHelpManager * help = [ESHelpManager shared];
+  ESHelpManager * help = [ESHelpManager sharedHelpManager];
   
   [help showHelpAnchor: @"usemyapp"];
   }
 
 - (IBAction) helpFeature3: (id) sender
   {
-  ESHelpManager * help = [ESHelpManager shared];
+  ESHelpManager * help = [ESHelpManager sharedHelpManager];
   
   [help showHelpAnchor: @"feature3"];
   }
 
 - (IBAction) showHelp: (id) sender
   {
-  ESHelpManager * help = [ESHelpManager shared];
+  ESHelpManager * help = [ESHelpManager sharedHelpManager];
   
   [help showHelp];
   }
