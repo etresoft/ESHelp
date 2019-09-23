@@ -116,7 +116,11 @@ ESHelpManager * ourHelp = nil;
     NSString * localizedHelpBasePath =
       [helpBasePath
         stringByAppendingPathComponent:
-          NSLocalizedString(@"en.lproj", NULL)];
+          NSLocalizedStringFromTableInBundle(
+            @"en.lproj",
+            @"Localizable",
+            [NSBundle bundleForClass: [ESHelpManager class]],
+            NULL)];
       
     self.basePath = localizedHelpBasePath;
     
@@ -580,8 +584,22 @@ ESHelpManager * ourHelp = nil;
   NSToolbarItem * item =
     [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
   
-  [item setLabel: NSLocalizedString(@"Back/Forward", nil)];
-  [item setPaletteLabel: NSLocalizedString(@"Back/Forward", nil)];
+  [item
+    setLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Back/Forward",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
+  [item
+    setPaletteLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Back/Forward",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
   [item setView: self.navigationToolbarItemView];
     
   [item setTarget: self];
@@ -603,8 +621,22 @@ ESHelpManager * ourHelp = nil;
   
   if([NSSharingServicePicker class])
     {
-    [item setLabel: NSLocalizedString(@"Share page", nil)];
-    [item setPaletteLabel: NSLocalizedString(@"Share page", nil)];
+    [item
+      setLabel:
+        NSLocalizedStringFromTableInBundle(
+        @"Share page",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
+    [item
+      setPaletteLabel: 
+        NSLocalizedStringFromTableInBundle(
+        @"Share page",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
     [item setView: self.shareToolbarItemView];
     }
     
@@ -634,8 +666,22 @@ ESHelpManager * ourHelp = nil;
   NSToolbarItem * item =
     [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
   
-  [item setLabel: NSLocalizedString(@"Search", nil)];
-  [item setPaletteLabel: NSLocalizedString(@"Search", nil)];
+  [item
+    setLabel:
+      NSLocalizedStringFromTableInBundle(
+        @"Search",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
+  [item
+    setPaletteLabel:
+      NSLocalizedStringFromTableInBundle(
+        @"Search",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
   [item setView: self.searchToolbarItemView];
   
   NSRect frame = self.searchField.frame;
@@ -901,11 +947,21 @@ ESHelpManager * ourHelp = nil;
   NSString * helpBookTitle =
     [self helpBundleDictionaryValue: @"HPDBookTitle"];
     
-  NSString * resultsUnits = NSLocalizedString(@"results", NULL);
-  
+  NSString * resultsUnits =
+      NSLocalizedStringFromTableInBundle(
+        @"results",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL);
+
   if(results.count == 1)
-    resultsUnits = NSLocalizedString(@"result", NULL);
-    
+    resultsUnits =
+      NSLocalizedStringFromTableInBundle(
+        @"result",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL);
+
   NSString * resultsCountString =
     [NSString stringWithFormat: @"%lu", (unsigned long)results.count];
   
@@ -913,8 +969,13 @@ ESHelpManager * ourHelp = nil;
     [NSString stringWithFormat: @"%@ %@", resultsCountString, resultsUnits];
     
   if(results.count == 0)
-    resultsCount = NSLocalizedString(@"no results", NULL);
-    
+    resultsCount =
+      NSLocalizedStringFromTableInBundle(
+        @"no results",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL);
+
   NSString * header =
     [[NSString alloc]
       initWithFormat:
@@ -939,8 +1000,16 @@ ESHelpManager * ourHelp = nil;
           linkTemplate,
           @"showalllink",
           @"showall()",
-          NSLocalizedString(@"Show all", NULL),
-          NSLocalizedString(@"showallicon", NULL),
+          NSLocalizedStringFromTableInBundle(
+            @"Show all",
+            @"Localizable",
+            [NSBundle bundleForClass: [ESHelpManager class]],
+            NULL),
+          NSLocalizedStringFromTableInBundle(
+            @"showallicon",
+            @"Localizable",
+            [NSBundle bundleForClass: [ESHelpManager class]],
+            NULL),
           @"<hr class=\"searchresults\">"];
 
   NSString * searchWeb =
@@ -949,8 +1018,16 @@ ESHelpManager * ourHelp = nil;
         linkTemplate,
         @"searchweblink",
         @"searchweb()",
-        NSLocalizedString(@"Search the web for more results", NULL),
-        NSLocalizedString(@"searchwebicon", NULL),
+        NSLocalizedStringFromTableInBundle(
+          @"Search the web for more results",
+          @"Localizable",
+          [NSBundle bundleForClass: [ESHelpManager class]],
+          NULL),
+        NSLocalizedStringFromTableInBundle(
+          @"searchwebicon",
+          @"Localizable",
+          [NSBundle bundleForClass: [ESHelpManager class]],
+          NULL),
         @""];
 
   NSMutableString * searchResults =
@@ -1077,7 +1154,13 @@ ESHelpManager * ourHelp = nil;
   NSString * serviceName =
     [[NSString alloc]
       initWithFormat:
-        @"%@ %@", NSLocalizedString(@"Search With", NULL), engine];
+        @"%@ %@",
+        NSLocalizedStringFromTableInBundle(
+          @"Search With",
+          @"Localizable",
+          [NSBundle bundleForClass: [ESHelpManager class]],
+          NULL),
+        engine];
     
   BOOL result = NSPerformService(serviceName, pboard);
   

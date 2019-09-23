@@ -8,25 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		A56D090423382D2B00C04CCD /* ESHelp.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D090223382D2B00C04CCD /* ESHelp.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A56D091523382DD800C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D091223382DD800C04CCD /* Localizable.strings */; };
 		A56D091E23382FA100C04CCD /* ESHelpManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091A23382FA100C04CCD /* ESHelpManager.m */; };
 		A56D091F23382FA100C04CCD /* ESHelpManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091B23382FA100C04CCD /* ESHelpManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A56D092023382FA100C04CCD /* ESHelpWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = A56D091C23382FA100C04CCD /* ESHelpWebView.m */; };
 		A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091D23382FA100C04CCD /* ESHelpWebView.h */; };
 		A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D0925233861B900C04CCD /* ESHelpDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A56D0948233944AC00C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D094A233944AC00C04CCD /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A56D08FF23382D2B00C04CCD /* ESHelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ESHelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A56D090223382D2B00C04CCD /* ESHelp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelp.h; sourceTree = "<group>"; };
 		A56D090323382D2B00C04CCD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A56D091323382DD800C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../../ESHelpDemo/ESHelpDemo/en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		A56D091423382DD800C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = ../../ESHelpDemo/ESHelpDemo/fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D091A23382FA100C04CCD /* ESHelpManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpManager.m; sourceTree = "<group>"; };
 		A56D091B23382FA100C04CCD /* ESHelpManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpManager.h; sourceTree = "<group>"; };
 		A56D091C23382FA100C04CCD /* ESHelpWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ESHelpWebView.m; sourceTree = "<group>"; };
 		A56D091D23382FA100C04CCD /* ESHelpWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESHelpWebView.h; sourceTree = "<group>"; };
 		A56D0925233861B900C04CCD /* ESHelpDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDelegate.h; sourceTree = "<group>"; };
+		A56D0949233944AC00C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A56D094B233944AD00C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +65,7 @@
 				A56D091A23382FA100C04CCD /* ESHelpManager.m */,
 				A56D091D23382FA100C04CCD /* ESHelpWebView.h */,
 				A56D091C23382FA100C04CCD /* ESHelpWebView.m */,
-				A56D091223382DD800C04CCD /* Localizable.strings */,
+				A56D094A233944AC00C04CCD /* Localizable.strings */,
 				A56D090323382D2B00C04CCD /* Info.plist */,
 			);
 			path = ESHelp;
@@ -143,7 +143,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A56D091523382DD800C04CCD /* Localizable.strings in Resources */,
+				A56D0948233944AC00C04CCD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,11 +162,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A56D091223382DD800C04CCD /* Localizable.strings */ = {
+		A56D094A233944AC00C04CCD /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A56D091323382DD800C04CCD /* en */,
-				A56D091423382DD800C04CCD /* fr */,
+				A56D0949233944AC00C04CCD /* en */,
+				A56D094B233944AD00C04CCD /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";

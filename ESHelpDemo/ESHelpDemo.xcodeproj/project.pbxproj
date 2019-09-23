@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A52F387023297CF60078F30D /* com.mycompany.myapp.help in Resources */ = {isa = PBXBuildFile; fileRef = A52F386F23297CF60078F30D /* com.mycompany.myapp.help */; };
-		A56D08F02337E6F400C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D08F22337E6F400C04CCD /* Localizable.strings */; };
 		A56D09282339325500C04CCD /* ESHelp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D09272339325500C04CCD /* ESHelp.framework */; };
 		A56D09292339325500C04CCD /* ESHelp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A56D09272339325500C04CCD /* ESHelp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A5D6530D2331A62B009A891E /* ESHelpDemoApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */; };
@@ -34,9 +33,7 @@
 
 /* Begin PBXFileReference section */
 		A52F386F23297CF60078F30D /* com.mycompany.myapp.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = com.mycompany.myapp.help; path = ../com.mycompany.myapp.help; sourceTree = "<group>"; };
-		A56D08F12337E6F400C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D08F32337E73900C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/MainMenu.strings; sourceTree = "<group>"; };
-		A56D08F42337E73900C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D09272339325500C04CCD /* ESHelp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ESHelp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5D6530B2331A62B009A891E /* ESHelpDemoApplication.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDemoApplication.h; sourceTree = "<group>"; };
 		A5D6530C2331A62B009A891E /* ESHelpDemoApplication.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ESHelpDemoApplication.m; sourceTree = "<group>"; };
@@ -90,7 +87,6 @@
 				A5D9755323293D1800098AE9 /* Assets.xcassets */,
 				A5D9755523293D1800098AE9 /* MainMenu.xib */,
 				A5D9755823293D1800098AE9 /* Info.plist */,
-				A56D08F22337E6F400C04CCD /* Localizable.strings */,
 				A5D9755923293D1800098AE9 /* main.m */,
 				A5D9755B23293D1800098AE9 /* ESHelpDemo.entitlements */,
 			);
@@ -163,7 +159,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A52F387023297CF60078F30D /* com.mycompany.myapp.help in Resources */,
-				A56D08F02337E6F400C04CCD /* Localizable.strings in Resources */,
 				A5D9755423293D1800098AE9 /* Assets.xcassets in Resources */,
 				A5D9755723293D1800098AE9 /* MainMenu.xib in Resources */,
 			);
@@ -206,15 +201,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		A56D08F22337E6F400C04CCD /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A56D08F12337E6F400C04CCD /* en */,
-				A56D08F42337E73900C04CCD /* fr */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		A5D9755523293D1800098AE9 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
