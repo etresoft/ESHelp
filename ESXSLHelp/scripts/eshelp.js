@@ -3,17 +3,6 @@
  ** Copyright (c) 2019. All rights reserved.
  **********************************************************************/
 
-// Change the class on the body to switch to Dark Mode.
-function setAppearance(appearanceName)
-  {
-  var body =
-    document.body || document.getElementsByTagName('body')[0];
-
-  body.setAttribute('class', appearanceName);
-
-  return appearanceName;
-  }
-
 // Show all search results.
 function showall()
   {

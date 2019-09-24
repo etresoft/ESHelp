@@ -135,13 +135,6 @@ ESHelpManager * ourHelp = nil;
     // Read additional data from the help bundle.
     [self readAnchorIndex];
     [self readFileIndex];
-    
-    // Watch for changes to dark/light mode.
-    [[NSApplication sharedApplication]
-      addObserver: self
-      forKeyPath: @"effectiveAppearance"
-      options: 0
-      context: NULL];
     }
     
   return self;
@@ -324,9 +317,6 @@ ESHelpManager * ourHelp = nil;
 // Destructor.
 - (void) dealloc
   {
-  [[NSApplication sharedApplication]
-    removeObserver: self forKeyPath: @"effectiveAppearance"];
-
   self.window = nil;
   self.toolbar = nil;
   self.navigationToolbarItemView = nil;
@@ -526,8 +516,6 @@ ESHelpManager * ourHelp = nil;
       
       weakSelf.canGoForward =
         (weakSelf.historyIndex < weakSelf.history.count);
-  
-      [weakSelf setAppearance: [weakSelf appearanceName]];
     };
 
   [self.webview loadURL: url];
@@ -1354,68 +1342,10 @@ ESHelpManager * ourHelp = nil;
   return items;
   }
 
-#pragma - Dark mode
-
-// Set the effective appearance.
-- (void) setAppearance: (NSString *) appearanceName
-  {
-  NSString * js =
-    [[NSString alloc]
-      initWithFormat: @"setAppearance(\"%@\")", appearanceName];
-  
-  [self.webview executeJavaScript: js completion: nil];
-
-#if !__has_feature(objc_arc)
-  [js release];
-#endif
-  }
-
-// Change to dark/ligh mode.
-- (void) observeValueForKeyPath: (NSString *) keyPath
-  ofObject: (id) object
-  change: (NSDictionary *) change
-  context: (void *) context
-  {
-  if([keyPath isEqualToString: @"effectiveAppearance"])
-    [self setAppearance: [self appearanceName]];
-  }
-
 // Handle an action from the UI.
 - (IBAction) showHelp: (id) sender
   {
   [self showHelp];
-  }
-
-// Get the current appearance.
-- (NSString *) appearanceName
-  {
-  NSString * name = @"Aqua";
-  
-  SEL effectiveAppearanceSelector =
-    NSSelectorFromString(@"effectiveAppearance");
-  
-  if(NSClassFromString(@"NSAppearance"))
-    {
-    NSAppearance * appearance = nil;
-    
-    NSApplication * app = [NSApplication sharedApplication];
-    
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-    if([app respondsToSelector: effectiveAppearanceSelector])
-      appearance = [app performSelector: effectiveAppearanceSelector];
-#pragma clang diagnostic pop
-
-    NSString * appearanceName = appearance.name;
-    
-    if(appearanceName.length > 16)
-      appearanceName = [appearance.name substringFromIndex: 16];
-      
-    if(appearanceName.length > 0)
-      name = appearanceName;
-    }
-    
-  return name;
   }
 
 @end

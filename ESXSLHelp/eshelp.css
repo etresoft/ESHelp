@@ -329,56 +329,59 @@ ul.searchresults
   cursor: default;
   }
 
-/* Override any elements that are under a "DarkAqua" body. */
+/* Dark mode support. */
 
-body.DarkAqua
+@media (prefers-color-scheme: dark)
   {
-  background: rgb(43, 43, 43);
-  }
+  body
+    {
+    background: rgb(43, 43, 43);
+    }
 
-.DarkAqua h1,
-.DarkAqua h2,
-.DarkAqua h3,
-.DarkAqua p,
-.DarkAqua th,
-.DarkAqua td,
-.DarkAqua li,
-.DarkAqua legend
-  {
-  color: rgb(210, 240, 210);
-  }
+  h1,
+  h2,
+  h3,
+  p,
+  th,
+  td,
+  li,
+  legend
+    {
+    color: rgb(210, 240, 210);
+    }
 
-.DarkAqua .header
-  {
-  color: rgb(210, 240, 210);
-  background: rgba(43, 43, 43, .6);
-  }
+  .header
+    {
+    color: rgb(210, 240, 210);
+    background: rgba(43, 43, 43, .6);
+    }
 
-.DarkAqua .copyright
-  {
-  color: rgb(210, 240, 210);
-  background: rgba(43, 43, 43, .6);
-  }
+  .copyright
+    {
+    color: rgb(210, 240, 210);
+    background: rgba(43, 43, 43, .6);
+    }
 
-.DarkAqua .content
-  {
-  background: rgb(43, 43, 43);
-  }
+  .content
+    {
+    background: rgb(43, 43, 43);
+    }
 
-.DarkAqua .searchresults li:hover
-  {
-  background-color: rgb(63, 63, 63);
-  }
+  .searchresults li:hover
+    {
+    background-color: rgb(63, 63, 63);
+    }
 
-.DarkAqua a,
-.DarkAqua a:hover,
-.DarkAqua a:visited
-  {
-  color: rgb(66, 156, 255);
-  }
+  a,
+  a:hover,
+  a:visited
+    {
+    color: rgb(66, 156, 255);
+    }
 
-.DarkAqua #showalllink,
-.DarkAqua #searchweblink
-  {
-  color: rgb(66, 156, 255);
+  #showalllink,
+  #searchweblink
+    {
+    color: rgb(66, 156, 255);
+    }
   }
