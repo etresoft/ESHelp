@@ -100,7 +100,7 @@
         <!-- Apple's documentation calls for the index to be at a different
              level than other pages. So I have to hack the header with a
              type attribute. -->
-        <xsl:copy-of select="$header/page[@type = $type]/*"/>
+        <xsl:apply-templates select="$header/page[@type = $type]/*"/>
       </xsl:if>
 
       <!-- Copy inline HTML. -->

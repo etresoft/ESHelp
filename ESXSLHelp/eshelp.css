@@ -80,7 +80,7 @@ table.menu td
 /* Use a consistent style for all headings. */
 h1
   {
-  margin-top: 0;
+  margin-top: 6px;
   font-size: 18px;
   text-align: center;
   }
@@ -306,6 +306,11 @@ ul.searchresults
 .searchresults li:hover
   {
   background-color: rgb(232, 232, 232);
+  }
+
+.searchresults a
+  {
+  display: block;
   }
 
 .searchresults img

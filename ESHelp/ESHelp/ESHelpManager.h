@@ -9,7 +9,6 @@
 @class ESHelpWebView;
 
 // A drop-in replacement for Apple's NSHelpManager.
-
 @interface ESHelpManager : NSObject
   <NSToolbarDelegate,
   NSSharingServiceDelegate,

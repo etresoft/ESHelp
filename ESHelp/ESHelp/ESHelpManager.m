@@ -303,6 +303,9 @@ ESHelpManager * ourHelp = nil;
   NSURL * baseURL =
     [NSURL fileURLWithPath: [path stringByDeletingLastPathComponent]];
   
+  // We don't want to just read in the text. Read in the HTML, then convert
+  // it to an attributed string and then get the plain text from that.
+  // Otherwise, we would match on HTML tags.
   NSAttributedString * attributedString =
     [[NSAttributedString alloc]
       initWithHTML: data baseURL: baseURL documentAttributes: NULL];
@@ -839,7 +842,10 @@ ESHelpManager * ourHelp = nil;
       
       NSString * text = match[@"text"];
       
-      NSRange range = [text rangeOfString: searchString];
+      NSRange range =
+        [text
+          rangeOfString: searchString
+          options: NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch];
       
       if(range.location != NSNotFound)
         [matches addObject: match];
