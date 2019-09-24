@@ -690,9 +690,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qdD-Fz-kfi">
-                        <rect key="frame" x="178" y="265" width="126" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qdD-Fz-kfi">
+                        <rect key="frame" x="177" y="265" width="126" height="32"/>
                         <buttonCell key="cell" type="push" title="Feature 1 help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LJr-Vg-s6F">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -701,9 +700,8 @@
                             <action selector="helpFeature1:" target="Voe-Tx-rLC" id="m0o-1H-AJb"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8zm-4J-K5M">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8zm-4J-K5M">
                         <rect key="frame" x="186" y="180" width="109" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Usage help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="XRx-OR-VHk">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -712,9 +710,8 @@
                             <action selector="helpUse:" target="Voe-Tx-rLC" id="3YN-yr-me2"/>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6gX-Q5-ogT">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6gX-Q5-ogT">
                         <rect key="frame" x="176" y="93" width="128" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Feature 3 help" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VUQ-mh-tyf">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -724,6 +721,15 @@
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="6gX-Q5-ogT" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="G1v-27-Nt2"/>
+                    <constraint firstItem="qdD-Fz-kfi" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="Kof-y2-9rO"/>
+                    <constraint firstItem="8zm-4J-K5M" firstAttribute="top" secondItem="qdD-Fz-kfi" secondAttribute="bottom" constant="64" id="NtK-kl-Jsv"/>
+                    <constraint firstItem="qdD-Fz-kfi" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="67" id="Sew-z8-SDU"/>
+                    <constraint firstItem="8zm-4J-K5M" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="W67-4y-omm"/>
+                    <constraint firstAttribute="bottom" secondItem="6gX-Q5-ogT" secondAttribute="bottom" constant="100" id="YYD-m8-gxL"/>
+                    <constraint firstItem="6gX-Q5-ogT" firstAttribute="top" secondItem="8zm-4J-K5M" secondAttribute="bottom" constant="66" id="k5C-x9-VhP"/>
+                </constraints>
             </view>
         </window>
     </objects>

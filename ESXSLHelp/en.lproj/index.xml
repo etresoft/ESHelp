@@ -11,6 +11,6 @@
     <script>eshelp.js</script>
   </js>
   <menu src="menu.xml" menuid="index"/>
-  <header src="header.xml"/>
+  <header src="header.xml" page="index"/>
   <footer src="footer.xml"/>
 </page>

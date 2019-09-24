@@ -6,6 +6,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
+// Category to expand an NSView to fit its container.
 @interface NSView (ESKit)
 
 // Expand this view to fit its superview.
@@ -44,7 +45,10 @@ typedef NSString * (^ScriptHandler)(NSObject * object);
 
 @class ESHelpManager;
 
-// A IB-friendly webview.
+// A IB-friendly webview. This class works with both the new WK webviews and
+// the legacy webviews. Note that WK is NOT fully functional even in the
+// current version of macOS. It works for this use case back to 10.10. For
+// some use cases, WK only works back to 10.13.
 @interface ESHelpWebView : NSView
   <WKNavigationDelegate,
   WKScriptMessageHandler,

@@ -16,38 +16,8 @@
   <xsl:include href="eshelp.xsl"/>
 
   <!-- In Apple's help example, the index file is one level higher than
-       other pages. -->
-  <!-- Convert css nodes into css import rules. -->
-  <xsl:template match="css">
-  
-    <style type="text/css">
-      <xsl:for-each select="import">
-        @import url(sty/<xsl:value-of select="."/>);
-      </xsl:for-each>
-    </style>
-  
-  </xsl:template>
-
-  <!-- Include a header into the output. -->
-  <xsl:template match="header">
-
-    <div class="header">
-
-      <!-- Copy an external source. -->
-      <xsl:if test="@src">
-        <xsl:copy-of select="document(@src)/header/*[@mode = 'index']"/>
-      </xsl:if>
-
-      <!-- Copy inline HTML. -->
-      <xsl:copy-of select="./*"/>
-      
-      <!-- Copy the page title. -->
-      <h1><xsl:value-of select="../title"/></h1>
-
-    </div>
-
-  </xsl:template>
-
+       other pages. This requires hacking of any included files. -->
+       
   <!-- Convert css nodes into css import rules. -->
   <xsl:template match="css">
 
@@ -64,7 +34,6 @@
   <!-- Emit Javascript. -->
   <xsl:template match="js">
 
-    <script type="text/javascript" src="../scrpt/eshelp.js"></script>
     <xsl:for-each select="script">
       <script type="text/javascript">
         <xsl:attribute name="src">
@@ -75,7 +44,18 @@
 
   </xsl:template>
 
-  <!-- Copy the contents of a content node directly into the output. -->
+  <!-- Include a header into the output. -->
+  <xsl:template match="header">
+
+    <!-- Use the index parameter to pull the header content for the index
+         page. -->
+    <xsl:call-template name="header">
+      <xsl:with-param name="type">index</xsl:with-param>
+    </xsl:call-template>
+
+  </xsl:template>
+
+  <!-- Construct a menu page. -->
   <xsl:template match="menu">
 
     <!-- Extract menu data from an external XML document. -->

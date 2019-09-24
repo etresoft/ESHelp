@@ -11,6 +11,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 
+// Shim to get ScriptHandler working with legacy webview.
 @implementation ESHelpScriptRunner
 
 @synthesize handler = myHandler;
@@ -50,6 +51,7 @@
 
 @end
 
+// Category to expand an NSView to fit its container.
 @implementation NSView (ESKit)
 
 // Expand this view to fit its superview.
@@ -274,11 +276,12 @@
   [self createWebView: self.bounds];
   }
 
-// Create the actual web view.
+// Create a "modern" WK web view.
 - (void) createWKWebView: (NSRect) bounds
   {
   WKWebView * webView = [[WKWebView alloc] initWithFrame: bounds];
     
+  // This will crash some older versions of WKWebView.
   //[webView setValue: @NO forKey: @"drawsBackground"];
 
   webView.navigationDelegate = self;
@@ -307,7 +310,7 @@
   [self.wkWebView expandToFit];
   }
 
-// Create the actual web view.
+// Create a "legacy" web view.
 - (void) createWebView: (NSRect) bounds
   {
   WebView * webView = [[WebView alloc] initWithFrame: bounds];
@@ -351,6 +354,7 @@
   {
   NSURL * url = navigationAction.request.URL;
   
+  // Open external links in a real web browser.
   if(![url isFileURL])
     {
     [self.delegate openExternalURL: url];
@@ -360,8 +364,10 @@
     return;
     }
     
+  // Update history.
   [self.delegate addURLToHistory: url];
     
+  // If this is a search, hijack the URL and generate search results.
   if([self.delegate isSearchURL: url])
     {
     decisionHandler(WKNavigationActionPolicyCancel);
@@ -375,6 +381,7 @@
 - (void) webView: (WKWebView *) webView
   didCommitNavigation: (WKNavigation *) navigation
   {
+  // In WK, we can't install script handlers until after loading.
   for(NSString * key in self.scriptHandlers)
     {
     ScriptHandler handler = [self.scriptHandlers objectForKey: key];
@@ -405,6 +412,7 @@
   {
   NSURL * url = [actionInformation objectForKey: WebActionOriginalURLKey];
   
+  // Open external links in a real web browser.
   if(![url isFileURL])
     {
     [self.delegate openExternalURL: url];
@@ -414,8 +422,10 @@
     return;
     }
     
+  // Update history.
   [self.delegate addURLToHistory: url];
     
+  // If this is a search, hijack the URL and generate search results.
   if([self.delegate isSearchURL: url])
     {
     [listener ignore];
@@ -436,6 +446,7 @@
   {
   NSURL * url = [actionInformation objectForKey: WebActionOriginalURLKey];
   
+  // Open external links in a real web browser.
   if(![url isFileURL])
     {
     [self.delegate openExternalURL: url];
@@ -445,8 +456,10 @@
     return;
     }
     
+  // Update history.
   [self.delegate addURLToHistory: url];
     
+  // If this is a search, hijack the URL and generate search results.
   if([self.delegate isSearchURL: url])
     {
     [listener ignore];
@@ -462,6 +475,7 @@
 - (void) webView: (WebView *) sender
   didFinishLoadForFrame: (WebFrame *) frame
   {
+  // Setup script handlers.
   for(NSString * key in self.scriptHandlers)
     {
     ScriptHandler handler = [self.scriptHandlers objectForKey: key];

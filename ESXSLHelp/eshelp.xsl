@@ -70,7 +70,6 @@
   <!-- Emit Javascript. -->
   <xsl:template match="js">
 
-    <script type="text/javascript" src="../scrpt/eshelp.js"></script>
     <xsl:for-each select="script">
       <script type="text/javascript">
         <xsl:attribute name="src">
@@ -84,19 +83,32 @@
   <!-- Include a header into the output. -->
   <xsl:template match="header">
 
+    <xsl:call-template name="header"/>
+
+  </xsl:template>
+
+  <!-- Include a header into the output. -->
+  <xsl:template name="header">
+    <xsl:param name="type">default</xsl:param>
+
     <div class="header">
 
       <!-- Copy an external source. -->
       <xsl:if test="@src">
-        <xsl:copy-of select="document(@src)/header/*"/>
+        <xsl:variable name="header" select="document(@src)/header"/>
+
+        <!-- Apple's documentation calls for the index to be at a different
+             level than other pages. So I have to hack the header with a
+             type attribute. -->
+        <xsl:copy-of select="$header/page[@type = $type]/*"/>
       </xsl:if>
 
       <!-- Copy inline HTML. -->
       <xsl:copy-of select="./*"/>
-
+      
       <!-- Copy the page title. -->
       <h1><xsl:value-of select="../title"/></h1>
-    
+
     </div>
 
   </xsl:template>

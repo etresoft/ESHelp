@@ -33,7 +33,7 @@ function showall()
     hr[i].style.display = 'none';
   }
 
-// Search the web for help.
+// Search the web for help. Route this message back to the app.
 function searchweb()
   {
   if(window.webkit != undefined)

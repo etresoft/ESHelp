@@ -10,9 +10,12 @@
 
 // Toolbar items.
 #define kNavigationToolbarItemID @"navigationtoolbaritem"
+
+// Share is not implemented.
 #define kShareToolbarItemID @"sharetoolbaritem"
 #define kSearchToolbarItemID @"searchtoolbaritem"
 
+// Singleton.
 ESHelpManager * ourHelp = nil;
 
 @implementation ESHelpManager
@@ -63,20 +66,27 @@ ESHelpManager * ourHelp = nil;
 // Can I share?
 @dynamic canShare;
 
+// The web view for display.
 @synthesize webview = myWebView;
 
+// The base path of all localized help files.
 @synthesize basePath = myBasePath;
 
+// Extra files that have been added to the help bundle due to a
+// non-functional hiutil tool in 10.14+.
 @synthesize helpIndex = myHelpIndex;
 @synthesize helpFiles = myHelpFiles;
 
+// A little hack for my own needs.
 @synthesize delegate = myDelegate;
 
+// Enable the share button.
 - (BOOL) canShare
   {
   return YES;
   }
 
+// Return the singleton.
 + (ESHelpManager *) sharedHelpManager
   {
   return ourHelp;
@@ -91,9 +101,11 @@ ESHelpManager * ourHelp = nil;
     {
     ourHelp = self;
     
+    // Connect this class to the help menu search functionality.
     [[NSApplication sharedApplication]
       registerUserInterfaceItemSearchHandler: ourHelp];
       
+    // Get the localized path to the help bundle.
     NSString * helpPath =
       [[NSBundle mainBundle]
         objectForInfoDictionaryKey: @"CFBundleHelpBookFolder"];
@@ -116,12 +128,15 @@ ESHelpManager * ourHelp = nil;
       
     self.basePath = localizedHelpBasePath;
     
+    // I have to maintain my own history.
     myHistory = [NSMutableArray new];
     myHistoryIndex = 0;
     
+    // Read additional data from the help bundle.
     [self readAnchorIndex];
     [self readFileIndex];
     
+    // Watch for changes to dark/light mode.
     [[NSApplication sharedApplication]
       addObserver: self
       forKeyPath: @"effectiveAppearance"
@@ -132,6 +147,8 @@ ESHelpManager * ourHelp = nil;
   return self;
   }
 
+// Read the help anchor index. The help anchor index must be generated with
+// a 10.13 version of hiutil. The 10.14+ version no longer works.
 - (void) readAnchorIndex
   {
   NSString * anchorIndexKey =
@@ -164,6 +181,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Extract a dictionary value from the help bundle.
 - (id) helpBundleDictionaryValue: (NSString *) key
   {
   NSString * helpPath =
@@ -178,6 +196,8 @@ ESHelpManager * ourHelp = nil;
   return [helpBundle objectForInfoDictionaryKey: key];
   }
 
+// Read the help file index. The help file index must be generated with
+// a 10.13 version of hiutil. The 10.14+ version no longer works.
 - (void) readFileIndex
   {
   NSString * fileIndexKey =
@@ -186,6 +206,7 @@ ESHelpManager * ourHelp = nil;
   NSString * helpFilesPath =
     [self.basePath stringByAppendingPathComponent: fileIndexKey];
 
+  // Alas, the help file index is just text.
   NSString * text =
     [[NSString alloc]
       initWithContentsOfFile: helpFilesPath
@@ -274,6 +295,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Read the content of a help bundle html file.
 - (NSString *) readSearchText: (NSString *) path
   {
   NSData * data = [[NSData alloc] initWithContentsOfFile: path];
@@ -325,6 +347,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Display the help index file.
 - (void) showHelp
   {
   [self setup];
@@ -332,26 +355,14 @@ ESHelpManager * ourHelp = nil;
   [self showHelpFile: @"index.html"];
   }
 
+// Setup the help system.
 - (void) setup
   {
-  [self createHelpWindow];
-  
-  __weak ESHelpManager * weakSelf = self;
-
-  self.webview.readyHandler =
-    ^{
-      weakSelf.canGoBack = weakSelf.webview.canGoBack;
-      weakSelf.canGoForward = weakSelf.webview.canGoForward;
-      
-      [weakSelf setAppearance: [weakSelf appearanceName]];
-    };
-  }
-
-- (void) createHelpWindow
-  {
+  // Only do this once.
   if(self.window != nil)
     return;
     
+  // Try to mimic the default help beahviour.
   NSScreen * screen = [NSScreen mainScreen];
   NSRect visibleFrame = screen.visibleFrame;
   NSSize size = NSMakeSize(780/2, 1140/2);
@@ -388,8 +399,10 @@ ESHelpManager * ourHelp = nil;
     
   self.window.hidesOnDeactivate = NO;
   
+  // Create the web view.
   myWebView = [[ESHelpWebView alloc] initWithFrame: frame];
   
+  // Create the toolbar.
   myToolbar =
     [[NSToolbar alloc] initWithIdentifier: @"eshelptoolbar"];
     
@@ -415,6 +428,7 @@ ESHelpManager * ourHelp = nil;
   
   __weak ESHelpManager * weakSelf = self;
 
+  // Connect a web callback for opening a result from a search.
   [self.webview
     addScriptHandler:
       ^NSString * (NSObject * object)
@@ -427,6 +441,7 @@ ESHelpManager * ourHelp = nil;
 
   [self.window setContentView: self.webview];
   
+  // Connect window autosave.
   NSString * helpName =
     [[NSBundle mainBundle]
       objectForInfoDictionaryKey: @"CFBundleHelpBookName"];
@@ -441,6 +456,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Show the help at a given anchor point.
 - (void) showHelpAnchor: (NSString *) anchor
   {
   [self setup];
@@ -479,6 +495,7 @@ ESHelpManager * ourHelp = nil;
   [self showHelp];
   }
 
+// Show a help file.
 - (void) showHelpFile: (NSString *) fileName
   {
   NSString * filePath =
@@ -495,6 +512,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Show a help URL.
 - (void) showHelpURL: (NSURL *) url
   {
   __weak ESHelpManager * weakSelf = self;
@@ -537,6 +555,7 @@ ESHelpManager * ourHelp = nil;
   return nil;
   }
 
+// Setup all these toolbars from scratch, with no nib required.
 - (NSToolbarItem *) createNavigationToolbar: (NSToolbar *) toolbar
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
@@ -604,6 +623,7 @@ ESHelpManager * ourHelp = nil;
   return item;
   }
 
+// Sharing is not yet supported.
 - (NSToolbarItem *) createShareToolbar: (NSToolbar *) toolbar
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
@@ -643,6 +663,7 @@ ESHelpManager * ourHelp = nil;
   return item;
   }
 
+// Allow searching.
 - (NSToolbarItem *) createSearchToolbar: (NSToolbar *) toolbar
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
@@ -774,12 +795,14 @@ ESHelpManager * ourHelp = nil;
 
 #pragma mark - Searching
 
+// Peform a search from the UI.
 - (IBAction) performSearch: (id) sender
   {
   NSSearchField * searchField = sender;
 
   self.currentSearch = searchField.stringValue;
   
+  // Construct a URL that can be saved to history and use that.
   NSString * searchString =
     [NSString stringWithFormat: @"search-%@", self.currentSearch];
   
@@ -795,6 +818,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Perform a search.
 - (void) search: (NSString *) searchString
   {
   NSArray * matches = [self findMatches: searchString];
@@ -802,6 +826,7 @@ ESHelpManager * ourHelp = nil;
   [self showMatches: matches];
   }
 
+// Find matches for a search string.
 - (NSArray *) findMatches: (NSString *) searchString
   {
   NSMutableArray * matches = [NSMutableArray array];
@@ -824,6 +849,7 @@ ESHelpManager * ourHelp = nil;
   return matches;
   }
 
+// Add a URL to the history.
 - (void) addURLToHistory: (NSURL *) url
   {
   BOOL isDirectory = NO;
@@ -863,6 +889,7 @@ ESHelpManager * ourHelp = nil;
   self.canGoForward = (self.historyIndex < self.history.count);
   }
 
+// Open an external URL, and maybe do something fancy.
 - (void) openExternalURL: (NSURL *) url;
   {
   if([self.delegate respondsToSelector: @selector(openExternalURL:)])
@@ -870,7 +897,8 @@ ESHelpManager * ourHelp = nil;
   else
     [[NSWorkspace sharedWorkspace] openURL: url];
   }
-  
+
+// Hijack a search URL and perform a search.
 - (BOOL) isSearchURL: (NSURL *) url
   {
   if(self.basePath != nil)
@@ -893,8 +921,10 @@ ESHelpManager * ourHelp = nil;
   return NO;
   }
 
+// Show matches for a search.
 - (void) showMatches: (NSArray *) results
   {
+  // Load the result template.
   if(self.searchResultsTemplate == nil)
     [self loadSearchResultsTemplate];
     
@@ -939,6 +969,7 @@ ESHelpManager * ourHelp = nil;
   NSString * helpBookTitle =
     [self helpBundleDictionaryValue: @"HPDBookTitle"];
     
+  // Hack up the human-readable result count.
   NSString * resultsUnits =
       NSLocalizedStringFromTableInBundle(
         @"results",
@@ -1088,6 +1119,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Load the search results template from the help bundle.
 - (void) loadSearchResultsTemplate
   {
   NSString * searchResultsKey =
@@ -1103,6 +1135,8 @@ ESHelpManager * ourHelp = nil;
       error: NULL];
   }
 
+// The app icon path is defined in the help bundle info.plist file. Extract
+// it for the search results page.
 - (NSString *) loadSearchResultsIconPath
   {
   NSString * helpPath =
@@ -1120,6 +1154,8 @@ ESHelpManager * ourHelp = nil;
   return [@"../.." stringByAppendingPathComponent: appIconPath];
   }
 
+// Perform an external search. This uses the "Search With" service in
+// Safari. Sorry, not other browsers supported. There is no API for this.
 - (void) performWebSearch
   {
   NSString * appName =
@@ -1142,6 +1178,7 @@ ESHelpManager * ourHelp = nil;
   [restrictedQuery release];
 #endif
 
+  // Just try them all until one works.
   if([self performSearch: @"Google" pasteboard: pboard])
     return;
 
@@ -1154,7 +1191,8 @@ ESHelpManager * ourHelp = nil;
   if([self performSearch: @"Yahoo" pasteboard: pboard])
     return;
   }
-  
+
+// Perform a search using a given engine.
 - (BOOL) performSearch: (NSString *) engine
   pasteboard: (NSPasteboard *) pboard
   {
@@ -1326,6 +1364,7 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
 
+// Change to dark/ligh mode.
 - (void) observeValueForKeyPath: (NSString *) keyPath
   ofObject: (id) object
   change: (NSDictionary *) change
@@ -1335,11 +1374,13 @@ ESHelpManager * ourHelp = nil;
     [self setAppearance: [self appearanceName]];
   }
 
+// Handle an action from the UI.
 - (IBAction) showHelp: (id) sender
   {
   [self showHelp];
   }
 
+// Get the current appearance.
 - (NSString *) appearanceName
   {
   NSString * name = @"Aqua";
