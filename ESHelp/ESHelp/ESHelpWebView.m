@@ -192,6 +192,8 @@
 // Load raw HTML with base path.
 - (void) loadHTML: (NSString *) html baseURL: (NSURL *) url
   {
+  [self createWebView];
+  
   [self.wkWebView loadHTMLString: html baseURL: url];
   [self.webView.mainFrame loadHTMLString: html baseURL: url];
   }
@@ -199,6 +201,8 @@
 // Load a URL (for compatibility testing).
 - (void) loadURL: (NSURL *) url
   {
+  [self createWebView];
+
   NSURLRequest * request = [[NSURLRequest alloc] initWithURL: url];
   
   [self.wkWebView loadRequest: request];
@@ -245,17 +249,17 @@
   {
   [super layout];
   
+  [self createWebView];
+  }
+
+- (void) createWebView
+  {
   if(self.wkWebView != nil)
     return;
     
   if(self.webView != nil)
     return;
     
-  [self createWebView];
-  }
-
-- (void) createWebView
-  {
   // For testing legacy webkit.
   //self.api = kWebKit;
   
@@ -269,13 +273,13 @@
     
   [self createWebView: self.bounds];
   }
-  
+
 // Create the actual web view.
 - (void) createWKWebView: (NSRect) bounds
   {
   WKWebView * webView = [[WKWebView alloc] initWithFrame: bounds];
     
-  [webView setValue: @NO forKey: @"drawsBackground"];
+  //[webView setValue: @NO forKey: @"drawsBackground"];
 
   webView.navigationDelegate = self;
   

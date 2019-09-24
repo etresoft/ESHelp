@@ -983,6 +983,29 @@ ESHelpManager * ourHelp = nil;
   NSString * linkTemplate =
     @"<p id=\"%@\" onclick=\"%@\">%@<span>%@</span></p>%@";
 
+  // Avoid a crash on Mavericks.
+  NSString * showAllIcon = @"";
+  NSString * searchWebIcon = @"";
+  
+  SEL setSendsWholeSearchString = @selector(setSendsWholeSearchString:);
+  
+  if([self.searchField respondsToSelector: setSendsWholeSearchString])
+    {
+    showAllIcon =
+      NSLocalizedStringFromTableInBundle(
+        @"showallicon",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL);
+
+    searchWebIcon =
+      NSLocalizedStringFromTableInBundle(
+        @"searchwebicon",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL);
+    }
+    
   NSString * showAll = @"";
   
   if(results.count > maxSearchResults)
@@ -997,11 +1020,7 @@ ESHelpManager * ourHelp = nil;
             @"Localizable",
             [NSBundle bundleForClass: [ESHelpManager class]],
             NULL),
-          NSLocalizedStringFromTableInBundle(
-            @"showallicon",
-            @"Localizable",
-            [NSBundle bundleForClass: [ESHelpManager class]],
-            NULL),
+          showAllIcon,
           @"<hr class=\"searchresults\">"];
 
   NSString * searchWeb =
@@ -1015,11 +1034,7 @@ ESHelpManager * ourHelp = nil;
           @"Localizable",
           [NSBundle bundleForClass: [ESHelpManager class]],
           NULL),
-        NSLocalizedStringFromTableInBundle(
-          @"searchwebicon",
-          @"Localizable",
-          [NSBundle bundleForClass: [ESHelpManager class]],
-          NULL),
+        searchWebIcon,
         @""];
 
   NSMutableString * searchResults =
