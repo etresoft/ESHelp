@@ -64,4 +64,4 @@ Your help menu item will now display a help window very similar to the system he
 5. Since the help bundle is a valid help bundle, your app’s help will be available via search from the system help tool.
 6. If you need to debug your appearance, everything works great in debug mode.
 7. The sidebar button is replace with a home button to quickly jump back to the top level of help from an anchor, saving a trip to the menu.
-8. The share button is functional. Apple’s share services don't work with web archives, so the only thing I can share is the URL. It works, but there is no CSS so it isn't pretty. 
+8. The share button is functional. Apple’s share services don't work with web archives, so the only thing I can share is the URL. It works, but there is no CSS so it isn't pretty. The share button is disabled by default.
