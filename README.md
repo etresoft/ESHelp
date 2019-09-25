@@ -8,6 +8,7 @@ If you have ever struggled with Apple’s help system, ESHelp will help. ESHelp 
 3. Very difficult to debug
 4. Uses system-level, shared window
 5. Poor, incorrect documentation
+6. Share button and sidebar buttons only work with Apple’s remote help service
 
 ##There are three parts to this project:
 1. **ESXSLHelp** - An example project that builds a help bundle according to Apple’s documentation
@@ -31,6 +32,7 @@ This is a simple project that uses a help bundle. Its purpose is to demonstrate 
 2. No dark mode support. 
 3. Very difficult to debug. Your app with embedded help bundle must be installed in /Applications to function. You can debug it, but the system help viewer will only display content found in /Applications.
 4. Only basic help book features are used. I’ve tried various other features but found most of them to be non-functional.
+5. Share button and sidebar button are designed for Apple’s use only.
 
 # ESHelp
 This is a drop-in replacement for NSHelpManager. It requires a help bundle with some additional files. These files must be identified in the help bundle’s Info.plist file with the following keys:
@@ -61,3 +63,5 @@ Your help menu item will now display a help window very similar to the system he
 4. The search field in the menu bar will work as you expect and display help results in the same window.
 5. Since the help bundle is a valid help bundle, your app’s help will be available via search from the system help tool.
 6. If you need to debug your appearance, everything works great in debug mode.
+7. The sidebar button is replace with a home button to quickly jump back to the top level of help from an anchor, saving a trip to the menu.
+8. The share button is functional. Apple’s share services don't work with web archives, so the only thing I can share is the URL. It works, but there is no CSS so it isn't pretty. 

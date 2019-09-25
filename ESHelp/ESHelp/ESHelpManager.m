@@ -70,6 +70,9 @@ ESHelpManager * ourHelp = nil;
 // The navigation index in the history.
 @synthesize historyIndex = myHistoryIndex;
 
+// Should I show the share button at all?
+@synthesize showShareButton = myShowShareButton;
+
 // Can I share?
 @dynamic canShare;
 
@@ -828,7 +831,10 @@ ESHelpManager * ourHelp = nil;
   
   [items addObject: kNavigationToolbarItemID];
   [items addObject: kHomeToolbarItemID];
-  [items addObject: kShareToolbarItemID];
+  
+  if(self.showShareButton)
+    [items addObject: kShareToolbarItemID];
+  
   [items addObject: NSToolbarFlexibleSpaceItemIdentifier];
   [items addObject: kSearchToolbarItemID];
   
@@ -837,14 +843,18 @@ ESHelpManager * ourHelp = nil;
 
 - (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar
   {
-  return
-    @[
-      kNavigationToolbarItemID,
-      kHomeToolbarItemID,
-      kShareToolbarItemID,
-      NSToolbarFlexibleSpaceItemIdentifier,
-      kSearchToolbarItemID,
-    ];
+  NSMutableArray * items = [NSMutableArray array];
+  
+  [items addObject: kNavigationToolbarItemID];
+  [items addObject: kHomeToolbarItemID];
+  
+  if(self.showShareButton)
+    [items addObject: kShareToolbarItemID];
+  
+  [items addObject: NSToolbarFlexibleSpaceItemIdentifier];
+  [items addObject: kSearchToolbarItemID];
+  
+  return items;
 
   // Since the toolbar is defined from Interface Builder, an additional
   // separator and customize toolbar items will be automatically added to

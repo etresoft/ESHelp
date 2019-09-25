@@ -66,6 +66,9 @@
 // The navigation index in the history.
 @property (assign) NSUInteger historyIndex;
 
+// Should I show the share button at all?
+@property (assign) BOOL showShareButton;
+
 // Can I share?
 @property (readonly) BOOL canShare;
 
