@@ -87,10 +87,21 @@ ESHelpManager * ourHelp = nil;
 // A little hack for my own needs.
 @synthesize delegate = myDelegate;
 
+// Update canShare when history index changes.
++ (NSSet *) keyPathsForValuesAffectingCanShare
+  {
+  return [NSSet setWithObject: @"historyIndex"];
+  }
+
 // Enable the share button.
 - (BOOL) canShare
   {
-  return YES;
+  if(self.historyIndex < 1)
+    return NO;
+    
+  NSURL * url = [self.history objectAtIndex: self.historyIndex - 1];
+
+  return ![self isSearchURL: url];
   }
 
 // Return the singleton.
@@ -696,26 +707,46 @@ ESHelpManager * ourHelp = nil;
   NSToolbarItem * item =
     [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
   
-  if([NSSharingServicePicker class])
-    {
-    [item
-      setLabel:
-        NSLocalizedStringFromTableInBundle(
-        @"Share page",
-        @"Localizable",
-        [NSBundle bundleForClass: [ESHelpManager class]],
-        NULL)];
+  [item
+    setLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Share page",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
 
-    [item
-      setPaletteLabel: 
-        NSLocalizedStringFromTableInBundle(
-        @"Share page",
-        @"Localizable",
-        [NSBundle bundleForClass: [ESHelpManager class]],
-        NULL)];
+  [item
+    setPaletteLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Share page",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
 
-    [item setView: self.shareToolbarItemView];
-    }
+  myShareToolbarItemView =
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 39, 25)];
+  
+  myShareButton =
+    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 39, 27)];
+  
+  self.shareButton.bezelStyle = NSBezelStyleTexturedRounded;
+  self.shareButton.image = [NSImage imageNamed: NSImageNameShareTemplate];
+  self.shareButton.target = self;
+  self.shareButton.action = @selector(shareHelp:);
+  [self.shareButton
+    bind: @"enabled" toObject: self withKeyPath: @"canShare" options: nil];
+
+  // It seems the only way to control the size of buttons in a toolbar
+  // is to have more than one. Odd.
+  NSButton * dummy =
+    [[NSButton alloc] initWithFrame: NSMakeRect(38, -2, 27, 27)];
+
+  dummy.bezelStyle = NSBezelStyleRegularSquare;
+
+  [self.shareToolbarItemView addSubview: self.shareButton];
+  [self.shareToolbarItemView addSubview: dummy];
+
+  [item setView: self.shareToolbarItemView];
     
   [item setTarget: self];
   [item setAction: nil];
@@ -733,10 +764,10 @@ ESHelpManager * ourHelp = nil;
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
   mySearchToolbarItemView =
-    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 236, 25)];
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 206, 25)];
 
   mySearchField =
-    [[NSSearchField alloc] initWithFrame: NSMakeRect(1, 2, 235, 22)];
+    [[NSSearchField alloc] initWithFrame: NSMakeRect(1, 2, 205, 22)];
   
   [self.searchToolbarItemView addSubview: self.searchField];
   
@@ -797,7 +828,7 @@ ESHelpManager * ourHelp = nil;
   
   [items addObject: kNavigationToolbarItemID];
   [items addObject: kHomeToolbarItemID];
-  //[items addObject: kShareToolbarItemID];
+  [items addObject: kShareToolbarItemID];
   [items addObject: NSToolbarFlexibleSpaceItemIdentifier];
   [items addObject: kSearchToolbarItemID];
   
@@ -810,7 +841,7 @@ ESHelpManager * ourHelp = nil;
     @[
       kNavigationToolbarItemID,
       kHomeToolbarItemID,
-      //kShareToolbarItemID,
+      kShareToolbarItemID,
       NSToolbarFlexibleSpaceItemIdentifier,
       kSearchToolbarItemID,
     ];
@@ -849,23 +880,20 @@ ESHelpManager * ourHelp = nil;
 // Share help.
 - (IBAction) shareHelp: (id) sender
   {
-  /* NSURL * url = self.webview.url;
-  
-  if(url != nil)
-    {
-    NSSharingServicePicker * sharingServicePicker =
-      [[NSSharingServicePicker alloc]
-        initWithItems: [NSArray arrayWithObject: url]];
-   
-    sharingServicePicker.delegate = self;
-   
-    [sharingServicePicker
-      showRelativeToRect: NSZeroRect
-      ofView: sender
-      preferredEdge: NSMinYEdge];
-   
-    [sharingServicePicker release];
-    } */
+  NSURL * url = [self.history objectAtIndex: self.historyIndex - 1];
+
+  NSSharingServicePicker * sharingServicePicker =
+    [[NSSharingServicePicker alloc]
+      initWithItems: [NSArray arrayWithObjects: url, nil]];
+ 
+  sharingServicePicker.delegate = self;
+ 
+  [sharingServicePicker
+    showRelativeToRect: NSZeroRect
+    ofView: sender
+    preferredEdge: NSMinYEdge];
+ 
+  //[sharingServicePicker release];
   }
 
 #pragma mark - Searching
@@ -1348,7 +1376,7 @@ ESHelpManager * ourHelp = nil;
   [service setDelegate: self];
   }
 
-/*- (NSArray *)
+- (NSArray *)
   sharingServicePicker: (NSSharingServicePicker *) sharingServicePicker
   sharingServicesForItems: (NSArray *) items
   proposedSharingServices: (NSArray *) proposedServices
@@ -1364,9 +1392,14 @@ ESHelpManager * ourHelp = nil;
     addObject:
       [NSSharingService
         sharingServiceNamed: NSSharingServiceNameComposeMessage]];
+
+  [sharingServices
+    addObject:
+      [NSSharingService
+        sharingServiceNamed: NSSharingServiceNameAddToSafariReadingList]];
  
   return sharingServices;
-  } */
+  }
 
 #pragma mark - NSSharingServiceDelegate conformance
 
