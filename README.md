@@ -58,10 +58,11 @@ To install the ESHelp framework in your own project, you would do the following:
 Your help menu item will now display a help window very similar to the system help. It has the following benefits:
 
 1. Anchors work every time.
-2. This is an app window rather than a system window. When your app quits, the help window closes too.
-3. Searches in your app will only display help in your app. You won’t get results from potentially competing apps.
-4. The search field in the menu bar will work as you expect and display help results in the same window.
-5. Since the help bundle is a valid help bundle, your app’s help will be available via search from the system help tool.
-6. If you need to debug your appearance, everything works great in debug mode.
-7. The sidebar button is replace with a home button to quickly jump back to the top level of help from an anchor, saving a trip to the menu.
-8. The share button is functional. Apple’s share services don't work with web archives, so the only thing I can share is the URL. It works, but there is no CSS so it isn't pretty. The share button is disabled by default.
+2. Dark mode support.
+3. This is an app window rather than a system window. When your app quits, the help window closes too.
+4. Searches in your app will only display help in your app. You won’t get results from potentially competing apps.
+5. The search field in the menu bar will work as you expect and display help results in the same window.
+6. Since the help bundle is a valid help bundle, your app’s help will be available via search from the system help tool.
+7. If you need to debug your appearance, everything works great in debug mode.
+8. The sidebar button is replace with a home button to quickly jump back to the top level of help from an anchor, saving a trip to the menu.
+9. The share button is functional. Apple’s share services don't work with web archives, so the only thing I can share is the URL. It works, but there is no CSS so it isn't pretty. The share button is disabled by default.
