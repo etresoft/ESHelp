@@ -10,6 +10,7 @@
 
 // Toolbar items.
 #define kNavigationToolbarItemID @"navigationtoolbaritem"
+#define kHomeToolbarItemID @"hometoolbaritem"
 
 // Share is not implemented.
 #define kShareToolbarItemID @"sharetoolbaritem"
@@ -38,6 +39,12 @@ ESHelpManager * ourHelp = nil;
 
 // The share button.
 @synthesize shareButton = myShareButton;
+
+// The Home toolbar item view.
+@synthesize homeToolbarItemView = myHomeToolbarItemView;
+
+// The home button.
+@synthesize homeButton = myHomeButton;
 
 // The search toolbar item view.
 @synthesize searchToolbarItemView = mySearchToolbarItemView;
@@ -323,6 +330,8 @@ ESHelpManager * ourHelp = nil;
   self.goBackButton = nil;
   self.goForwardButton = nil;
   self.history = nil;
+  self.homeToolbarItemView = nil;
+  self.homeButton = nil;
   self.shareToolbarItemView = nil;
   self.shareButton = nil;
   self.searchToolbarItemView = nil;
@@ -391,6 +400,7 @@ ESHelpManager * ourHelp = nil;
       defer: false];
     
   self.window.hidesOnDeactivate = NO;
+  self.window.contentMinSize = size;
   
   // Create the web view.
   myWebView = [[ESHelpWebView alloc] initWithFrame: frame];
@@ -533,6 +543,12 @@ ESHelpManager * ourHelp = nil;
         createNavigationToolbar: toolbar
         itemForItemIdentifier: itemIdentifier];
     
+  else if([itemIdentifier isEqualToString: kHomeToolbarItemID])
+    return
+      [self
+        createHomeToolbar: toolbar
+        itemForItemIdentifier: itemIdentifier];
+
   else if([itemIdentifier isEqualToString: kShareToolbarItemID])
     return
       [self
@@ -609,6 +625,64 @@ ESHelpManager * ourHelp = nil;
   
 #if !__has_feature(objc_arc)
   [item autorelease];
+#endif
+
+  return item;
+  }
+
+// Home button to display help index.
+- (NSToolbarItem *) createHomeToolbar: (NSToolbar *) toolbar
+  itemForItemIdentifier: (NSString *) itemIdentifier
+  {
+  myHomeToolbarItemView =
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 39, 25)];
+  
+  myHomeButton =
+    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 39, 27)];
+  
+  self.homeButton.bezelStyle = NSBezelStyleTexturedRounded;
+  self.homeButton.image = [NSImage imageNamed: NSImageNameHomeTemplate];
+  self.homeButton.target = self;
+  self.homeButton.action = @selector(goHome:);
+
+  // It seems the only way to control the size of buttons in a toolbar
+  // is to have more than one. Odd.
+  NSButton * dummy =
+    [[NSButton alloc] initWithFrame: NSMakeRect(38, -2, 27, 27)];
+
+  dummy.bezelStyle = NSBezelStyleRegularSquare;
+
+  [self.homeToolbarItemView addSubview: self.homeButton];
+  [self.homeToolbarItemView addSubview: dummy];
+
+  // Create the NSToolbarItem and setup its attributes.
+  NSToolbarItem * item =
+    [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
+  
+  [item
+    setLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Home",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
+  [item
+    setPaletteLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Home",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
+  [item setView: self.homeToolbarItemView];
+    
+  [item setTarget: self];
+  [item setAction: nil];
+
+#if !__has_feature(objc_arc)
+  [item autorelease];
+  [dummy release];
 #endif
 
   return item;
@@ -722,6 +796,7 @@ ESHelpManager * ourHelp = nil;
   NSMutableArray * items = [NSMutableArray array];
   
   [items addObject: kNavigationToolbarItemID];
+  [items addObject: kHomeToolbarItemID];
   //[items addObject: kShareToolbarItemID];
   [items addObject: NSToolbarFlexibleSpaceItemIdentifier];
   [items addObject: kSearchToolbarItemID];
@@ -734,6 +809,7 @@ ESHelpManager * ourHelp = nil;
   return
     @[
       kNavigationToolbarItemID,
+      kHomeToolbarItemID,
       //kShareToolbarItemID,
       NSToolbarFlexibleSpaceItemIdentifier,
       kSearchToolbarItemID,
@@ -760,6 +836,14 @@ ESHelpManager * ourHelp = nil;
   NSURL * url = [self.history objectAtIndex: self.historyIndex];
     
   [self showHelpURL: url];
+  }
+
+// Go home.
+- (IBAction) goHome: (id) sender
+  {
+  ESHelpManager * helpManager = [ESHelpManager sharedHelpManager];
+  
+  [helpManager showHelp];
   }
 
 // Share help.

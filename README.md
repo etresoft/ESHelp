@@ -29,40 +29,35 @@ This is a simple project that uses a help bundle. Its purpose is to demonstrate 
 
 1. Anchors only work about 15% of the time. I’ve been working on help bundles for several years. This 15% success rate is strangely consistent. I have no clue.
 2. No dark mode support. 
+3. Very difficult to debug. Your app with embedded help bundle must be installed in /Applications to function. You can debug it, but the system help viewer will only display content found in /Applications.
+4. Only basic help book features are used. I’ve tried various other features but found most of them to be non-functional.
 
+# ESHelp
+This is a drop-in replacement for NSHelpManager. It requires a help bundle with some additional files. These files must be identified in the help bundle’s Info.plist file with the following keys:
 
-# hello, This is Markdown Live Preview
+1. **ESHelpHelpIndex** - The localized path to the exported help index data. This is the output from “myhiutil -D -f /path/to/helpindex”. As noted above, myhiutil is the hiutil tool from macOS 10.13.
+2. **ESHelpHelpFiles** - The localized path to the exported help files list. This is the output from “myhiutil -v -v -F -f /path/to/helpindex”. As noted above, myhiutil is the hiutil tool from macOS 10.13.
+3. **ESHelpSearchResults** - The localized path to the search results HTML template. The runtime logic in the ESHelp framework will replace certain placeholder tags with search results content.
 
-----
-## what is Markdown?
-see [Wikipedia](https://en.wikipedia.org/wiki/Markdown)
+# ESHelpDemo
+This is a demo app showing how to use the ESHelp framework.
 
-> Markdown is a lightweight markup language, originally created by John Gruber and Aaron Swartz allowing people "to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML)".
+To install the ESHelp framework in your own project, you would do the following:
 
-----
-## usage
-1. Write markdown text in this textarea.
-2. Click 'HTML Preview' button.
+1. Build a help bundle. You ESXSLHelp or your own project. You will need to add it to your app’s resources in Xcode. The help bundle must have the files and Info.plist entries described above.
+2. Use the ESHelp framework in your Xcode project. Include it as an embedded binary. 
+3. Add an ESHelpManager object to the list of objects in Interface Builder.
+4. Change the action of the menu bar’s Help menu item to point to the “showHelp:” method of ESHelpManager.
+5. Use the “sharedHelpManager” to get a pointer to the ESHelpManager singleton defined in Interface Builder.
+6. Use the “showHelp:” and “showHelpAnchor:” methods to display your help.
 
-----
-## markdown quick reference
-# headers
+**Note:** - In theory, you can add the “showHelp:” method to your First Responder (whatever that happens to be). You could then just use the singleton without adding the ESHelpManager to Interface Builder. It works great, until it doesn’t. 
 
-*emphasis*
+Your help menu item will now display a help window very similar to the system help. It has the following benefits:
 
-**strong**
-
-* list
-
->block quote
-
-    code (4 spaces indent)
-[links](https://wikipedia.org)
-
-----
-## changelog
-* 17-Feb-2013 re-design
-
-----
-## thanks
-* [markdown-js](https://github.com/evilstreak/markdown-js)
+1. Anchors work every time.
+2. This is an app menu rather than a system menu. When your app quits, the help window closes too.
+3. Searches in your app will only display help in your app. You won’t get results from potentially competing apps.
+4. The search field in the menu bar will work as you expect and display help results in the same window.
+5. Since the help bundle is a valid help bundle, your app’s help will be available via search from the system help tool.
+6. If you need to debug your appearance, everything works great in debug mode.

@@ -30,6 +30,12 @@
 // The go forward button.
 @property (strong) IBOutlet NSButton * goForwardButton;
 
+// The Home toolbar item view.
+@property (strong) IBOutlet NSView * homeToolbarItemView;
+
+// The home button.
+@property (strong) IBOutlet NSButton * homeButton;
+
 // The Share toolbar item view.
 @property (strong) IBOutlet NSView * shareToolbarItemView;
 
