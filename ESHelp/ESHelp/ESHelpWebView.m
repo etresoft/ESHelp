@@ -249,9 +249,9 @@
 
 - (void) layout
   {
-  [super layout];
-  
   [self createWebView];
+
+  [super layout];  
   }
 
 - (void) createWebView
