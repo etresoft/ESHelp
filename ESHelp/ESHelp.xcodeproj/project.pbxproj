@@ -14,6 +14,9 @@
 		A56D092123382FA100C04CCD /* ESHelpWebView.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D091D23382FA100C04CCD /* ESHelpWebView.h */; };
 		A56D0926233862BC00C04CCD /* ESHelpDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A56D0925233861B900C04CCD /* ESHelpDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A56D0948233944AC00C04CCD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A56D094A233944AC00C04CCD /* Localizable.strings */; };
+		A5C04A6023FCB78E008F5559 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C04A5F23FCB78E008F5559 /* Foundation.framework */; };
+		A5C04A6223FCB793008F5559 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C04A6123FCB793008F5559 /* CoreFoundation.framework */; };
+		A5C04A6623FCBEB1008F5559 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C04A6323FCB798008F5559 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		A56D0925233861B900C04CCD /* ESHelpDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ESHelpDelegate.h; sourceTree = "<group>"; };
 		A56D0949233944AC00C04CCD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A56D094B233944AD00C04CCD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A5C04A5F23FCB78E008F5559 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A5C04A6123FCB793008F5559 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A5C04A6323FCB798008F5559 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +40,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5C04A6223FCB793008F5559 /* CoreFoundation.framework in Frameworks */,
+				A5C04A6023FCB78E008F5559 /* Foundation.framework in Frameworks */,
+				A5C04A6623FCBEB1008F5559 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,6 +54,7 @@
 			children = (
 				A56D090123382D2B00C04CCD /* ESHelp */,
 				A56D090023382D2B00C04CCD /* Products */,
+				A5C04A5E23FCB78E008F5559 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +79,16 @@
 				A56D090323382D2B00C04CCD /* Info.plist */,
 			);
 			path = ESHelp;
+			sourceTree = "<group>";
+		};
+		A5C04A5E23FCB78E008F5559 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5C04A6323FCB798008F5559 /* WebKit.framework */,
+				A5C04A6123FCB793008F5559 /* CoreFoundation.framework */,
+				A5C04A5F23FCB78E008F5559 /* Foundation.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
