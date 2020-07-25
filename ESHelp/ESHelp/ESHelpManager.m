@@ -11,6 +11,7 @@
 // Toolbar items.
 #define kNavigationToolbarItemID @"navigationtoolbaritem"
 #define kHomeToolbarItemID @"hometoolbaritem"
+#define kFontSizeToolbarItemID @"fontsizetoolbaritem"
 
 // Share is not implemented.
 #define kShareToolbarItemID @"sharetoolbaritem"
@@ -45,6 +46,12 @@ ESHelpManager * ourHelp = nil;
 
 // The home button.
 @synthesize homeButton = myHomeButton;
+
+// The font toolbar item view.
+@synthesize fontSizeToolbarItemView = myFontSizeToolbarItemView;
+
+// The font button.
+@synthesize fontSizeButton = myFontSizeButton;
 
 // The search toolbar item view.
 @synthesize searchToolbarItemView = mySearchToolbarItemView;
@@ -89,6 +96,9 @@ ESHelpManager * ourHelp = nil;
 
 // A little hack for my own needs.
 @synthesize delegate = myDelegate;
+
+// The font size.
+@synthesize fontSize = myFontSize;
 
 // Update canShare when history index changes.
 + (NSSet *) keyPathsForValuesAffectingCanShare
@@ -346,6 +356,8 @@ ESHelpManager * ourHelp = nil;
   self.history = nil;
   self.homeToolbarItemView = nil;
   self.homeButton = nil;
+  self.fontSizeToolbarItemView = nil;
+  self.fontSizeButton = nil;
   self.shareToolbarItemView = nil;
   self.shareButton = nil;
   self.searchToolbarItemView = nil;
@@ -378,6 +390,13 @@ ESHelpManager * ourHelp = nil;
   if(self.window != nil)
     return;
     
+  NSNumber * helpFontSize =
+    [[NSUserDefaults standardUserDefaults]
+      objectForKey: @"helpfontsize"];
+
+  if(helpFontSize != nil)
+    self.fontSize = helpFontSize.intValue;
+
   // Try to mimic the default help beahviour.
   NSScreen * screen = [NSScreen mainScreen];
   NSRect visibleFrame = screen.visibleFrame;
@@ -540,6 +559,24 @@ ESHelpManager * ourHelp = nil;
       
       weakSelf.canGoForward =
         (weakSelf.historyIndex < weakSelf.history.count);
+      
+      if(weakSelf.fontSize)
+        {
+        NSString * js =
+          [[NSString alloc]
+            initWithFormat: @"setFontSize(%d)", weakSelf.fontSize];
+        
+        [weakSelf.webview
+          executeJavaScript: js
+          completion:
+            ^(id result)
+              {
+              }];
+              
+#if !__has_feature(objc_arc)
+        [js release];
+#endif
+        }
     };
 
   [self.webview loadURL: url];
@@ -563,6 +600,12 @@ ESHelpManager * ourHelp = nil;
         createHomeToolbar: toolbar
         itemForItemIdentifier: itemIdentifier];
 
+  else if([itemIdentifier isEqualToString: kFontSizeToolbarItemID])
+    return
+      [self
+        createFontSizeToolbar: toolbar
+        itemForItemIdentifier: itemIdentifier];
+
   else if([itemIdentifier isEqualToString: kShareToolbarItemID])
     return
       [self
@@ -584,7 +627,7 @@ ESHelpManager * ourHelp = nil;
     [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 54, 25)];
   
   myGoBackButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 27, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(-2, -2, 29, 29)];
   
   self.goBackButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.goBackButton.image = [NSImage imageNamed: NSImageNameGoLeftTemplate];
@@ -594,7 +637,7 @@ ESHelpManager * ourHelp = nil;
     bind: @"enabled" toObject: self withKeyPath: @"canGoBack" options: nil];
   
   myGoForwardButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(26, -2, 27, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(29, -2, 29, 29)];
 
   self.goForwardButton.bezelStyle = NSBezelStyleTexturedRounded;
 
@@ -649,10 +692,10 @@ ESHelpManager * ourHelp = nil;
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
   myHomeToolbarItemView =
-    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 39, 25)];
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 25, 25)];
   
   myHomeButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 39, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(0, 0, 25, 25)];
   
   self.homeButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.homeButton.image = [NSImage imageNamed: NSImageNameHomeTemplate];
@@ -662,7 +705,7 @@ ESHelpManager * ourHelp = nil;
   // It seems the only way to control the size of buttons in a toolbar
   // is to have more than one. Odd.
   NSButton * dummy =
-    [[NSButton alloc] initWithFrame: NSMakeRect(38, -2, 27, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(25, 0, 25, 25)];
 
   dummy.bezelStyle = NSBezelStyleRegularSquare;
 
@@ -702,6 +745,90 @@ ESHelpManager * ourHelp = nil;
   return item;
   }
 
+// Font button to display help index.
+- (NSToolbarItem *) createFontSizeToolbar: (NSToolbar *) toolbar
+  itemForItemIdentifier: (NSString *) itemIdentifier
+  {
+  myFontSizeToolbarItemView =
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 35, 25)];
+  
+  myFontSizeButton =
+    [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 35, 25)];
+  
+  NSImage * image = [NSImage imageNamed: NSImageNameFontPanel];
+  
+  [image setSize: NSMakeSize(18, 18)];
+  
+  self.fontSizeButton.bezelStyle = NSBezelStyleTexturedRounded;
+  self.fontSizeButton.image = image;
+  self.fontSizeButton.target = self;
+  self.fontSizeButton.pullsDown = YES;
+  
+  [self.fontSizeButton.cell setArrowPosition: NSPopUpNoArrow];
+  
+  [self.fontSizeButton addItemWithTitle: @""];
+  [self.fontSizeButton addItemWithTitle: @"Normal"];
+  [self.fontSizeButton addItemWithTitle: @"Larger"];
+  [self.fontSizeButton addItemWithTitle: @"Extra large"];
+  
+  [[self.fontSizeButton.itemArray objectAtIndex: 0] setImage: image];
+  
+  [[self.fontSizeButton.itemArray objectAtIndex: 1] setTarget: self];
+  [[self.fontSizeButton.itemArray objectAtIndex: 2] setTarget: self];
+  [[self.fontSizeButton.itemArray objectAtIndex: 3] setTarget: self];
+
+  [[self.fontSizeButton.itemArray objectAtIndex: 1]
+    setAction: @selector(setFontSizeNormal:)];
+  
+  [[self.fontSizeButton.itemArray objectAtIndex: 2]
+    setAction: @selector(setFontSizeLarge:)];
+  
+  [[self.fontSizeButton.itemArray objectAtIndex: 3]
+    setAction: @selector(setFontSizeExtraLarge:)];
+
+  // It seems the only way to control the size of buttons in a toolbar
+  // is to have more than one. Odd.
+  NSButton * dummy =
+    [[NSButton alloc] initWithFrame: NSMakeRect(35, 0, 25, 25)];
+
+  dummy.bezelStyle = NSBezelStyleRegularSquare;
+
+  [self.fontSizeToolbarItemView addSubview: self.fontSizeButton];
+  [self.fontSizeToolbarItemView addSubview: dummy];
+
+  // Create the NSToolbarItem and setup its attributes.
+  NSToolbarItem * item =
+    [[NSToolbarItem alloc] initWithItemIdentifier: itemIdentifier];
+  
+  [item
+    setLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Font size",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
+  [item
+    setPaletteLabel:
+      NSLocalizedStringFromTableInBundle(
+      @"Font size",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL)];
+
+  [item setView: self.fontSizeToolbarItemView];
+    
+  [item setTarget: self];
+  [item setAction: nil];
+
+#if !__has_feature(objc_arc)
+  [item autorelease];
+  [dummy release];
+#endif
+
+  return item;
+  }
+
 // Sharing is not yet supported.
 - (NSToolbarItem *) createShareToolbar: (NSToolbar *) toolbar
   itemForItemIdentifier: (NSString *) itemIdentifier
@@ -727,10 +854,10 @@ ESHelpManager * ourHelp = nil;
       NULL)];
 
   myShareToolbarItemView =
-    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 39, 25)];
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 25, 25)];
   
   myShareButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(0, -2, 39, 27)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(2, 2, 21, 21)];
   
   self.shareButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.shareButton.image = [NSImage imageNamed: NSImageNameShareTemplate];
@@ -739,15 +866,7 @@ ESHelpManager * ourHelp = nil;
   [self.shareButton
     bind: @"enabled" toObject: self withKeyPath: @"canShare" options: nil];
 
-  // It seems the only way to control the size of buttons in a toolbar
-  // is to have more than one. Odd.
-  NSButton * dummy =
-    [[NSButton alloc] initWithFrame: NSMakeRect(38, -2, 27, 27)];
-
-  dummy.bezelStyle = NSBezelStyleRegularSquare;
-
   [self.shareToolbarItemView addSubview: self.shareButton];
-  [self.shareToolbarItemView addSubview: dummy];
 
   [item setView: self.shareToolbarItemView];
     
@@ -831,6 +950,7 @@ ESHelpManager * ourHelp = nil;
   
   [items addObject: kNavigationToolbarItemID];
   [items addObject: kHomeToolbarItemID];
+  [items addObject: kFontSizeToolbarItemID];
   
   if(self.showShareButton)
     [items addObject: kShareToolbarItemID];
@@ -847,6 +967,7 @@ ESHelpManager * ourHelp = nil;
   
   [items addObject: kNavigationToolbarItemID];
   [items addObject: kHomeToolbarItemID];
+  [items addObject: kFontSizeToolbarItemID];
   
   if(self.showShareButton)
     [items addObject: kShareToolbarItemID];
@@ -885,6 +1006,54 @@ ESHelpManager * ourHelp = nil;
   ESHelpManager * helpManager = [ESHelpManager sharedHelpManager];
   
   [helpManager showHelp];
+  }
+
+// Set font size normal.
+- (IBAction) setFontSizeNormal: (id) sender
+  {
+  [self.webview
+    executeJavaScript: @"setFontSize(12)"
+    completion:
+      ^(id result)
+        {
+        }];
+        
+  self.fontSize = 0;
+  
+  [[NSUserDefaults standardUserDefaults]
+    removeObjectForKey: @"helpfontsize"];
+  }
+  
+// Set font size large.
+- (IBAction) setFontSizeLarge: (id) sender
+  {
+  [self.webview
+    executeJavaScript: @"setFontSize(14)"
+    completion:
+      ^(id result)
+        {
+        }];
+        
+  self.fontSize = 14;
+  
+  [[NSUserDefaults standardUserDefaults]
+    setInteger: self.fontSize forKey: @"helpfontsize"];
+  }
+
+// Set font size normal.
+- (IBAction) setFontSizeExtraLarge: (id) sender
+  {
+  [self.webview
+    executeJavaScript: @"setFontSize(18)"
+    completion:
+      ^(id result)
+        {
+        }];
+        
+  self.fontSize = 18;
+  
+  [[NSUserDefaults standardUserDefaults]
+    setInteger: self.fontSize forKey: @"helpfontsize"];
   }
 
 // Share help.

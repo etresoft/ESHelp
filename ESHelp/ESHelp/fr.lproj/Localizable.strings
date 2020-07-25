@@ -11,6 +11,11 @@
 
 "en.lproj" = "fr.lproj";
 "Back/Forward" = "Précédent / Suivant";
+"Home" = "Accueil";
+"Font size" = "Taille de police";
+"Normal" = "Normale";
+"Larger" = "Plus grande";
+"Extra large" = "Très grande";
 "Share page" = "Partager cette page";
 "Search" = "Rechercher";
 "Search With" = "Rechercher avec";

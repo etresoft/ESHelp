@@ -36,6 +36,12 @@
 // The home button.
 @property (strong) IBOutlet NSButton * homeButton;
 
+// The font toolbar item view.
+@property (strong) IBOutlet NSView * fontSizeToolbarItemView;
+
+// The font button.
+@property (strong) IBOutlet NSPopUpButton * fontSizeButton;
+
 // The Share toolbar item view.
 @property (strong) IBOutlet NSView * shareToolbarItemView;
 
@@ -85,6 +91,9 @@
 
 // A little hack for my own needs.
 @property (strong) id<ESHelpDelegate> delegate;
+
+// The font size.
+@property (assign) int fontSize;
 
 // This is a singleton.
 + (ESHelpManager *) sharedHelpManager;
