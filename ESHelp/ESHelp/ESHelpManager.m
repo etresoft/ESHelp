@@ -628,7 +628,7 @@ ESHelpManager * ourHelp = nil;
     [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 54, 25)];
   
   myGoBackButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(-2, -2, 29, 29)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(0, 0, 25, 25)];
   
   self.goBackButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.goBackButton.image = [NSImage imageNamed: NSImageNameGoLeftTemplate];
@@ -638,7 +638,7 @@ ESHelpManager * ourHelp = nil;
     bind: @"enabled" toObject: self withKeyPath: @"canGoBack" options: nil];
   
   myGoForwardButton =
-    [[NSButton alloc] initWithFrame: NSMakeRect(29, -2, 29, 29)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(29, 0, 25, 25)];
 
   self.goForwardButton.bezelStyle = NSBezelStyleTexturedRounded;
 
