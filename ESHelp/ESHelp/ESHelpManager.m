@@ -751,10 +751,10 @@ ESHelpManager * ourHelp = nil;
   itemForItemIdentifier: (NSString *) itemIdentifier
   {
   myFontSizeToolbarItemView =
-    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 35, 25)];
+    [[NSView alloc] initWithFrame: NSMakeRect(0, 0, 40, 25)];
   
   myFontSizeButton =
-    [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 35, 25)];
+    [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 40, 25)];
   
   NSImage * image = [NSImage imageNamed: NSImageNameFontPanel];
   
@@ -764,12 +764,13 @@ ESHelpManager * ourHelp = nil;
   
   self.fontSizeButton.bezelStyle = NSBezelStyleTexturedRounded;
   self.fontSizeButton.image = image;
+  self.fontSizeButton.imagePosition = NSImageLeft;
   self.fontSizeButton.target = self;
   self.fontSizeButton.pullsDown = YES;
   
   [self.fontSizeButton.cell setArrowPosition: NSPopUpNoArrow];
   
-  [self.fontSizeButton addItemWithTitle: @""];
+  [self.fontSizeButton addItemWithTitle: @" "];
   [self.fontSizeButton addItemWithTitle: @"Normal"];
   [self.fontSizeButton addItemWithTitle: @"Larger"];
   [self.fontSizeButton addItemWithTitle: @"Extra large"];
@@ -792,7 +793,7 @@ ESHelpManager * ourHelp = nil;
   // It seems the only way to control the size of buttons in a toolbar
   // is to have more than one. Odd.
   NSButton * dummy =
-    [[NSButton alloc] initWithFrame: NSMakeRect(35, 0, 25, 25)];
+    [[NSButton alloc] initWithFrame: NSMakeRect(40, 0, 25, 25)];
 
   dummy.bezelStyle = NSBezelStyleRegularSquare;
 
