@@ -5,6 +5,7 @@
 
 #import "ESHelpManager.h"
 #import "ESHelpWebView.h"
+#import <QuartzCore/CoreImage.h>
 
 #import <Cocoa/Cocoa.h>
 
@@ -756,6 +757,8 @@ ESHelpManager * ourHelp = nil;
     [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0, 0, 35, 25)];
   
   NSImage * image = [NSImage imageNamed: NSImageNameFontPanel];
+  
+  image.template = YES;
   
   [image setSize: NSMakeSize(18, 18)];
   
