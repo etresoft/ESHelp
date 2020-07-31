@@ -663,18 +663,18 @@ ESHelpManager * ourHelp = nil;
   [item
     setLabel:
       NSLocalizedStringFromTableInBundle(
-      @"Back/Forward",
-      @"Localizable",
-      [NSBundle bundleForClass: [ESHelpManager class]],
-      NULL)];
+        @"Back/Forward",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
 
   [item
     setPaletteLabel:
       NSLocalizedStringFromTableInBundle(
-      @"Back/Forward",
-      @"Localizable",
-      [NSBundle bundleForClass: [ESHelpManager class]],
-      NULL)];
+        @"Back/Forward",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
 
   [item setView: self.navigationToolbarItemView];
     
@@ -773,14 +773,29 @@ ESHelpManager * ourHelp = nil;
   [self.fontSizeButton addItemWithTitle: @" "];
   
   [self.fontSizeButton
-    addItemWithTitle: NSLocalizedString(@"Normal", NULL)];
-  
+    addItemWithTitle:
+      NSLocalizedStringFromTableInBundle(
+        @"Normal",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
   [self.fontSizeButton
-    addItemWithTitle: NSLocalizedString(@"Larger", NULL)];
-  
+    addItemWithTitle:
+      NSLocalizedStringFromTableInBundle(
+        @"Larger",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
   [self.fontSizeButton
-    addItemWithTitle: NSLocalizedString(@"Extra large", NULL)];
-  
+    addItemWithTitle:
+      NSLocalizedStringFromTableInBundle(
+        @"Extra large",
+        @"Localizable",
+        [NSBundle bundleForClass: [ESHelpManager class]],
+        NULL)];
+
   [[self.fontSizeButton.itemArray objectAtIndex: 0] setImage: image];
   
   [[self.fontSizeButton.itemArray objectAtIndex: 1] setTarget: self];
