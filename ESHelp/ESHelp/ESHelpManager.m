@@ -771,9 +771,15 @@ ESHelpManager * ourHelp = nil;
   [self.fontSizeButton.cell setArrowPosition: NSPopUpNoArrow];
   
   [self.fontSizeButton addItemWithTitle: @" "];
-  [self.fontSizeButton addItemWithTitle: @"Normal"];
-  [self.fontSizeButton addItemWithTitle: @"Larger"];
-  [self.fontSizeButton addItemWithTitle: @"Extra large"];
+  
+  [self.fontSizeButton
+    addItemWithTitle: NSLocalizedString(@"Normal", NULL)];
+  
+  [self.fontSizeButton
+    addItemWithTitle: NSLocalizedString(@"Larger", NULL)];
+  
+  [self.fontSizeButton
+    addItemWithTitle: NSLocalizedString(@"Extra large", NULL)];
   
   [[self.fontSizeButton.itemArray objectAtIndex: 0] setImage: image];
   
