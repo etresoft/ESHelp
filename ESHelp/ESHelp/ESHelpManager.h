@@ -4,7 +4,7 @@
  **********************************************************************/
 
 #import <Cocoa/Cocoa.h>
-#import "ESHelpDelegate.h"
+#import <ESHelp/ESHelpDelegate.h>
 
 @class ESHelpWebView;
 
