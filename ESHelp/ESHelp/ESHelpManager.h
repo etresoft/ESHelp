@@ -4,6 +4,7 @@
  **********************************************************************/
 
 #import <Cocoa/Cocoa.h>
+
 #import <ESHelp/ESHelpDelegate.h>
 
 @class ESHelpWebView;
@@ -94,6 +95,12 @@
 
 // The font size.
 @property (assign) int fontSize;
+
+// The preview panel.
+@property (strong) NSWindow * previewWindow;
+
+// The preview image.
+@property (strong) NSImageView * previewImageView;
 
 // This is a singleton.
 + (ESHelpManager *) sharedHelpManager;

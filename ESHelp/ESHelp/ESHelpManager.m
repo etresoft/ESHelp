@@ -9,6 +9,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface PreviewWindow : NSPanel
+
+@end
+
+@implementation PreviewWindow
+
+- (BOOL) canBecomeKeyWindow
+  {
+  return YES;
+  }
+  
+@end
+
 // Toolbar items.
 #define kNavigationToolbarItemID @"navigationtoolbaritem"
 #define kHomeToolbarItemID @"hometoolbaritem"
@@ -100,6 +113,12 @@ ESHelpManager * ourHelp = nil;
 
 // The font size.
 @synthesize fontSize = myFontSize;
+
+// The preview window.
+@synthesize previewWindow = myPreviewWindow;
+
+// The preview image.
+@synthesize previewImageView = myPreviewImageView;
 
 // Update canShare when history index changes.
 + (NSSet *) keyPathsForValuesAffectingCanShare
@@ -370,6 +389,8 @@ ESHelpManager * ourHelp = nil;
   self.helpIndex = nil;
   self.helpFiles = nil;
   self.delegate = nil;
+  self.previewWindow = nil;
+  self.previewImageView = nil;
   
 #if !__has_feature(objc_arc)
   [super dealloc];
@@ -476,6 +497,19 @@ ESHelpManager * ourHelp = nil;
         }
     forKey: @"help"];
 
+  // Connect a preview function
+  [self.webview
+    addScriptHandler:
+      ^NSString * (NSObject * object)
+        {
+        NSString * image = (NSString *)object;
+        
+        [weakSelf showPreview: image];
+          
+        return @"OK";
+        }
+    forKey: @"preview"];
+
   [self.window setContentView: self.webview];
   
   // Connect window autosave.
@@ -492,7 +526,261 @@ ESHelpManager * ourHelp = nil;
   [autosaveName release];
 #endif
   }
+  
+- (void) showPreview: (NSString *) name
+  {
+  NSBundle * bundle = [NSBundle mainBundle];
+  
+  NSURL * resourceURL = [bundle resourceURL];
+  
+  NSString * helpBookFolder =
+    [bundle objectForInfoDictionaryKey: @"CFBundleHelpBookFolder"];
 
+  NSURL * helpBookURL =
+    [resourceURL URLByAppendingPathComponent: helpBookFolder];
+  
+  NSString * imagePath =
+    [NSString stringWithFormat: @"Contents/Resources/shrd/%@", name];
+    
+  NSURL * imageURL =
+    [helpBookURL URLByAppendingPathComponent: imagePath];
+  
+  NSImage * image = [[NSImage alloc] initWithContentsOfURL: imageURL];
+  
+  [self showPreviewWindow];
+  
+  self.previewImageView.image = image;
+  
+  [self.previewWindow makeKeyAndOrderFront: self];
+  [self.previewWindow center];
+  
+#if !__has_feature(objc_arc)
+  [image release];
+#endif
+  }
+  
+- (void) showPreviewWindow
+  {
+  if(self.previewWindow != nil)
+    return;
+    
+  // I will need the padding and the button font.
+  NSSize padding = NSMakeSize(14, 8);
+
+  NSFont * buttonFont = [NSFont systemFontOfSize: 13];
+  
+  BOOL hasTitleBar =
+    [[NSWindow class]
+      respondsToSelector: @selector(windowWithContentViewController:)];
+
+  // Now I can calculate a first shot at the window size.
+  // This is a minimum height.
+  NSSize size = NSMakeSize(700, 500);
+  
+  NSWindowStyleMask mask =
+    NSWindowStyleMaskUtilityWindow
+      | NSWindowStyleMaskClosable
+      | NSWindowStyleMaskResizable
+      | NSWindowStyleMaskTitled;
+  
+  // Create the window in a Big Sur-friendly style.
+  PreviewWindow * window =
+    [[PreviewWindow alloc]
+      initWithContentRect: NSMakeRect(0, 0, size.width, size.height)
+      styleMask: mask
+      backing: NSBackingStoreBuffered
+      defer: YES];
+
+  // Big Sur friendly.
+  if(hasTitleBar)
+    window.titlebarAppearsTransparent = YES;
+  
+  window.hidesOnDeactivate = NO;
+  window.releasedWhenClosed = NO;
+  //window.excludedFromWindowsMenu = YES;
+  
+  // Keep track of where to put the buttons.
+  double buttonHeight = 0;
+  double buttonPosition = size.width - padding.width;
+  
+  // I will need this for potential key equivalents.
+  NSString * title =
+    NSLocalizedStringFromTableInBundle(
+      @"Close",
+      @"Localizable",
+      [NSBundle bundleForClass: [ESHelpManager class]],
+      NULL);
+
+  // Calculate the button size.
+  NSSize buttonSize =
+    [title
+      sizeWithAttributes:
+        [NSDictionary
+          dictionaryWithObject: buttonFont forKey: NSFontAttributeName]];
+
+  // Use a minimum size.
+  if(buttonSize.width < 91)
+    buttonSize.width = 91;
+    
+  // Or else add some padding.
+  else
+    buttonSize.width += 54;
+    
+  // Keep track of the position.
+  buttonPosition -= buttonSize.width;
+  
+  // Save the height for later.
+  buttonHeight = buttonSize.height + 20;
+  
+  // Now create the button.
+  NSRect buttonRect =
+    NSMakeRect(
+      buttonPosition,
+      padding.height + 0.5,
+      buttonSize.width,
+      buttonHeight);
+          
+  NSButton * button =
+    [[NSButton alloc]
+      initWithFrame:
+        [window.contentView
+          backingAlignedRect: buttonRect
+          options: NSAlignAllEdgesNearest]];
+
+  // Set it all up.
+  button.bezelStyle = NSBezelStyleRounded;
+  button.title = title;
+  button.target = window;
+  button.action = @selector(performClose:);
+  button.font = buttonFont;
+  
+  // Set key equivalents.
+  button.keyEquivalent = [NSString stringWithFormat: @"%C", 0x1b];
+  
+  button.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  // Add it to the window.
+  [window.contentView addSubview: button];
+  
+  NSLayoutConstraint * width =
+    [NSLayoutConstraint
+      constraintWithItem: button
+      attribute: NSLayoutAttributeWidth
+      relatedBy: NSLayoutRelationEqual
+      toItem: nil
+      attribute: NSLayoutAttributeNotAnAttribute
+      multiplier: 1.0
+      constant: button.frame.size.width];
+
+  NSLayoutConstraint * height =
+    [NSLayoutConstraint
+      constraintWithItem: button
+      attribute: NSLayoutAttributeHeight
+      relatedBy: NSLayoutRelationEqual
+      toItem: nil
+      attribute: NSLayoutAttributeNotAnAttribute
+      multiplier: 1.0
+      constant: button.frame.size.height];
+
+  NSLayoutConstraint * trailing =
+    [NSLayoutConstraint
+      constraintWithItem: window.contentView
+      attribute: NSLayoutAttributeTrailing
+      relatedBy: NSLayoutRelationEqual
+      toItem: button
+      attribute: NSLayoutAttributeTrailing
+      multiplier: 1.0
+      constant: padding.width];
+    
+  NSLayoutConstraint * bottom =
+    [NSLayoutConstraint
+      constraintWithItem: window.contentView
+      attribute: NSLayoutAttributeBottom
+      relatedBy: NSLayoutRelationEqual
+      toItem: button
+      attribute: NSLayoutAttributeBottom
+      multiplier: 1.0
+      constant: padding.height];
+    
+  [window.contentView addConstraint: height];
+  [window.contentView addConstraint: width];
+  [window.contentView addConstraint: trailing];
+  [window.contentView addConstraint: bottom];
+
+  NSRect previewRect =
+    NSMakeRect(
+      padding.width,
+      buttonHeight + padding.height,
+      size.width - padding.width - padding.width,
+      size.height - buttonHeight - padding.width);
+      
+  NSImageView * previewImageView =
+    [[NSImageView alloc]
+      initWithFrame:
+        [window.contentView
+          backingAlignedRect: previewRect options: NSAlignAllEdgesNearest]];
+  
+  previewImageView.imageScaling = NSImageScaleProportionallyUpOrDown;
+  
+  self.previewImageView = previewImageView;
+  
+  self.previewImageView.translatesAutoresizingMaskIntoConstraints = NO;
+  
+  [window.contentView addSubview: self.previewImageView];
+  
+  NSLayoutConstraint * leading =
+    [NSLayoutConstraint
+      constraintWithItem: window.contentView
+      attribute: NSLayoutAttributeLeading
+      relatedBy: NSLayoutRelationEqual
+      toItem: self.previewImageView
+      attribute: NSLayoutAttributeLeading
+      multiplier: 1.0
+      constant: -padding.width];
+
+  trailing =
+    [NSLayoutConstraint
+      constraintWithItem: window.contentView
+      attribute: NSLayoutAttributeTrailing
+      relatedBy: NSLayoutRelationEqual
+      toItem: self.previewImageView
+      attribute: NSLayoutAttributeTrailing
+      multiplier: 1.0
+      constant: padding.width];
+    
+  NSLayoutConstraint * top =
+    [NSLayoutConstraint
+      constraintWithItem: window.contentView
+      attribute: NSLayoutAttributeTop
+      relatedBy: NSLayoutRelationEqual
+      toItem: self.previewImageView
+      attribute: NSLayoutAttributeTop
+      multiplier: 1.0
+      constant: -padding.height];
+
+  bottom =
+    [NSLayoutConstraint
+      constraintWithItem: self.previewImageView
+      attribute: NSLayoutAttributeBottom
+      relatedBy: NSLayoutRelationEqual
+      toItem: button
+      attribute: NSLayoutAttributeTop
+      multiplier: 1.0
+      constant: -padding.height];
+    
+  [window.contentView addConstraint: leading];
+  [window.contentView addConstraint: trailing];
+  [window.contentView addConstraint: top];
+  [window.contentView addConstraint: bottom];
+
+  self.previewWindow = window;
+
+#if !__has_feature(objc_arc)
+  [previewImageView release];
+  [window release];
+#endif
+  }
+  
 // Show the help at a given anchor point.
 - (void) showHelpAnchor: (NSString *) anchor
   {
@@ -1668,5 +1956,5 @@ ESHelpManager * ourHelp = nil;
   {
   [self showHelp];
   }
-
+  
 @end
