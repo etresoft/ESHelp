@@ -559,6 +559,9 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
   
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+
 - (void) showPreviewWindow
   {
   if(self.previewWindow != nil)
@@ -781,6 +784,8 @@ ESHelpManager * ourHelp = nil;
 #endif
   }
   
+#pragma clang diagnostic pop
+
 // Show the help at a given anchor point.
 - (void) showHelpAnchor: (NSString *) anchor
   {
