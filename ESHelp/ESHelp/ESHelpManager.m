@@ -347,6 +347,9 @@ ESHelpManager * ourHelp = nil;
   NSURL * baseURL =
     [NSURL fileURLWithPath: [path stringByDeletingLastPathComponent]];
   
+  // Hack this to prevent log errors.
+  baseURL = [NSURL URLWithString: @"https://www.apple.com"];
+  
   // We don't want to just read in the text. Read in the HTML, then convert
   // it to an attributed string and then get the plain text from that.
   // Otherwise, we would match on HTML tags.
