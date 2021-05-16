@@ -486,7 +486,7 @@ ESHelpManager * ourHelp = nil;
   
   self.webview.delegate = self;
   
-  __weak ESHelpManager * weakSelf = self;
+  ESHelpManager * weakSelf = self;
 
   // Connect a web callback for opening a result from a search.
   [self.webview
@@ -847,7 +847,7 @@ ESHelpManager * ourHelp = nil;
 // Show a help URL.
 - (void) showHelpURL: (NSURL *) url
   {
-  __weak ESHelpManager * weakSelf = self;
+  ESHelpManager * weakSelf = self;
   
   self.webview.readyHandler =
     ^{
