@@ -354,7 +354,7 @@ ESHelpManager * ourHelp = nil;
   // Otherwise, we would match on HTML tags.
   NSAttributedString * attributedString =
     [[NSAttributedString alloc]
-      initWithHTML: data baseURL: baseURL documentAttributes: NULL];
+      initWithHTML: data baseURL: baseURL documentAttributes: nil];
 
   NSString * text = [attributedString.string copy];
   
